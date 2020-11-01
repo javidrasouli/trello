@@ -1,0 +1,33 @@
+const router = require("express").Router()
+const user = require("./handler/users")
+const board = require("./handler/boards")
+const list = require("./handler/lists")
+const usersboard = require("./handler/usersBoard")
+const Task = require("./handler/tasks")
+const { isAuth, refreshToken } = require("./authMiddleware")
+//members
+router.post("/login", user.login)
+router.get("/users",isAuth , user.findAlluser)
+router.put("/user",isAuth , user.editUser)
+router.delete("/user",isAuth , user.deletedUser)
+router.post("/register", user.register)
+router.post("/refresh-token", refreshToken)
+router.post("/findmember",isAuth , user.findmember)
+//boards
+router.post("/boards",isAuth , board.GetBoards)
+router.get("/board/:id",isAuth , board.GetBoard)
+router.post("/board",isAuth , board.createBoard)
+router.put("/board",isAuth , board.updateBoard)
+router.delete("/board",isAuth , board.removeBoard)
+//list
+router.post("/lists",isAuth , list.findLists)
+router.post("/list",isAuth , list.createList)
+router.put("/list",isAuth , list.updateList)
+router.delete("/list",isAuth , list.removeList)
+// //Task
+router.get("/task/:id",isAuth , Task.findTask)
+router.put("/task",isAuth , Task.updateTask)
+router.delete("/task",isAuth , Task.removeTask)
+router.post("/task",isAuth , Task.createTask)
+router.post("/tasks",isAuth , Task.findTasks)
+module.exports = router

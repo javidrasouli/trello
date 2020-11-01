@@ -1,0 +1,33 @@
+@import "./font";
+html{
+      min-height: 100%;
+}
+body{
+      margin: 0;
+      box-sizing: border-box;
+      font-family: vazir;
+      background-image:url('../assets/bg-login.jpg');
+      background-position: center;
+      background-repeat: no-repeat;
+      background-size: cover;
+      display: flex;
+      min-height: 100%;
+      flex-direction: column;
+
+}
+#app{
+      min-height: 100%;
+}
+*,*::after,*::before{
+      box-sizing: inherit;
+}
+input, button,a,textarea{
+      font: inherit;
+}
+.row{
+      display: grid;
+      grid-template-rows: 1fr;
+}
+.conteiner{
+      padding: 0 1rem;
+}
