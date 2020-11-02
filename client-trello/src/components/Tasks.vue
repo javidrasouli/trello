@@ -1,17 +1,62 @@
 <template>
   <div class="conteiner">
-<table class="Table-task" v-if="tasks.length > 0">
-  <thead class="Table-task-head">
-    <th>
-      <tr>Task</tr>
-    </th>
-  </thead>
-<tbody class="Table-task-body">
-    <tr v-for="task in tasks" :key="task._id">
-    <td class="task-name" v-text="task.name" @click="Task(task)"></td>
-  </tr>
-</tbody>
-</table>
+<section  class="index-page-tasks">
+        <div class="task-card-back">
+          <div class="task-card-main">
+            <h3>task1</h3>
+            <div class="icon-task">
+              <h4><i class="fa fa-envelope"></i></h4>
+              <h4><i class="fa fa-envelope"></i></h4>
+            </div>
+          </div>
+          <div class="task-card-cover"></div>
+          <div class="task-card-cover2"></div>
+        </div>
+        <div class="task-card-back">
+          <div class="task-card-main">
+            <h3>task1</h3>
+            <div class="icon-task">
+              <h4><i class="fa fa-envelope"></i></h4>
+              <h4><i class="fa fa-envelope"></i></h4>
+            </div>
+          </div>
+          <div class="task-card-cover"></div>
+          <div class="task-card-cover2"></div>
+        </div>
+        <div class="task-card-back">
+          <div class="task-card-main">
+            <h3>task1</h3>
+            <div class="icon-task">
+              <h4><i class="fa fa-envelope"></i></h4>
+              <h4><i class="fa fa-envelope"></i></h4>
+            </div>
+          </div>
+          <div class="task-card-cover"></div>
+          <div class="task-card-cover2"></div>
+        </div>
+        <div class="task-card-back">
+          <div class="task-card-main">
+            <h3>task1</h3>
+            <div class="icon-task">
+              <h4><i class="fa fa-envelope"></i></h4>
+              <h4><i class="fa fa-envelope"></i></h4>
+            </div>
+          </div>
+          <div class="task-card-cover"></div>
+          <div class="task-card-cover2"></div>
+        </div>
+        <div class="task-card-back">
+          <div class="task-card-main">
+            <h3>task1</h3>
+            <div class="icon-task">
+              <h4><i class="fa fa-envelope"></i></h4>
+              <h4><i class="fa fa-envelope"></i></h4>
+            </div>
+          </div>
+          <div class="task-card-cover"></div>
+          <div class="task-card-cover2"></div>
+        </div>
+    </section>
 <div class="overlay" v-if="isOpen" @click.self="isOpen = false">
         <modal v-if="isOpen" :editTask = 'editTask' @close-task = 'closeTask'/>
 </div>
@@ -47,28 +92,70 @@ export default defineComponent({
 })
 </script>
 <style lang="scss">
-.Table-task{
-  margin: auto;
-  margin-top:2rem;
-  background-color: #fff;
-  border: 1px solid #f4f4f4;
-  border-radius: 10px;
-}
-.Table-task-head{
-  & th{
-   padding:1rem 2rem;
+.task-card-back{
+  margin: 0.5rem;
+  width: 200px;
+  height: 160px;
+  background-color: rgb(121, 121, 121);
+  border-radius: 8px;
+  position: relative;
+  & .task-card-main{
+    width: 90%;
+    height: 80%;
+    left: 5%;
+    top: 8%;
+    border-radius: 8px;
+    background-color: #f4f4f4;
+    position: absolute;
+    padding: 0.5rem;
+    &:hover{
+      z-index: 999;
+    }
+    & .icon-task{
+      display: flex;
+      & h4{
+        margin: auto;
+      }
+    }
+  }
+  & .task-card-cover{
+    position: absolute;
+    width: 100%;
+    height: 50%;
+    top: 50%;
+    background-color: #333;
+    border-radius: 8px;
+    right: 3%;
+  }
+  & .task-card-cover2{
+    position: absolute;
+    width: 100%;
+    height: 50%;
+    top: 50%;
+    left: 3%;
+    background-color: #333;
+    border-radius: 8px;
   }
 }
-.Table-task-body{
-  color: #333;
-  & td{
-    padding:1rem 2rem;
+@media screen and (min-width: 750px) {
+  .index-page-tasks {
+    display: grid;
+  grid-template-rows: 1fr;
+  grid-template-columns: 1fr 1fr;
   }
 }
-.task-name{
-  cursor: pointer;
-  &:hover{
-    color: rgb(255, 0, 0);
+@media screen and (min-width: 980px) {
+  .index-page-tasks {
+    display: grid;
+  grid-template-rows: 1fr;
+  grid-template-columns: 1fr 1fr 1fr;
+  }
+}
+@media screen and (min-width: 1200px) {
+  .index-page-tasks {
+    display: grid;
+  grid-template-rows: 1fr;
+  grid-template-columns: 1fr 1fr 1fr 1fr;
   }
 }
 </style>

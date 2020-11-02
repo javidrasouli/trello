@@ -2,10 +2,11 @@
   <div>
     <nav>
       <ul class="navbar-profile">
-        <li v-text="user.username"></li>
-        <li @click="Board()" :class="{active: boards}">Boards</li>
-        <li @click="Member()" v-if="user.role == 'admin'" :class="{active: members}">Members</li>
-        <li @click="Task()" :class="{active: tasks}">Tasks</li>
+          <li><img class="navbar-profile"  src="../assets/profile.svg" alt="farawin"></li>
+          <li><i class="fa fa-plus-squares"></i></li>
+          <li><img class="navbar-logo"  src="../assets/farawin-nav.png" alt="farawin"></li>
+          <li><i class="fa fa-envelope"></i></li>
+        <li ><i class="fa fa-sign-out"></i></li>
       </ul>
     </nav>
     <board v-if="boards" :user = 'user'/>
@@ -67,14 +68,24 @@ export default defineComponent({
   margin: 0;
   padding: 1rem;
   & li{
+    margin:auto;
     list-style-type: none;
-    margin: 0 auto;
     cursor: pointer;
     &:hover{
       color: rgb(0, 211, 18);
     }
     &.active{
       color: rgb(0, 211, 18);
+    }
+    & .navbar-logo{
+      width: 80px;
+      margin: 0;
+      padding: 0;
+    }
+    & .navbar-profile{
+      width: 110px;
+      margin: 0;
+      padding: 0;
     }
   }
 }

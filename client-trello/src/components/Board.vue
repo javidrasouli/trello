@@ -1,27 +1,30 @@
 <template>
-  <div>
-    <nav>
-      <ul class="navbar-board">
-        <li class="navbar-board-item" @click="created()" >create Board</li>
-      </ul>
-    </nav>
-    <div class="Boards conteiner">
-      <div v-for="board in boardslist" :key= "board._id">
-          <div class="board">
-      <div class="inner">
-        <div class="front">
-          <h1 v-text="board.name"></h1>
-          <h4 v-text="board.description" style="color:#555"></h4>
-          <div class="board-icon">
-            <h3><i class="fa fa-edit edit-board" @click="openEdit(board)"></i></h3>
-            <h3><i class="fa fa-group member-board" @click="OpenMember(board)"></i></h3>
-            <h3><i class="fa fa-eye visit-board" @click="OpenBoard(board)"></i></h3>
-            <h3><i class="fa fa-close del-board" @click="OpenDeleted(board)"></i></h3>
-          </div>
-        </div>
-      </div>
+  <div class="partionPage">
+    <div class="main-page">
+      <task />
     </div>
+    <div class="nav-page">
+      <div class="board B2">
+        <h3>Profile</h3>
+        <h4>Edit</h4>
+        <h4>Delete Accont</h4>
+        </div>
+      <div class="board B3">
+        <h3>Tasks</h3>
+        <h4>To do: 5</h4>
+        <h4>Done: 3</h4>
+        </div>
+      <div class="board B4">
+        <h3>Boards</h3>
+        <h4>Your boards : 3</h4>
+        <h4>All boards: 10</h4>
       </div>
+      <div class="board B5">
+        <h3>Messages</h3>
+        <h4>You have 0 new Messages</h4>
+        </div>
+        <div class="B6"></div>
+        <div class="B6 B7"></div>
     </div>
     <div class="overlay" v-if="createdboard" @click.self="createdboard = false">
         <modal v-if="createdboard" @close = 'close'/>
@@ -39,6 +42,7 @@
 </template>
 <script lang="ts">
 import { defineComponent } from 'vue'
+import TaskList from '../components/Tasks.vue'
 import create from './Modal/createBoard.vue'
 import EditBoard from './Modal/EditBoard.vue'
 import DelBoard from './Modal/delBoard.vue'
@@ -52,7 +56,8 @@ export default defineComponent({
     modal: create,
     edit: EditBoard,
     remove: DelBoard,
-    member: memberBoard
+    member: memberBoard,
+    task: TaskList
   },
   data: () => ({
     createdboard: false,
@@ -103,105 +108,84 @@ export default defineComponent({
 })
 </script>
 <style lang="scss">
-.navbar-board{
-  display: flex;
-  background-color: #fff;
-  margin: 0;
-  padding: 0.25rem 1rem;
-  & .navbar-board-item{
-    list-style-type: none;
-    font-weight: 500;
-    font-size: 20px;
-    cursor: pointer;
-    &:hover{
-      color: rgb(255, 0, 0);
-    }
-  }
-}
-.Boards{
+.partionPage{
   display: grid;
   grid-template-rows: 1fr;
-  grid-template-columns: 1fr 1fr;
-}
-.board {
-  background-color: transparent;
-  width: 200px;
-  height: 300px;
-  border: 1px solid transparent;
-  perspective: 1000px;
-  margin: 1rem;
-}
-
-.front{
-  position: absolute;
-  width: 100%;
-  height: 100%;
-  -webkit-backface-visibility: hidden;
-  border-radius: 0.5rem;
-  overflow: hidden;
+  grid-template-columns: 3fr 1fr;
   padding: 1rem;
 }
-.front {
-  background-color: #232469;
-  color: #fff;
-  background-image:url('../assets/bg-login.jpg');
-  background-position: center;
-  background-repeat: no-repeat;
-  background-size: cover;
-  & h1{
-    text-align: center;
-    margin-bottom: 0.25rem;
+.nav-page{
+  width: 300px;
+  height: 450px;
+  padding: 1rem;
+  border-radius: 5px;
+  border: 1px solid #333;
+    background-color: #fff;
+  position: relative;
+  & .board{
+    width: 95%;
+    height: 30%;
+    border: 1px solid #fff;
+    background-color: #333;
+    border-radius: 8px;
+     position: absolute;
+     &:hover{
+       z-index: 999;
+     }
+     & h3{
+       color: #f4f4f4;
+       margin-left: 0.5rem;
+     }
+     & h4{
+       color: #f4f4f4;
+       margin-left: 0.5rem;
+       margin-bottom: 0;
+       margin-top: 0;
+       cursor: pointer;
+     }
   }
-  & h5{
-    margin-top: 0;
+  & .B2{
+    right: 2.5%;
+    top: 15%;
+    z-index: 1;
   }
-  display: grid;
-  grid-template-columns: 1fr;
-  & .board-icon{
-    align-self: end;
+  & .B3{
+    right: 2.5%;
+    top: 30%;
+    z-index: 2;
+  }
+  & .B4{
+    right: 2.5%;
+    top: 45%;
+    z-index: 3;
+  }
+  & .B5{
+    right: 2.5%;
+    top: 60%;
+    z-index: 4;
+  }
+  & .B6{
+    z-index: 5;
+    top: 75%;
+    width: 100%;
+    height: 30%;
+    border: 1px solid #333;
+    background-color: #f4f4f4;
+    border-radius: 8px;
+     position: absolute;
+  }
+  .B7{
+    right: 2.5%;
+    border-radius: 0;
+    border-top-left-radius: 8px;
+    border-bottom-left-radius: 8px;
+    border-right: none;
   }
 }
-
-.board-icon{
-  display: flex;
-  & h3{
-    margin:2rem auto;
-  }
-  & .fa{
-    cursor: pointer;
-  }
-  & .edit-board:hover{
-    color: yellow;
-  }
-  & .member-board:hover{
-    color: rgb(3, 2, 0);
-  }
-  & .del-board:hover{
-    color: red;
-  }
-  & .visit-board:hover{
-    color:lime
-  }
-}
-@media screen and (min-width: 750px) {
-  .Boards {
-    display: grid;
-  grid-template-rows: 1fr;
-  grid-template-columns: 1fr 1fr 1fr;
-  }
-}
-@media screen and (min-width: 980px) {
-  .Boards {
-    display: grid;
-  grid-template-rows: 1fr;
-  grid-template-columns: 1fr 1fr 1fr 1fr;
-  }
-}
-@media screen and (min-width: 1200px) {
-  .Boards {
-    display: grid;
-  grid-template-rows: 1fr;
-  grid-template-columns: 1fr 1fr 1fr 1fr 1fr;
-  }
+.main-page{
+  width: 90%;
+  min-height: 100%;
+  background-color: #f4f4f4;
+  border-radius: 8px;
 }
 </style>

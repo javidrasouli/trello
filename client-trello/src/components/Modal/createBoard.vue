@@ -1,21 +1,18 @@
 <template>
   <div>
-    <transition name="modal">
-      <div>
-          <div class="modal">
-            <form @submit.prevent="create()">
               <p v-show="err" v-text="err" class="err"></p>
-              <div class="input-group">
-              <input v-model="boardName"  v-atuofocus class="input" type="text" placeholder="Name Board"  name="Cboard">
-            </div>
-            <div class="input-group">
-              <textarea v-model="boardDescription" name="description"  cols="30" rows="5" placeholder="description"></textarea>
-            </div>
-            <button class="edit-modal" v-show="boardName" type="submit">create</button>
-            </form>
+              <div class="modal-createBoard">
+                <form @submit.prevent="create()">
+            <span class="modal-header-createBoard"></span>
+            <div class="modal-body-createBoard">
+                  <input type="text" class="create-board" placeholder="name"/>
+                  <textarea rows="8" class="desc-board create-board" placeholder="description"></textarea>
           </div>
-      </div>
-    </transition>
+            <span class="close-createBoard">&times;</span>
+            <span class="ok-createBoard"><i class="fa fa-check"></i></span>
+            <span class="modal-footer-createBoard"></span>
+          </form>
+          </div>
   </div>
 </template>
 <script lang="ts">
@@ -49,16 +46,73 @@ export default defineComponent({
 </script>
 
 <style lang="scss">
-  .input-group{
-    & textarea{
-      width: 100%;
-      background-color: #e5e2e2af;
-      border: none;
+.modal-createBoard{
+  width: 400px;
+  margin: 0px auto;
+      padding: 1rem;
+      background-color: #333;
       border-radius: 5px;
-      &:focus{
-    background-color: #a8e0f7af;
-    outline: 0;
-  }
-    }
-  }
+      position: relative;
+}
+.modal-header-createBoard{
+      width: 50%;
+      height: 12px;
+      top: -2%;
+      right: 25%;
+      background-color: sienna;
+      border-radius: 3px;
+      position: absolute;
+}
+.modal-footer-createBoard{
+      width: 80%;
+      height: 5%;
+      bottom: -2%;
+      right: 10%;
+      background-color: sienna;
+      border-radius: 3px;
+      position: absolute;
+}
+.create-board{
+      display: block;
+      margin: auto;
+      margin-top: 2rem;
+      background-color: transparent;
+      border: none;
+      border-bottom: 1px solid #fff;
+      width: 90%;
+      outline: 0;
+      color: #f4f4f4;
+      height: 20%;
+      font-size: large;
+      font-weight: 500;
+}
+.desc-board{
+  border: none;
+      font-size: larger;
+      font-weight: 500;
+}
+.close-createBoard{
+      font-size: 30px;
+      font-weight: 100;
+      position: absolute;
+      top: -1%;
+      right: 3%;
+      color: #f4f4f4;
+      cursor: pointer;
+      &:hover{
+        color: red;
+      }
+}
+.ok-createBoard{
+      font-size: 28px;
+      font-weight: 100;
+      position: absolute;
+      bottom: 0%;
+      right: 5.4%;
+      color: #f4f4f4;
+      cursor: pointer;
+      &:hover{
+        color: green;
+      }
+}
 </style>
