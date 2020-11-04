@@ -2,9 +2,9 @@
   <div>
     <nav>
       <ul class="navbar-profile">
-          <li><img class="navbar-profile"  src="../assets/profile.svg" alt="farawin"></li>
+          <li><img class="navbar-profile"  src="../assets/pic/profile.svg" alt="farawin"></li>
           <li><i class="fa fa-plus-squares"></i></li>
-          <li><img class="navbar-logo"  src="../assets/farawin-nav.png" alt="farawin"></li>
+          <li><img class="navbar-logo"  src="../assets/pic/farawin-nav.png" alt="farawin"></li>
           <li><i class="fa fa-envelope"></i></li>
         <li ><i class="fa fa-sign-out"></i></li>
       </ul>

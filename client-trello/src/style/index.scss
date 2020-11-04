@@ -1,4 +1,5 @@
 @import "./font";
+
 html{
       min-height: 100%;
 }
@@ -6,7 +7,7 @@ body{
       margin: 0;
       box-sizing: border-box;
       font-family: vazir;
-      background-image:url('../assets/bg-login.jpg');
+      background-image:linear-gradient(rgba(22,22,22,0.3)0%,rgba(22,22,22,0.7)75%,#161616 100%),url('../assets/pic/main-back2.jpg');
       background-position: center;
       background-repeat: no-repeat;
       background-size: cover;

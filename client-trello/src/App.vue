@@ -7,5 +7,5 @@ export default defineComponent({
   name: 'parent'
 })
 </script>
-<style lang="scss">
+<style lang="scss" >
 </style>

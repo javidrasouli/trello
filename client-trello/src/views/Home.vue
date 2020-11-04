@@ -20,7 +20,7 @@
     <h2 class="fotter-title">Trello’s boards, lists, and cards enable teams to organize and prioritize projects in a fun, flexible, and rewarding way.</h2>
   </div>
   <div class="center-div">
-    <img class="img" src="../assets/homePic.svg" alt="farawinBord">
+    <img class="img" src="../assets/pic/homePic.svg" alt="farawinBord">
   </div>
   <div class="footer-div">
     <router-link to="/login" role="button" class="pg-login">Login</router-link>
