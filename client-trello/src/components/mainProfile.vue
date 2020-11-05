@@ -1,0 +1,109 @@
+<template>
+  <div class="partionPage">
+    <div class="main-page">
+      <task />
+    </div>
+    <div class="nav-page">
+      <div class="board B2 z-0 transition duration-500 ease-in-out transform hover:-translate-y-1 hover:scale-110 hover:shadow-2xl">
+        <h3 class="text-white m-5">Profile</h3>
+        <h4 class="mx-3 text-md text-gray-100 cursor-pointer hover:text-green-400">Edit</h4>
+        <h4 class="mx-3 text-gray-100 text-md cursor-pointer hover:text-red-700">Delete Accont</h4>
+        </div>
+      <div class="board B3 z-10 transition duration-500 ease-in-out transform hover:-translate-y-1 hover:scale-110 hover:shadow-2xl">
+        <h3 class="text-white m-5">Tasks</h3>
+        <h4 class="mx-3 text-md text-gray-100 cursor-pointer hover:text-green-400">To do: 5</h4>
+        <h4 class="mx-3 text-md text-gray-100 cursor-pointer hover:text-green-400">Done: 3</h4>
+        </div>
+      <div class="board B4 z-20 transition duration-500 ease-in-out transform hover:-translate-y-1 hover:scale-110 hover:shadow-2xl">
+        <h3 class="text-white m-5">Boards</h3>
+        <h4 class="mx-3 text-md text-gray-100 cursor-pointer hover:text-green-400">Your boards : 3</h4>
+        <h4 class="mx-3 text-md text-gray-100 cursor-pointer hover:text-green-400">All boards: 10</h4>
+      </div>
+      <div class="board B5 z-30 transition duration-500 ease-in-out transform hover:-translate-y-1 hover:scale-110 hover:shadow-2xl">
+        <h3 class="text-white m-5">Messages</h3>
+        <h4 class="mx-3 text-md text-gray-100 cursor-pointer hover:text-green-400">You have 0 new Messages</h4>
+        </div>
+        <div class="B6 z-40"></div>
+        <div class="B6 B7 z-40"></div>
+    </div>
+  </div>
+</template>
+<script lang="ts">
+import { defineComponent } from 'vue'
+
+export default defineComponent({
+  name: 'boards',
+  components: {
+  },
+  data: () => ({
+  }),
+  methods: {
+  }
+})
+</script>
+<style lang="scss">
+.partionPage{
+  display: grid;
+  grid-template-rows: 1fr;
+  grid-template-columns: 3fr 1fr;
+  padding: 1rem;
+}
+.nav-page{
+  width: 300px;
+  height: 450px;
+  padding: 1rem;
+  border-radius: 5px;
+  border: 1px solid #333;
+    background-color: #fff;
+  position: relative;
+  & .board{
+    width: 95%;
+    height: 30%;
+    border: 1px solid #fff;
+    background-color: #333;
+    border-radius: 8px;
+     position: absolute;
+     &:hover{
+       z-index: 999;
+     }
+  }
+  & .B2{
+    right: 2.5%;
+    top: 15%;
+  }
+  & .B3{
+    right: 2.5%;
+    top: 30%;
+  }
+  & .B4{
+    right: 2.5%;
+    top: 45%;
+  }
+  & .B5{
+    right: 2.5%;
+    top: 60%;
+  }
+  & .B6{
+    top: 75%;
+    width: 100%;
+    height: 30%;
+    border: 1px solid #333;
+    background-color: #f4f4f4;
+    border-radius: 8px;
+     position: absolute;
+  }
+  .B7{
+    right: 2.5%;
+    border-radius: 0;
+    border-top-left-radius: 8px;
+    border-bottom-left-radius: 8px;
+    border-right: none;
+  }
+}
+.main-page{
+  width: 90%;
+  min-height: 100%;
+  background-color: #f4f4f4;
+  border-radius: 8px;
+}
+</style>
