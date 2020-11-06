@@ -3,7 +3,6 @@ import Home from '../views/Home.vue'
 import Login from '../views/Login.vue'
 import Register from '../views/Register.vue'
 import Profile from '../views/Profile.vue'
-import Lists from '../views/Lists.vue'
 
 const routes: Array<RouteRecordRaw> = [
   {
@@ -25,11 +24,6 @@ const routes: Array<RouteRecordRaw> = [
     path: '/Profile',
     name: 'Profile',
     component: Profile
-  },
-  {
-    path: '/Board/:boardsName',
-    name: 'Board',
-    component: Lists
   }
 
 ]

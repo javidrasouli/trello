@@ -1,7 +1,10 @@
 <template>
   <div class="partionPage">
     <div class="main-page shadow-lg p-5">
-      <task />
+      <task  v-if="taskShow"/>
+      <board-page v-if="boardShow"/>
+      <board v-if="listShow"/>
+      <person v-if="showPerson"/>
     </div>
     <div class="nav-page shadow-xl">
       <div
@@ -67,12 +70,23 @@
 <script lang="ts">
 import { defineComponent } from 'vue'
 import Task from './Tasks.vue'
+import Boards from './Boards.vue'
+import Board from './Aboard.vue'
+import personPage from './personPage.vue'
 export default defineComponent({
   name: 'mainProfile',
   components: {
-    task: Task
+    task: Task,
+    boardPage: Boards,
+    board: Board,
+    person: personPage
   },
-  data: () => ({}),
+  data: () => ({
+    taskShow: false,
+    boardShow: false,
+    listShow: false,
+    showPerson: true
+  }),
   methods: {}
 })
 </script>
@@ -139,5 +153,16 @@ export default defineComponent({
   min-height: 100%;
   background-color: #f4f4f4;
   border-radius: 8px;
+}
+@media screen and (max-width: 750px) {
+  .partionPage {
+    display: grid;
+  grid-template-rows: 1fr;
+  grid-template-columns:1fr;
+  padding: 1rem;
+  }
+  .nav-page{
+    display: none;
+  }
 }
 </style>

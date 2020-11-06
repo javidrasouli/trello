@@ -2,8 +2,8 @@
   <div>
     <nav>
       <ul class="navbar-profile py-1 bg-orange-300 bg-opacity-75">
-        <li class="text-xl">javid</li>
-        <li><i class="fa fa-plus-squares md:hidden"></i></li>
+        <li class="text-xl cursor-pointer hover:text-gray-600">javid</li>
+        <li></li>
         <li>
           <img
             class="navbar-logo"
@@ -11,7 +11,7 @@
             alt="farawin"
           />
         </li>
-        <li><i class="fa fa-envelope md:hidden"></i></li>
+        <li></li>
         <li class="text-2xl">
           <i class="fa fa-sign-out hover:text-red-500 cursor-pointer"></i>
         </li>
@@ -26,7 +26,7 @@ import mainProfile from '../components/mainProfile.vue'
 export default defineComponent({
   name: 'Profile',
   components: {
-    mainprofile: mainProfile,
+    mainprofile: mainProfile
   },
   data: () => ({})
 })
