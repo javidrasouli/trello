@@ -3,7 +3,7 @@ import Home from '../views/Home.vue'
 import Login from '../views/Login.vue'
 import Register from '../views/Register.vue'
 import Profile from '../views/Profile.vue'
-
+import admin from '../views/admin.vue'
 const routes: Array<RouteRecordRaw> = [
   {
     path: '/',
@@ -24,6 +24,11 @@ const routes: Array<RouteRecordRaw> = [
     path: '/Profile',
     name: 'Profile',
     component: Profile
+  },
+  {
+    path: '/admin',
+    name: 'admin',
+    component: admin
   }
 
 ]

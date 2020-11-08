@@ -9,7 +9,7 @@
       <textarea
         name=""
         id=""
-        rows="10"
+        rows="7"
         placeholder="description"
         class="my-3 block resize bg-gradient-to-r from-red-500 focus:bg-gradient-to-r focus:from-purple-400 text-gray-700 w-full p-2 rounded-xl outline-none placeholder-green-200"
       ></textarea>
@@ -17,7 +17,7 @@
         type="submit"
         class="w-full block bg-gradient-to-r from-teal-400 to-blue-500 hover:bg-gradient-to-r hover:from-red-500 text-gray-400 font-semibold px-4 py-2 rounded focus:outline-none"
       >
-        create
+        Edit
       </button>
     </form>
   </div>

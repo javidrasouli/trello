@@ -1,10 +1,15 @@
 <template>
   <div class="partionPage">
-    <div class="main-page shadow-lg p-5 overflow-y-auto h-64">
-      <task  v-if="taskShow"/>
-      <board-page v-if="boardShow"/>
-      <board v-if="listShow"/>
-      <person v-if="showPerson"/>
+    <div class="main-page shadow-lg p-5">
+      <transition
+    name="showtask-profile"
+    mode="out-in"
+  >
+        <board-page v-if="boardShow"/>
+        <task v-else-if="taskShow"/>
+        <board v-else-if="listShow"/>
+      <person v-else-if="showPerson"/>
+      </transition>
     </div>
     <div class="nav-page shadow-xl">
       <div
@@ -201,4 +206,12 @@ export default defineComponent({
     display: none;
   }
 }
+.showtask-profile-enter-active, .showtask-profile-leave-active {
+  transition: opacity .5s
+}
+
+.showtask-profile-enter-from, .showtask-profile-leave-to {
+  opacity: 0
+}
+
 </style>

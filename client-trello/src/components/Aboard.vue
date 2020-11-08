@@ -28,10 +28,15 @@
       </div>
     </div>
     <div class="mt-3">
+       <transition
+    name="showtask-profile"
+    mode="out-in"
+  >
       <list v-if="showLists" />
-      <edit-board v-if="showEditBoard" />
-      <message v-if="showMessage"/>
-      <team v-if="showTeam"/>
+      <edit-board v-else-if="showEditBoard" />
+      <message v-else-if="showMessage"/>
+      <team v-else-if="showTeam"/>
+       </transition>
     </div>
   </div>
 </template>

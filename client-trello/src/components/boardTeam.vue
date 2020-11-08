@@ -19,7 +19,7 @@
           <option value="audi">Audi</option>
         </select>
         <button
-          class=" bg-gradient-to-r hover:from-teal-400 hover:to-blue-500 h-10 self-center hover:text-gray-300 rounded-lg p-2 bg-transparent border border-blue-500"
+          class=" bg-gradient-to-r hover:from-teal-400 focus:outline-none outline-none hover:to-blue-500 h-10 self-center hover:text-gray-300 rounded-lg p-2 bg-transparent border border-blue-500"
         >
           Add
         </button>
