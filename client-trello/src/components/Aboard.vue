@@ -3,16 +3,16 @@
     <div class="h-full bg-gray-400 rounded-xl p-4">
       <div class="flex items-center mb-2">
         <h1 class="text-xl">test 1</h1>
-        <h3 class="m-auto cursor-pointer mt-2 text-xl">
+        <h3 @click="showListsBoard()" class="m-auto cursor-pointer mt-2 text-xl">
           <i class="fa fa-list-ul"></i>
         </h3>
-        <h3 class="m-auto cursor-pointer mt-2 text-xl">
+        <h3 @click="showEditsBoard()" class="m-auto cursor-pointer mt-2 text-xl">
           <i class="fa fa-edit"></i>
         </h3>
-        <h3 class="m-auto cursor-pointer mt-2 text-xl">
+        <h3 @click="showchatBoard()" class="m-auto cursor-pointer mt-2 text-xl">
           <i class="fa fa-envelope-o"></i>
         </h3>
-        <h3 class="m-auto cursor-pointer mt-2 text-xl">
+        <h3 @click="showpersonsBoard()" class="m-auto cursor-pointer mt-2 text-xl">
           <i class="fa fa-group"></i>
         </h3>
         <h3 class="m-auto cursor-pointer mt-2 text-xl">
@@ -51,10 +51,36 @@ export default defineComponent({
     Team: group
   },
   data: () => ({
-    showLists: false,
+    showLists: true,
     showEditBoard: false,
     showMessage: false,
-    showTeam: true
-  })
+    showTeam: false
+  }),
+  methods: {
+    showListsBoard () {
+      this.showTeam = false
+      this.showMessage = false
+      this.showEditBoard = false
+      this.showLists = true
+    },
+    showEditsBoard () {
+      this.showTeam = false
+      this.showMessage = false
+      this.showLists = false
+      this.showEditBoard = true
+    },
+    showchatBoard () {
+      this.showTeam = false
+      this.showLists = false
+      this.showEditBoard = false
+      this.showMessage = true
+    },
+    showpersonsBoard () {
+      this.showLists = false
+      this.showEditBoard = false
+      this.showMessage = false
+      this.showTeam = true
+    }
+  }
 })
 </script>

@@ -1,6 +1,6 @@
 <template>
   <div class="partionPage">
-    <div class="main-page shadow-lg p-5">
+    <div class="main-page shadow-lg p-5 overflow-y-auto h-64">
       <task  v-if="taskShow"/>
       <board-page v-if="boardShow"/>
       <board v-if="listShow"/>
@@ -12,6 +12,7 @@
       >
         <h3 class="text-white m-5">Profile</h3>
         <h4
+        @click="editShow()"
           class="mx-3 text-md text-gray-100 cursor-pointer hover:text-green-400"
         >
           Edit
@@ -27,11 +28,13 @@
       >
         <h3 class="text-white m-5">Tasks</h3>
         <h4
+        @click="showTaksTodo()"
           class="mx-3 text-md text-gray-100 cursor-pointer hover:text-green-400"
         >
           To do: 5
         </h4>
         <h4
+        @click="showTaksDone()"
           class="mx-3 text-md text-gray-100 cursor-pointer hover:text-green-400"
         >
           Done: 3
@@ -42,11 +45,13 @@
       >
         <h3 class="text-white m-5">Boards</h3>
         <h4
+        @click="showYourBoards()"
           class="mx-3 text-md text-gray-100 cursor-pointer hover:text-green-400"
         >
           Your boards : 3
         </h4>
         <h4
+        @click="showAllBoards()"
           class="mx-3 text-md text-gray-100 cursor-pointer hover:text-green-400"
         >
           All boards: 10
@@ -84,10 +89,41 @@ export default defineComponent({
   data: () => ({
     taskShow: false,
     boardShow: false,
-    listShow: false,
-    showPerson: true
+    listShow: true,
+    showPerson: false
   }),
-  methods: {}
+  methods: {
+    editShow () {
+      this.taskShow = false
+      this.boardShow = false
+      this.listShow = false
+      this.showPerson = true
+    },
+    showTaksTodo () {
+      this.boardShow = false
+      this.listShow = false
+      this.showPerson = false
+      this.taskShow = true
+    },
+    showTaksDone () {
+      this.boardShow = false
+      this.listShow = false
+      this.showPerson = false
+      this.taskShow = true
+    },
+    showYourBoards () {
+      this.listShow = false
+      this.showPerson = false
+      this.taskShow = false
+      this.boardShow = true
+    },
+    showAllBoards () {
+      this.listShow = false
+      this.showPerson = false
+      this.taskShow = false
+      this.boardShow = true
+    }
+  }
 })
 </script>
 <style lang="scss">
