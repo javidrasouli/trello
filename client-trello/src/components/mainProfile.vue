@@ -1,4 +1,12 @@
 <template>
+<div>
+<ul class="navbar-profile none-nav py-0 bg-gray-800">
+        <li class="cursor-pointer hover:text-green-300">Profile</li>
+        <li class="cursor-pointer hover:text-green-300">Members</li>
+        <li class="cursor-pointer hover:text-green-300">Tasks</li>
+        <li class="cursor-pointer hover:text-green-300">Boards</li>
+        <li class="cursor-pointer hover:text-green-300">Message</li>
+      </ul>
   <div class="partionPage">
     <div class="main-page shadow-lg overflow-auto p-1 md:p-5">
       <transition
@@ -88,6 +96,7 @@
       <div class="B6 B7 z-50"></div>
     </div>
   </div>
+</div>
 </template>
 <script lang="ts">
 import { defineComponent } from 'vue'
@@ -98,6 +107,7 @@ import personPage from './personPage.vue'
 import members from './members.vue'
 export default defineComponent({
   name: 'mainProfile',
+  props: ['dataToChangeMainprofile'],
   components: {
     task: Task,
     boardPage: Boards,
@@ -247,5 +257,4 @@ export default defineComponent({
 .showtask-profile-enter-from, .showtask-profile-leave-to {
   opacity: 0
 }
-
 </style>

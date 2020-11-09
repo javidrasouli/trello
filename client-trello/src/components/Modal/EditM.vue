@@ -78,29 +78,6 @@ export default defineComponent({
 </script>
 
 <style lang="scss">
-.modal {
-  width: 400px;
-  margin: 0px auto;
-  padding: 20px;
-  background-color: #fff;
-  border-radius: 2px;
-  box-shadow: 0 2px 8px 3px;
-  transition: all 0.2s ease-in;
-  color: #333;
-}
-.fadeIn-enter {
-  opacity: 0;
-}
-
-.fadeIn-leave-active {
-  opacity: 0;
-  transition: all 0.2s step-end;
-}
-
-.fadeIn-enter .modal,
-.fadeIn-leave-active.modal {
-  transform: scale(1.1);
-}
 .icon-edit{
   display: flex;
   & h2{

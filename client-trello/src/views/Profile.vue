@@ -1,7 +1,7 @@
 <template>
   <div>
     <nav>
-      <ul class="navbar-profile py-1 bg-orange-300 w-screen bg-opacity-75">
+      <ul class="navbar-profile py-1 bg-orange-300 bg-opacity-75">
         <li class="text-xl cursor-pointer hover:text-gray-600">javid</li>
         <li></li>
         <li>
@@ -16,15 +16,8 @@
           <i class="fa fa-sign-out hover:text-red-500 cursor-pointer"></i>
         </li>
       </ul>
-      <ul class="navbar-profile mini-nav py-0 bg-gray-800 w-screen">
-        <li class="cursor-pointer hover:text-green-300">Profile</li>
-        <li class="cursor-pointer hover:text-green-300">Members</li>
-        <li class="cursor-pointer hover:text-green-300">Tasks</li>
-        <li class="cursor-pointer hover:text-green-300">Boards</li>
-        <li class="cursor-pointer hover:text-green-300">Message</li>
-      </ul>
     </nav>
-    <div class="">
+    <div>
       <mainprofile />
     </div>
   </div>
@@ -37,7 +30,8 @@ export default defineComponent({
   components: {
     mainprofile: mainProfile
   },
-  data: () => ({})
+  data: () => ({
+  })
 })
 </script>
 <style lang="scss">
@@ -56,19 +50,8 @@ export default defineComponent({
     }
   }
 }
-.dropdown {
-  position: relative;
-}
-.dropdown-content {
-  display: none;
-  position: absolute;
-  z-index: 1;
-}
-.dropdown:hover .dropdown-content {
-  display: block;
-}
 @media screen and (min-width: 750px) {
-  .mini-nav{
+  .none-nav{
     display: none;
   }
 }
