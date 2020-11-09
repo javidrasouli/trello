@@ -3,9 +3,7 @@
 <section  class="index-page-tasks">
         <div class="partion-tasks">
           <div class=" bg-blue-400 m-3 p-2 opacity-75 rounded-lg flex text-gray-300">
-             <h2 class="">create task</h2>
-             <h3 class="m-auto cursor-pointer text-pink-900"><i @click="show = true" class="fa fa-eye"></i></h3>
-             <h3 class="m-auto cursor-pointer text-red-600"><i class="fa fa-check"></i></h3>
+             <h2 @click="show = true" class="m-auto cursor-pointer">create task</h2>
           </div>
         </div>
     </section>
@@ -18,7 +16,7 @@
 </template>
 <script lang="ts">
 import { defineComponent } from 'vue'
-import showTask from './Modal/EditTask.vue'
+import showTask from './Modal/showTask.vue'
 export default defineComponent({
   name: 'Tasks',
   components: {

@@ -1,10 +1,10 @@
 <template>
 <div>
 <ul class="navbar-profile none-nav py-0 bg-gray-800">
-        <li class="cursor-pointer hover:text-green-300">Profile</li>
-        <li class="cursor-pointer hover:text-green-300">Members</li>
-        <li class="cursor-pointer hover:text-green-300">Tasks</li>
-        <li class="cursor-pointer hover:text-green-300">Boards</li>
+        <li @click="editShow()" class="cursor-pointer hover:text-green-300">Profile</li>
+        <li @click="showMembersSite()" class="cursor-pointer hover:text-green-300">Members</li>
+        <li @click="showTaksTodo()" class="cursor-pointer hover:text-green-300">Tasks</li>
+        <li @click="showYourBoards()" class="cursor-pointer hover:text-green-300">Boards</li>
         <li class="cursor-pointer hover:text-green-300">Message</li>
       </ul>
   <div class="partionPage">
