@@ -85,5 +85,15 @@
         </h3>
       </div>
     </div>
+    <div
+        class=" bg-transparent rounded-xl w-42 h-40 m-2 border-dashed border-4 border-gray-600 bg-gray-400 opacity-25 grid grid-rows-1 grid-cols-1 relative cursor-pointer"
+      >
+        <span
+          class="border-dashed border-2 border-gray-600 absolute addlist-y z-0"
+        ></span>
+        <span
+          class=" border-dashed border-2 border-gray-600 absolute addlist-x z-10"
+        ></span>
+      </div>
   </div>
 </template>
