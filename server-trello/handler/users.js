@@ -1,7 +1,15 @@
 'use strict'
 const { insertUser, findUser, findAll, findperson, updateUser, removeUser } = require('../models/user')
 const { generateToken } = require('../authMiddleware')
+const jwt = require('jsonwebtoken');
 const { ObjectId } = require("mongodb")
+
+function userid(req) {
+    const token = JSON.parse(req.headers.accesstoken)
+    const decoded = jwt.verify(token, "30bil")
+    return decoded.id
+}
+
 const login = async (req, res) => {
     const Data = req.body
     const ress = await findUser(Data)
@@ -27,6 +35,13 @@ const register = async (req, res) => {
     }
 }
 const findAlluser = async (req, res) => {
+    const user_id = userid(req)
+    const id = { _id: ObjectId(user_id) }
+    const user = await findperson(id)
+    if (user.role != 'admin') {
+        res.status(403).json({ error: 'you cant get this data' })
+        return
+    }
     const ress = await findAll()
     if (ress.success == false) {
         res.status(ress.status).json({ success: ress.success, error: ress.error })
@@ -35,7 +50,8 @@ const findAlluser = async (req, res) => {
     }
 }
 const findmember = async (req, res) => {
-    const id = { _id: ObjectId(req.body.id) }
+    const user_id = userid(req)
+    const id = { _id: ObjectId(user_id) }
     const ress = await findperson(id)
     if (ress.success == false) {
         res.status(ress.status).json({ success: ress.success, error: ress.error })

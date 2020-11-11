@@ -2,7 +2,7 @@
   <div>
     <nav>
       <ul class="navbar-profile py-1 bg-orange-300 bg-opacity-75">
-        <li class="text-xl cursor-pointer hover:text-gray-600">javid</li>
+        <li class="text-xl" v-text="user.username"></li>
         <li></li>
         <li>
           <img
@@ -25,13 +25,19 @@
 <script lang="ts">
 import { defineComponent } from 'vue'
 import mainProfile from '../components/mainProfile.vue'
+import { getuser, user } from '../Model/auth'
 export default defineComponent({
   name: 'Profile',
   components: {
     mainprofile: mainProfile
   },
   data: () => ({
-  })
+    user: {}
+  }),
+  async created () {
+    await getuser()
+    this.user = user.value
+  }
 })
 </script>
 <style lang="scss">

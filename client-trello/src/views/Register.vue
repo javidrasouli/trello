@@ -31,7 +31,7 @@
           class="bolck text-purple-300 w-full mt-2 md:mt-6 p-3 bg-transparent border rounded-3xl outline-none focus:shadow-outline focus:border-blue-300 transition duration-500 ease-in-out transform hover:-translate-y-1 hover:scale-110 focus:-translate-y-1 focus:scale-110"
         />
         <input
-          type="password"
+          :type= "!showpass ? 'password' : 'text' "
           autocomplete="newpassword"
           name="newpassword"
           placeholder="password"
@@ -44,6 +44,16 @@
         >
           Log in
         </button>
+        <div class="flex">
+          <label class="m-auto">
+          <input v-model="remmeber" type="checkbox" class="p-1 rounded-sm">
+          <span class="text-gray-200 ml-1">remmeber me</span>
+        </label>
+        <label class="m-auto">
+          <input @click="showpass = !showpass" type="checkbox" class="p-1 rounded-sm">
+          <span class="text-gray-200 ml-1">show password</span>
+        </label>
+        </div>
       </form>
       <router-link to="/Login" class="text-center text-orange-500 text-opacity-75">you have a accunt</router-link>
     </div>
@@ -59,12 +69,15 @@ export default defineComponent({
     username: '',
     email: '',
     password: '',
-    error: ''
+    error: '',
+    showpass: false,
+    remmeber: false
   }),
   methods: {
     register () {
+      const remmeber = this.remmeber
       const user = { username: this.username, email: this.email, pass: this.password }
-      register(user).then(() => {
+      register(user, remmeber).then(() => {
         if (success.value === false) {
           this.error = err.value
         } else {

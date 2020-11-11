@@ -22,7 +22,7 @@
         />
         <input
           v-model= "LoginPassword"
-          type="password"
+          :type= "!showpassword ? 'password' : 'text' "
           placeholder="password"
           autocomplete="currentpassword"
           name="currentpassword"
@@ -34,6 +34,16 @@
         >
           Log in
         </button>
+        <div class="flex">
+          <label class="m-auto">
+          <input v-model="remmber" type="checkbox" class="p-1 rounded-sm">
+          <span class="text-gray-200 ml-1">remmeber me</span>
+        </label>
+        <label class="m-auto">
+          <input @click="showpassword = !showpassword" type="checkbox" class="p-1 rounded-sm">
+          <span class="text-gray-200 ml-1">show password</span>
+        </label>
+        </div>
       </form>
       <router-link to="/Register" class="text-center text-orange-500 text-opacity-75">create accunt</router-link>
     </div>
@@ -48,12 +58,15 @@ export default defineComponent({
   data: () => ({
     LoginUsername: '',
     LoginPassword: '',
-    error: ''
+    error: '',
+    remmber: false,
+    showpassword: false
   }),
   methods: {
     Login () {
+      const remmber = this.remmber
       const user = { username: this.LoginUsername, pass: this.LoginPassword }
-      login(user).then(() => {
+      login(user, remmber).then(() => {
         if (success.value === false) {
           this.error = err.value
         } else {

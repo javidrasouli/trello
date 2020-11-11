@@ -33,7 +33,7 @@ function checkinputLogin (user: any) {
   }
 }
 
-export async function login (user: any) {
+export async function login (user: any, remmeber: boolean) {
   _err.value = ''
   checkinputLogin(user)
   if (_err.value.length > 1) {
@@ -47,13 +47,15 @@ export async function login (user: any) {
       const accessToken = JSON.stringify(login.accessToken)
       const refreshtoken = JSON.stringify(login.refreshToken)
       localStorage.setItem('accessToken', accessToken)
-      localStorage.setItem('refreshtoken', refreshtoken)
+      if (remmeber === true) {
+        localStorage.setItem('refreshtoken', refreshtoken)
+      }
       _success.value = true
     }
   }
 }
 
-export async function register (user: any) {
+export async function register (user: any, remmeber: boolean) {
   _err.value = ''
   checkinputRegister(user)
   if (_err.value.length > 1) {
@@ -64,8 +66,28 @@ export async function register (user: any) {
       _success.value = false
       _err.value = register.error
     } else {
-      await login(user)
+      await login(user, remmeber)
     }
+  }
+}
+
+export async function getuser () {
+  const user = await get('/user')
+  if (user.success === false) {
+    _success.value = false
+    _err.value = user.error
+  } else {
+    _user.value = user
+  }
+}
+
+export async function getUsersSite() {
+  const users = await get('/users')
+  if (users.success === false) {
+    _success.value = false
+    _err.value = users.error
+  } else {
+    _user.value = users
   }
 }
 

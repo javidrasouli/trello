@@ -12,7 +12,7 @@ router.put("/user",isAuth , user.editUser)
 router.delete("/user",isAuth , user.deletedUser)
 router.post("/register", user.register)
 router.post("/refresh-token", refreshToken)
-router.post("/findmember",isAuth , user.findmember)
+router.get("/user",isAuth , user.findmember)
 //boards
 router.post("/boards",isAuth , board.GetBoards)
 router.get("/board/:id",isAuth , board.GetBoard)

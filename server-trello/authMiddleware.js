@@ -41,8 +41,7 @@ const check = (req, res, next) => {
             res.status(401).json({ success: false })
             return
         }
-        const decoded = jwt.verify(token, "30bil");
-        console.log(decoded);
+        const decoded = jwt.verify(token, "30bil")
         next()
     } catch (err) {
         console.log('err',err)
