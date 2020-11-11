@@ -7,7 +7,7 @@
       <h2 class="text-white">this is a test for create board part...</h2>
       <div class="flex">
         <h3 class="m-auto cursor-pointer text-white mt-2">
-          <i class="fa fa-eye"></i>
+          <i @click="singleBoard()" class="fa fa-eye"></i>
         </h3>
         <h3 class="m-auto cursor-pointer text-white mt-2">
           <i class="fa fa-edit"></i>
@@ -97,3 +97,15 @@
       </div>
   </div>
 </template>
+
+<script lang="ts">
+import { defineComponent } from 'vue'
+export default defineComponent({
+  name: 'boards',
+  methods: {
+    singleBoard () {
+      this.$emit('open-abord', true)
+    }
+  }
+})
+</script>

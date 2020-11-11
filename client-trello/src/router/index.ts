@@ -33,17 +33,17 @@ const router = createRouter({
   routes
 })
 
-// router.beforeEach((to, from, next) => {
-//   if (to.name === 'Login' || to.name === 'Register' || to.name === 'Home') {
-//     next()
-//     return
-//   }
-//   const token = localStorage.getItem('accessToken')
-//   if (!token) {
-//     next('/Login')
-//   } else {
-//     next()
-//   }
-// })
+router.beforeEach((to, from, next) => {
+  if (to.name === 'Login' || to.name === 'Register' || to.name === 'Home') {
+    next()
+    return
+  }
+  const token = localStorage.getItem('accessToken')
+  if (!token) {
+    next('/Login')
+  } else {
+    next()
+  }
+})
 
 export default router

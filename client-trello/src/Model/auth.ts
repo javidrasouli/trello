@@ -2,116 +2,75 @@ import { post, get, put, deleted } from '../utils/http'
 import { readonly, ref } from 'vue'
 
 const _user = ref()
+const _success = ref(false)
 const _err = ref('')
-const _error = ref(false)
 const _users = ref()
 const _member = ref('')
-export async function GetUser (user: any) {
+
+function checkinputRegister (user: any) {
+  if (user.username === '') {
+    _err.value = 'username is required'
+  } else if (user.username.length < 3) {
+    _err.value = 'username must be longer then 3'
+  } else if (user.pass === '') {
+    _err.value = 'password is required'
+  } else if (user.pass.length > 8) {
+    _err.value = 'password must be longer then 8'
+  } else if (user.email === '') {
+    _err.value = 'email is required'
+  }
+}
+
+function checkinputLogin (user: any) {
+  if (user.username === '') {
+    _err.value = 'username is required'
+  } else if (user.username.length < 3) {
+    _err.value = 'username must be longer then 3'
+  } else if (user.pass === '') {
+    _err.value = 'password is required'
+  } else if (user.pass.length > 8) {
+    _err.value = 'password must be longer then 8'
+  }
+}
+
+export async function login (user: any) {
   _err.value = ''
-  _error.value = false
-  await post('/login', user).then(res => {
-    if (res.success === false) {
-      _error.value = true
-      _err.value = res.error
+  checkinputLogin(user)
+  if (_err.value.length > 1) {
+    _success.value = false
+  } else {
+    const login = await post('/login', user)
+    if (login.success === false) {
+      _success.value = false
+      _err.value = login.error
     } else {
-      _user.value = res.user
-      const accessToken = JSON.stringify(res.accessToken)
-      const refreshtoken = JSON.stringify(res.refreshToken)
+      const accessToken = JSON.stringify(login.accessToken)
+      const refreshtoken = JSON.stringify(login.refreshToken)
       localStorage.setItem('accessToken', accessToken)
       localStorage.setItem('refreshtoken', refreshtoken)
+      _success.value = true
     }
-  })
+  }
 }
 
 export async function register (user: any) {
   _err.value = ''
-  _error.value = false
-  const register = await post('/register', user)
-  if (register.success === false) {
-    _error.value = true
-    _err.value = register.error
+  checkinputRegister(user)
+  if (_err.value.length > 1) {
+    _success.value = false
   } else {
-    await GetUser(user)
-  }
-}
-
-export async function users () {
-  _err.value = ''
-  _error.value = false
-  get('/users').then(res => {
-    if (res.success === false) {
-      _error.value = true
-      _err.value = res.error
+    const register = await post('/register', user)
+    if (register.success === false) {
+      _success.value = false
+      _err.value = register.error
     } else {
-      _users.value = res
+      await login(user)
     }
-  })
-}
-
-export async function findmember (TaskMember: string) {
-  _err.value = ''
-  _error.value = false
-  const members = _users.value
-  for await (const member of members) {
-    switch (member.username) {
-      case TaskMember:
-        _member.value = member._id
-        return
-    }
-  }
-  _member.value = ''
-}
-
-export async function editUser (olduser: {}, DataToUpdate: {}) {
-  _err.value = ''
-  _error.value = false
-  await put('/user', DataToUpdate).then(res => {
-    if (res.success === false) {
-      _error.value = true
-      _err.value = res.error
-    } else {
-      const old = _users.value.indexOf(olduser)
-      _users.value[old] = DataToUpdate
-    }
-  })
-}
-
-export async function deletedUser (DataToRemove: {}) {
-  _err.value = ''
-  _error.value = false
-  await deleted('/user', DataToRemove).then(res => {
-    if (res.success === false) {
-      _error.value = true
-      _err.value = res.error
-    } else {
-      const old = _users.value.indexOf(DataToRemove)
-      _users.value.splice(old, 1)
-    }
-  })
-}
-
-export async function addUser (user: any) {
-  _err.value = ''
-  _error.value = false
-  const register = await post('/register', user)
-  if (register.success === false) {
-    _error.value = true
-    _err.value = register.error
-  } else {
-    get('/users').then(res => {
-      if (res.success === false) {
-        _error.value = true
-        _err.value = res.error
-      } else {
-        const lastUser = res.pop()
-        _users.value.push(lastUser)
-      }
-    })
   }
 }
 
 export const user = readonly(_user)
 export const err = readonly(_err)
-export const erorr = readonly(_error)
 export const members = readonly(_users)
+export const success = readonly(_success)
 export const taskmember = readonly(_member)

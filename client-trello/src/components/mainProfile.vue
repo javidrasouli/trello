@@ -13,7 +13,7 @@
     name="showtask-profile"
     mode="out-in"
   >
-        <board-page v-if="boardShow"/>
+        <board-page v-if="boardShow" @open-abord = 'openAboard' />
         <task v-else-if="taskShow"/>
         <board v-else-if="listShow"/>
       <person v-else-if="showPerson"/>
@@ -164,6 +164,14 @@ export default defineComponent({
       this.taskShow = false
       this.boardShow = false
       this.showMembers = true
+    },
+    openAboard (open: boolean) {
+      this.showPerson = false
+      this.taskShow = false
+      this.boardShow = false
+      this.showMembers = false
+      this.listShow = open
+      console.log('i am here')
     }
   }
 })
