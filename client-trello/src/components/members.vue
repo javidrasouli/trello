@@ -35,21 +35,19 @@
               username
             </th>
             <th class="border border-gray-400 px-4 py-2 text-gray-800">email</th>
-            <th class="border border-gray-400 px-4 py-2 text-gray-800">password</th>
           </tr>
         </thead>
         <tbody>
           <tr v-for="user in users" :key="user._id">
             <td @click="showPersonData(user)" class="border cursor-pointer border-gray-400 px-4 py-2" v-text="user.username"></td>
             <td class="border border-gray-400 px-4 py-2" v-text="user.email"></td>
-            <td class="border border-gray-400 px-4 py-2" v-text="user.pass"></td>
           </tr>
         </tbody>
       </table>
     </div>
     <transition name="fadeIn">
     <div v-if="showPerson" @click.self="showPerson = !showPerson" class="modal-mask grid grid-rows-1 items-center">
-      <person-data v-if="showPerson" :user = 'user'/>
+      <person-data v-if="showPerson" :user = 'user' @close = 'close'/>
     </div>
     <div v-else-if="error" @click.self="error = !error" class="modal-mask grid grid-rows-1 items-center">
       <p v-text="error" v-show="error" class="p-2 mb-4 rounded-md sm:w-4/5 md:w-8/12 lg:w-1/2 text-center justify-self-center bg-red-700 text-gray-100"></p>
@@ -87,13 +85,19 @@ export default defineComponent({
       AddPerson(user).then(() => {
         if (err.value.length > 1) {
           this.error = err.value
-          debugger
+        } else {
+          this.usernameAdd = ''
+          this.emailAdd = ''
+          this.passAdd = ''
         }
       })
     },
     showPersonData (user: {}) {
       this.user = user
       this.showPerson = true
+    },
+    close (close: boolean) {
+      this.showPerson = close
     }
   }
 })

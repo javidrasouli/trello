@@ -39,9 +39,7 @@ export async function login (user: any, remmeber: boolean) {
   if (_err.value.length > 1) {
     _success.value = false
   } else {
-    debugger
     const loginUser = await post('/login', user)
-    debugger
     if (loginUser.success === false) {
       _success.value = false
       _err.value = loginUser.error
@@ -88,10 +86,8 @@ export async function getUsersSite () {
   if (users.success === false) {
     _success.value = false
     _err.value = users.error
-    debugger
   } else {
     _users.value = users
-    debugger
   }
 }
 
@@ -110,6 +106,28 @@ export async function AddPerson (user: {}) {
       const lastUser = users.pop()
       _users.value.push(lastUser)
     }
+  }
+}
+
+export async function Editperson (user: {}, Edit: {}) {
+  const editUser = await put('/user', Edit)
+  if (editUser.success === false) {
+    _success.value = false
+    _err.value = editUser.error
+  } else {
+    const countPerson = _users.value.indexOf(user)
+    _users.value[countPerson] = Edit
+  }
+}
+
+export async function deletedPerson (user: {}) {
+  const deleteduser = await deleted('/user', user)
+  if (deleteduser.success === false) {
+    _success.value = false
+    _err.value = deleteduser.error
+  } else {
+    const countPerson = _users.value.indexOf(user)
+    _users.value.splice(countPerson, 1)
   }
 }
 

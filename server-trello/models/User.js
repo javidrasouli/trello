@@ -39,15 +39,27 @@ async function findUser(Data) {
       return res
 }
 
-async function updateUser(DataToUpdate, ID) {
+async function updateUser(DataToUpdate, ID, token) {
       checkInput(DataToUpdate)
-      const res = await UpdateOne('users', ID, DataToUpdate)
-      return res
+      const person = await findperson(token)
+      if (person.role == 'admin' || person._id == ID){
+         const user_id = {_id: ObjectId(ID)}
+         const res = await UpdateOne('users', user_id, DataToUpdate)
+         return res
+      } else {
+            return {success: false, status: 403, error: "you can't use of this method"}
+      }
 }
 
-async function removeUser(id) {
-      const res = await RemoveOne('users', id)
-      return res
+async function removeUser(id, token) {
+      const person = await findperson(token)
+      if (person.role == 'admin' || person._id == ID){
+         const user_id = {_id: ObjectId(id)}
+         const res = await RemoveOne('users', user_id)
+         return res
+      } else {
+         return {success: false, status: 403, error: "you can't use of this method"}
+      }
 }
 async function findAll(token) {
       const person = await findperson(token)

@@ -36,6 +36,7 @@ export default defineComponent({
   }),
   async created () {
     await getuser()
+    debugger
     this.user = user.value
   }
 })

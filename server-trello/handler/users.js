@@ -46,9 +46,10 @@ const findmember = async (req, res) => {
 }
 
 const editUser = async (req, res) => {
-    const id = { _id: ObjectId(req.body._id) }
+    const token = JSON.parse(req.headers.accesstoken)
+    const id = req.body._id
     const update = { username: req.body.username, email: req.body.email }
-    const ress = updateUser(update, id)
+    const ress = updateUser(update, id, token)
     if (ress.success == false) {
         res.status(ress.status).json({ success: ress.success, error: ress.error })
     } else {
@@ -57,8 +58,9 @@ const editUser = async (req, res) => {
 }
 
 const deletedUser = async (req, res) => {
-    const id = { _id: ObjectId(req.body._id) }
-    const ress = await removeUser(id)
+    const token = JSON.parse(req.headers.accesstoken)
+    const id = req.body._id
+    const ress = await removeUser(id, token)
     if (ress.success == false) {
         res.status(ress.status).json({ success: ress.success, error: ress.error })
     } else {
