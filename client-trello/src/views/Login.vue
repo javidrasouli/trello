@@ -63,10 +63,10 @@ export default defineComponent({
     showpassword: false
   }),
   methods: {
-    Login () {
+    async Login () {
       const remmber = this.remmber
       const user = { username: this.LoginUsername, pass: this.LoginPassword }
-      login(user, remmber).then(() => {
+      await login(user, remmber).then(() => {
         if (success.value === false) {
           this.error = err.value
         } else {

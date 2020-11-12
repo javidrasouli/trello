@@ -1,5 +1,13 @@
 "use strict"
 const { InsertOne, UpdateOne, RemoveOne, FindOne, FindAll } = require('../DB/crud')
+const jwt = require('jsonwebtoken');
+const { ObjectId } = require("mongodb")
+
+function userid(token) {
+      const decoded = jwt.verify(token, "30bil")
+      return decoded.id
+  }
+
 function checkInput(Data) {
       if (!Data.username) {
             const res = { success: false, error: "missing username", status: 400 }
@@ -30,11 +38,13 @@ async function findUser(Data) {
       const res = await FindOne('users', Data)
       return res
 }
+
 async function updateUser(DataToUpdate, ID) {
       checkInput(DataToUpdate)
       const res = await UpdateOne('users', ID, DataToUpdate)
       return res
 }
+
 async function removeUser(id) {
       const res = await RemoveOne('users', id)
       return res
@@ -43,8 +53,9 @@ async function findAll() {
       const res = await FindAll('users')
       return res
 }
-async function findperson(id) {
-      const res = await FindOne('users', id)
+async function findperson(token) {
+      const id = userid(token)
+      const res = await FindOne('users', { _id: ObjectId(id) })
       return res
 }
 module.exports = { insertUser, findUser, updateUser, removeUser, findAll, findperson }

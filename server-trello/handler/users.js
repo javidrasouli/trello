@@ -1,14 +1,6 @@
 'use strict'
 const { insertUser, findUser, findAll, findperson, updateUser, removeUser } = require('../models/user')
 const { generateToken } = require('../authMiddleware')
-const jwt = require('jsonwebtoken');
-const { ObjectId } = require("mongodb")
-
-function userid(req) {
-    const token = JSON.parse(req.headers.accesstoken)
-    const decoded = jwt.verify(token, "30bil")
-    return decoded.id
-}
 
 const login = async (req, res) => {
     const Data = req.body
@@ -50,9 +42,8 @@ const findAlluser = async (req, res) => {
     }
 }
 const findmember = async (req, res) => {
-    const user_id = userid(req)
-    const id = { _id: ObjectId(user_id) }
-    const ress = await findperson(id)
+    const token = JSON.parse(req.headers.accesstoken)
+    const ress = await findperson(token)
     if (ress.success == false) {
         res.status(ress.status).json({ success: ress.success, error: ress.error })
     } else {

@@ -12,7 +12,7 @@ export function request (method: 'Get' | 'Post' | 'PUT' | 'DELETE', url: string,
     xhr.onload = async () => {
       try {
         const res = JSON.parse(xhr.responseText)
-        if (xhr.status === 403) {
+        if (xhr.status === 401) {
           try {
             const result = await request('Post', '/refresh-token', { refreshToken: localStorage.getItem('refreshtoken') })
             const accessToken = JSON.stringify(result.accessToken)

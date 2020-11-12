@@ -28,7 +28,7 @@ function checkinputLogin (user: any) {
     _err.value = 'username must be longer then 3'
   } else if (user.pass === '') {
     _err.value = 'password is required'
-  } else if (user.pass.length > 8) {
+  } else if (user.pass.length < 8) {
     _err.value = 'password must be longer then 8'
   }
 }
@@ -39,13 +39,15 @@ export async function login (user: any, remmeber: boolean) {
   if (_err.value.length > 1) {
     _success.value = false
   } else {
-    const login = await post('/login', user)
-    if (login.success === false) {
+    debugger
+    const loginUser = await post('/login', user)
+    debugger
+    if (loginUser.success === false) {
       _success.value = false
-      _err.value = login.error
+      _err.value = loginUser.error
     } else {
-      const accessToken = JSON.stringify(login.accessToken)
-      const refreshtoken = JSON.stringify(login.refreshToken)
+      const accessToken = JSON.stringify(loginUser.accessToken)
+      const refreshtoken = JSON.stringify(loginUser.refreshToken)
       localStorage.setItem('accessToken', accessToken)
       if (remmeber === true) {
         localStorage.setItem('refreshtoken', refreshtoken)
@@ -81,7 +83,7 @@ export async function getuser () {
   }
 }
 
-export async function getUsersSite() {
+export async function getUsersSite () {
   const users = await get('/users')
   if (users.success === false) {
     _success.value = false
