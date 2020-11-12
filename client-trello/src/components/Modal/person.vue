@@ -5,9 +5,9 @@
     mode="out-in"
   >
 <div v-if="!EditPerson">
-<h1 class="text-2xl border-b">javid rasouli</h1>
-<h2 class="my-4 text-lg">email: javid99.rasouli@gmail.com</h2>
-<h2 class="text-lg">password: javid1383</h2>
+<h1 class="text-2xl border-b" v-text="user.username"></h1>
+<h2 class="my-4 text-lg">email: <span v-text="user.email"></span></h2>
+<h2 class="text-lg">password: <span v-text="user.pass"></span></h2>
 <div class="mt-5 flex">
   <button @click="EditPerson = true" class="m-auto border p-2 rounded-xl bg-yellow-300 outline-none focus:outline-none transition duration-500 ease-in-out transform hover:-translate-y-1 hover:scale-110">Edit</button>
   <button class="m-auto border p-2 rounded-xl bg-red-700 outline-none focus:outline-none transition duration-500 ease-in-out transform hover:-translate-y-1 hover:scale-110">Delete</button>
@@ -15,9 +15,9 @@
 </div>
 </div>
 <div v-else class="grid grid-rows-1 justify-center">
-<input type="text" placeholder="username" class="border focus:border-black outline-none focus:outline-none w-64 p-2 rounded-md bg-gray-400 bg-opacity-75 transition duration-500 ease-in-out transform hover:-translate-y-1 hover:scale-110 focus:-translate-y-1 focus:scale-110">
-<input type="email" placeholder="email" class="border focus:border-black outline-none focus:outline-none w-64 p-2 my-4 rounded-md bg-gray-400 bg-opacity-75 transition duration-500 ease-in-out transform hover:-translate-y-1 hover:scale-110 focus:-translate-y-1 focus:scale-110">
-<input type="text" placeholder="password" class="border focus:border-black outline-none focus:outline-none w-64 p-2 rounded-md bg-gray-400 bg-opacity-75 transition duration-500 ease-in-out transform hover:-translate-y-1 hover:scale-110 focus:-translate-y-1 focus:scale-110">
+<input type="text" v-model="usernameEdit" placeholder="username" class="border focus:border-black outline-none focus:outline-none w-64 p-2 rounded-md bg-gray-400 bg-opacity-75 transition duration-500 ease-in-out transform hover:-translate-y-1 hover:scale-110 focus:-translate-y-1 focus:scale-110">
+<input type="email" v-model="emailEdit" placeholder="email" class="border focus:border-black outline-none focus:outline-none w-64 p-2 my-4 rounded-md bg-gray-400 bg-opacity-75 transition duration-500 ease-in-out transform hover:-translate-y-1 hover:scale-110 focus:-translate-y-1 focus:scale-110">
+<input type="text" v-model="passEdit" placeholder="password" class="border focus:border-black outline-none focus:outline-none w-64 p-2 rounded-md bg-gray-400 bg-opacity-75 transition duration-500 ease-in-out transform hover:-translate-y-1 hover:scale-110 focus:-translate-y-1 focus:scale-110">
 <div class="flex">
     <button class="m-auto mt-5 bg-green-700 p-2 rounded-lg text-gray-200 outline-none focus:outline-none">save</button>
     <button @click="EditPerson = false" class="m-auto mt-5 bg-red-700 p-2 rounded-lg text-gray-200 outline-none focus:outline-none">cansel</button>
@@ -31,8 +31,18 @@
 import { defineComponent } from 'vue'
 export default defineComponent({
   name: 'personData',
+  props: ['user'],
   data: () => ({
-    EditPerson: false
-  })
+    EditPerson: false,
+    usernameEdit: '',
+    emailEdit: '',
+    passEdit: ''
+  }),
+  created () {
+    const user = this.$props.user
+    this.usernameEdit = user.username
+    this.emailEdit = user.email
+    this.passEdit = user.pass
+  }
 })
 </script>

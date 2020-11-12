@@ -20,7 +20,7 @@ const refreshToken = async (req, res) => {
         const token = JSON.parse(req.body.refreshToken);
         if (!token) {
             console.error("token not found")
-            res.status(401).json({ success: false })
+            res.status(403).json({ success: false })
             return
         }
         const decoded = jwt.verify(token, "40bil");
@@ -38,14 +38,14 @@ const check = (req, res, next) => {
         const token = JSON.parse(req.headers.accesstoken)
         if (!token) {
             console.error("token not found")
-            res.status(401).json({ success: false })
+            res.status(403).json({ success: false })
             return
         }
         const decoded = jwt.verify(token, "30bil")
         next()
     } catch (err) {
         console.log('err',err)
-        res.status(403).json({ success: false, error: "invalid token" })
+        res.status(401).json({ success: false, error: "invalid token" })
         return
     }
 }

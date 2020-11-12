@@ -49,9 +49,14 @@ async function removeUser(id) {
       const res = await RemoveOne('users', id)
       return res
 }
-async function findAll() {
-      const res = await FindAll('users')
-      return res
+async function findAll(token) {
+      const person = await findperson(token)
+      if (person.role == 'admin') {
+         const res = await FindAll('users')
+         return res
+      } else {
+         return {success: false, status: 403, error: 'you cant have this data'}
+      }
 }
 async function findperson(token) {
       const id = userid(token)

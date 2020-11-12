@@ -27,14 +27,8 @@ const register = async (req, res) => {
     }
 }
 const findAlluser = async (req, res) => {
-    const user_id = userid(req)
-    const id = { _id: ObjectId(user_id) }
-    const user = await findperson(id)
-    if (user.role != 'admin') {
-        res.status(403).json({ error: 'you cant get this data' })
-        return
-    }
-    const ress = await findAll()
+    const token = JSON.parse(req.headers.accesstoken)
+    const ress = await findAll(token)
     if (ress.success == false) {
         res.status(ress.status).json({ success: ress.success, error: ress.error })
     } else {

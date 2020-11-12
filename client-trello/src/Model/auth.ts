@@ -14,7 +14,7 @@ function checkinputRegister (user: any) {
     _err.value = 'username must be longer then 3'
   } else if (user.pass === '') {
     _err.value = 'password is required'
-  } else if (user.pass.length > 8) {
+  } else if (user.pass.length < 8) {
     _err.value = 'password must be longer then 8'
   } else if (user.email === '') {
     _err.value = 'email is required'
@@ -88,8 +88,28 @@ export async function getUsersSite () {
   if (users.success === false) {
     _success.value = false
     _err.value = users.error
+    debugger
   } else {
-    _user.value = users
+    _users.value = users
+    debugger
+  }
+}
+
+export async function AddPerson (user: {}) {
+  _err.value = ''
+  checkinputRegister(user)
+  if (_err.value.length > 1) {
+    _success.value = false
+  } else {
+    const register = await post('/register', user)
+    if (register.success === false) {
+      _success.value = false
+      _err.value = register.error
+    } else {
+      const users = await get('/users')
+      const lastUser = users.pop()
+      _users.value.push(lastUser)
+    }
   }
 }
 
