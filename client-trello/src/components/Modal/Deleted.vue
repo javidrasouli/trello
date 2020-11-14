@@ -8,14 +8,14 @@
     <input v-model="passwordUser" type="text" class="w-full p-2 rounded-md" placeholder="please enter your password">
     <div class=" flex">
        <button @click="deleteAccount()" class="m-auto mt-5 bg-red-700 p-2 rounded-lg text-gray-200 outline-none focus:outline-none transition duration-500 ease-in-out transform hover:-translate-y-1 hover:scale-110">Delete</button>
-    <button @click="close()" class="m-auto mt-5 bg-green-700 p-2 rounded-lg text-gray-200 outline-none focus:outline-none transition duration-500 ease-in-out transform hover:-translate-y-1 hover:scale-110">cancel</button>
+    <button @click="close()" type="button" class="m-auto mt-5 bg-green-700 p-2 rounded-lg text-gray-200 outline-none focus:outline-none transition duration-500 ease-in-out transform hover:-translate-y-1 hover:scale-110">cancel</button>
     </div>
   </div>
 <div v-else>
   <h1 class="text-center text-xl">Are you sure delete your account ?</h1>
 <div class="mt-5 flex">
   <button @click="Deleted = true"  class="m-auto mt-5 bg-red-700 p-2 rounded-lg text-gray-200 outline-none focus:outline-none transition duration-500 ease-in-out transform hover:-translate-y-1 hover:scale-110">yes</button>
-  <button @click="close()" class="m-auto mt-5 bg-green-700 p-2 rounded-lg text-gray-200 outline-none focus:outline-none transition duration-500 ease-in-out transform hover:-translate-y-1 hover:scale-110">cancel</button>
+  <button @click="close()" type="button" class="m-auto mt-5 bg-green-700 p-2 rounded-lg text-gray-200 outline-none focus:outline-none transition duration-500 ease-in-out transform hover:-translate-y-1 hover:scale-110">cancel</button>
 </div>
 </div>
 </transition>

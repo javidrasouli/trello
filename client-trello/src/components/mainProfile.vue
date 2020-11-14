@@ -2,9 +2,9 @@
 <div>
 <ul class="navbar-profile none-nav py-0 bg-gray-800">
         <li @click="editShow()" class="cursor-pointer hover:text-green-300">Profile</li>
-        <li @click="showMembersSite()" class="cursor-pointer hover:text-green-300">Members</li>
+        <li v-if="user.role === 'admin'" @click="showMembersSite()" class="cursor-pointer hover:text-green-300">Members</li>
         <li @click="showTaksTodo()" class="cursor-pointer hover:text-green-300">Tasks</li>
-        <li @click="showYourBoards()" class="cursor-pointer hover:text-green-300">Boards</li>
+        <li @click="showAllBoards()" class="cursor-pointer hover:text-green-300">Boards</li>
         <li class="cursor-pointer hover:text-green-300">Message</li>
       </ul>
   <div class="partionPage">
@@ -13,15 +13,16 @@
     name="showtask-profile"
     mode="out-in"
   >
-        <board-page v-if="boardShow" @open-abord = 'openAboard' />
+        <board-page v-if="boardShow" @board = 'board' @edit-board = 'EditBoard'/>
         <task v-else-if="taskShow"/>
-        <board v-else-if="listShow"/>
+        <board v-else-if="listShow" :edit = 'edit' />
       <person v-else-if="showPerson"/>
       <member v-else-if="showMembers"/>
       </transition>
     </div>
     <div class="nav-page shadow-xl">
       <div
+        v-if="user.role === 'admin'"
         class="board B1 z-0 transition duration-500 ease-in-out transform hover:-translate-y-1 hover:scale-110 hover:shadow-2xl"
       >
         <h3 class="text-white m-5">Members</h3>
@@ -105,9 +106,12 @@ import Boards from './Boards.vue'
 import Board from './Aboard.vue'
 import personPage from './personPage.vue'
 import members from './members.vue'
+import { getuser } from '../Model/auth'
+import { getBoards } from '../Model/boards'
+import { BoardList } from '../Model/lists'
 export default defineComponent({
   name: 'mainProfile',
-  props: ['dataToChangeMainprofile'],
+  props: ['user'],
   components: {
     task: Task,
     boardPage: Boards,
@@ -120,7 +124,8 @@ export default defineComponent({
     boardShow: false,
     listShow: false,
     showPerson: false,
-    showMembers: false
+    showMembers: false,
+    edit: false
   }),
   methods: {
     editShow () {
@@ -152,11 +157,15 @@ export default defineComponent({
       this.boardShow = true
     },
     showAllBoards () {
-      this.listShow = false
-      this.showPerson = false
-      this.taskShow = false
-      this.showMembers = false
-      this.boardShow = true
+      getuser().then(() => {
+        getBoards().then(() => {
+          this.listShow = false
+          this.showPerson = false
+          this.taskShow = false
+          this.showMembers = false
+          this.boardShow = true
+        })
+      })
     },
     showMembersSite () {
       this.listShow = false
@@ -165,13 +174,24 @@ export default defineComponent({
       this.boardShow = false
       this.showMembers = true
     },
-    openAboard (open: boolean) {
-      this.showPerson = false
-      this.taskShow = false
-      this.boardShow = false
-      this.showMembers = false
-      this.listShow = open
-      console.log('i am here')
+    board (board: any) {
+      BoardList(board.board._id).then(() => {
+        this.showPerson = false
+        this.taskShow = false
+        this.boardShow = false
+        this.showMembers = false
+        this.listShow = board.open
+      })
+    },
+    EditBoard (board: any) {
+      BoardList(board._id).then(() => {
+        this.edit = true
+        this.showPerson = false
+        this.taskShow = false
+        this.boardShow = false
+        this.showMembers = false
+        this.listShow = true
+      })
     }
   }
 })

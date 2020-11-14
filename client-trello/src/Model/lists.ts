@@ -17,6 +17,7 @@ export async function BoardList (boardID: any) {
       _error.value = true
     } else {
       _board.value = res
+      debugger
     }
   })
 }

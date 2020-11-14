@@ -18,7 +18,7 @@
       </ul>
     </nav>
     <div>
-      <mainprofile />
+      <mainprofile  :user = 'user'/>
     </div>
   </div>
 </template>
@@ -36,7 +36,6 @@ export default defineComponent({
   }),
   async created () {
     await getuser()
-    debugger
     this.user = user.value
   }
 })

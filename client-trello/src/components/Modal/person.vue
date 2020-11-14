@@ -20,14 +20,14 @@
 <input type="text" v-model="passEdit" placeholder="password" class="border focus:border-black outline-none focus:outline-none w-64 p-2 rounded-md bg-gray-400 bg-opacity-75 transition duration-500 ease-in-out transform hover:-translate-y-1 hover:scale-110 focus:-translate-y-1 focus:scale-110">
 <div class="flex">
     <button @click="EditUser()" class="m-auto mt-5 bg-green-700 p-2 rounded-lg text-gray-200 outline-none focus:outline-none transition duration-500 ease-in-out transform hover:-translate-y-1 hover:scale-110">save</button>
-    <button @click="EditPerson = false, PersonData = true, DeletedPerson = false" class="m-auto mt-5 bg-red-700 p-2 rounded-lg text-gray-200 outline-none focus:outline-none transition duration-500 ease-in-out transform hover:-translate-y-1 hover:scale-110">cancel</button>
+    <button type="button" @click="EditPerson = false, PersonData = true, DeletedPerson = false" class="m-auto mt-5 bg-red-700 p-2 rounded-lg text-gray-200 outline-none focus:outline-none transition duration-500 ease-in-out transform hover:-translate-y-1 hover:scale-110">cancel</button>
 </div>
 </div>
 <div v-else-if="DeletedPerson" class="grid grid-rows-1 justify-center items-center">
   <h1 class="text-xl mt-16">Do you want <span class="text-red-700">Delete</span> <span v-text="user.username"></span>?</h1>
 <div class="flex">
     <button @click="deleetedUser()" class="m-auto mt-5 bg-red-700 p-2 rounded-lg text-gray-200 outline-none focus:outline-none transition duration-500 ease-in-out transform hover:-translate-y-1 hover:scale-110">Delete</button>
-    <button @click="EditPerson = false, PersonData = true, DeletedPerson = false" class="m-auto mt-5 bg-green-700 p-2 rounded-lg text-gray-200 outline-none focus:outline-none transition duration-500 ease-in-out transform hover:-translate-y-1 hover:scale-110">cancel</button>
+    <button type="button" @click="EditPerson = false, PersonData = true, DeletedPerson = false" class="m-auto mt-5 bg-green-700 p-2 rounded-lg text-gray-200 outline-none focus:outline-none transition duration-500 ease-in-out transform hover:-translate-y-1 hover:scale-110">cancel</button>
 </div>
 </div>
 </transition>

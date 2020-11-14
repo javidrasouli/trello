@@ -4,14 +4,16 @@
       <input
         type="text"
         placeholder="Name"
-        class="block bg-gradient-to-r from-red-500 focus:bg-gradient-to-r focus:from-purple-400 text-gray-700 w-full p-2 rounded-xl outline-none placeholder-green-200"
+        v-model= "editName"
+        class="block bg-gradient-to-r from-red-500 focus:bg-gradient-to-r focus:from-purple-400 text-black w-full p-2 rounded-xl outline-none placeholder-green-200"
       />
       <textarea
+      v-model="editDescription"
         name=""
         id=""
         rows="7"
         placeholder="description"
-        class="my-3 block resize bg-gradient-to-r from-red-500 focus:bg-gradient-to-r focus:from-purple-400 text-gray-700 w-full p-2 rounded-xl outline-none placeholder-green-200"
+        class="my-3 block resize bg-gradient-to-r from-red-500 focus:bg-gradient-to-r focus:from-purple-400 text-black w-full p-2 rounded-xl outline-none placeholder-green-200"
       ></textarea>
       <button
         type="submit"
@@ -22,3 +24,19 @@
     </form>
   </div>
 </template>
+
+<script lang="ts">
+import { defineComponent } from 'vue'
+export default defineComponent({
+  name: 'editBoard',
+  props: ['board'],
+  data: () => ({
+    editName: '',
+    editDescription: ''
+  }),
+  created () {
+    this.editName = this.$props.board.name
+    this.editDescription = this.$props.board.description
+  }
+})
+</script>

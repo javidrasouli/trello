@@ -1,9 +1,9 @@
 <template>
   <div>
     <div class="partion-tasks">
-      <div class=" bg-indigo-700 rounded-xl p-4 m-2 min-w-48 min-h-48">
+      <div v-for="list in lists" :key="list._id" class=" bg-indigo-700 rounded-xl p-4 m-2 min-w-48">
         <div class="flex border-b">
-          <h1 class="text-white text-xl m-auto">test4</h1>
+          <h1 v-text="list.name" class="text-white text-xl m-auto"></h1>
           <h3 class="m-auto cursor-pointer text-white mt-2">
             <i class="fa fa-edit"></i>
           </h3>
@@ -11,204 +11,15 @@
             <i class="fa fa-remove"></i>
           </h3>
         </div>
-        <div class="grid grid-rows-1 grid-cols-1">
+        <div v-for="task in tasks" :key="task._id">
+        <div v-if="list._id === task.listID" class="grid grid-rows-1 grid-cols-1">
           <div class=" bg-green-500 my-3 p-2 rounded-lg text-white">
-            <h2 class="cursor-pointer">create task</h2>
+            <h2 v-text="task.name" class="cursor-pointer"></h2>
           </div>
         </div>
-        <div class="grid grid-rows-1 grid-cols-1">
-          <div class=" bg-green-500 my-3 p-2 rounded-lg text-white">
-            <h2 class="cursor-pointer">create task</h2>
-          </div>
         </div>
-      </div>
-      <div class=" bg-indigo-700 rounded-xl p-4 m-2 min-w-48 min-h-48">
-        <div class="flex border-b">
-          <h1 class="text-white text-xl m-auto">test4</h1>
-          <h3 class="m-auto cursor-pointer text-white mt-2">
-            <i class="fa fa-edit"></i>
-          </h3>
-          <h3 class="m-auto cursor-pointer text-white mt-2">
-            <i class="fa fa-remove"></i>
-          </h3>
-        </div>
-        <div class="grid grid-rows-1 grid-cols-1">
-          <div class=" bg-green-500 my-3 p-2 rounded-lg text-white">
-            <h2 class="cursor-pointer">create task</h2>
-          </div>
-        </div>
-        <div class="grid grid-rows-1 grid-cols-1">
-          <div class=" bg-green-500 my-3 p-2 rounded-lg text-white">
-            <h2 class="cursor-pointer">create task</h2>
-          </div>
-        </div>
-      </div>
-      <div class=" bg-indigo-700 rounded-xl p-4 m-2 min-w-48 min-h-48">
-        <div class="flex border-b">
-          <h1 class="text-white text-xl m-auto">test4</h1>
-          <h3 class="m-auto cursor-pointer text-white mt-2">
-            <i class="fa fa-edit"></i>
-          </h3>
-          <h3 class="m-auto cursor-pointer text-white mt-2">
-            <i class="fa fa-remove"></i>
-          </h3>
-        </div>
-        <div class="grid grid-rows-1 grid-cols-1">
-          <div class=" bg-green-500 my-3 p-2 rounded-lg text-white">
-            <h2 class="cursor-pointer">create task</h2>
-          </div>
-        </div>
-        <div class="grid grid-rows-1 grid-cols-1">
-          <div class=" bg-green-500 my-3 p-2 rounded-lg text-white">
-            <h2 class="cursor-pointer">create task</h2>
-          </div>
-        </div>
-      </div>
-      <div class=" bg-indigo-700 rounded-xl p-4 m-2 min-w-48 min-h-48">
-        <div class="flex border-b">
-          <h1 class="text-white text-xl m-auto">test4</h1>
-          <h3 class="m-auto cursor-pointer text-white mt-2">
-            <i class="fa fa-edit"></i>
-          </h3>
-          <h3 class="m-auto cursor-pointer text-white mt-2">
-            <i class="fa fa-remove"></i>
-          </h3>
-        </div>
-        <div class="grid grid-rows-1 grid-cols-1">
-          <div class=" bg-green-500 my-3 p-2 rounded-lg text-white">
-            <h2 class="cursor-pointer">create task</h2>
-          </div>
-        </div>
-        <div class="grid grid-rows-1 grid-cols-1">
-          <div class=" bg-green-500 my-3 p-2 rounded-lg text-white">
-            <h2 class="cursor-pointer">create task</h2>
-          </div>
-        </div>
-      </div>
-      <div class=" bg-indigo-700 rounded-xl p-4 m-2 min-w-48 min-h-48">
-        <div class="flex border-b">
-          <h1 class="text-white text-xl m-auto">test4</h1>
-          <h3 class="m-auto cursor-pointer text-white mt-2">
-            <i class="fa fa-edit"></i>
-          </h3>
-          <h3 class="m-auto cursor-pointer text-white mt-2">
-            <i class="fa fa-remove"></i>
-          </h3>
-        </div>
-        <div class="grid grid-rows-1 grid-cols-1">
-          <div class=" bg-green-500 my-3 p-2 rounded-lg text-white">
-            <h2 class="cursor-pointer">create task</h2>
-          </div>
-        </div>
-        <div class="grid grid-rows-1 grid-cols-1">
-          <div class=" bg-green-500 my-3 p-2 rounded-lg text-white">
-            <h2 class="cursor-pointer">create task</h2>
-          </div>
-        </div>
-      </div>
-      <div class=" bg-indigo-700 rounded-xl p-4 m-2 min-w-48 min-h-48">
-        <div class="flex border-b">
-          <h1 class="text-white text-xl m-auto">test4</h1>
-          <h3 class="m-auto cursor-pointer text-white mt-2">
-            <i class="fa fa-edit"></i>
-          </h3>
-          <h3 class="m-auto cursor-pointer text-white mt-2">
-            <i class="fa fa-remove"></i>
-          </h3>
-        </div>
-        <div class="grid grid-rows-1 grid-cols-1">
-          <div class=" bg-green-500 my-3 p-2 rounded-lg text-white">
-            <h2 class="cursor-pointer">create task</h2>
-          </div>
-        </div>
-        <div class="grid grid-rows-1 grid-cols-1">
-          <div class=" bg-green-500 my-3 p-2 rounded-lg text-white">
-            <h2 class="cursor-pointer">create task</h2>
-          </div>
-        </div>
-      </div>
-      <div class=" bg-indigo-700 rounded-xl p-4 m-2 min-w-48 min-h-48">
-        <div class="flex border-b">
-          <h1 class="text-white text-xl m-auto">test4</h1>
-          <h3 class="m-auto cursor-pointer text-white mt-2">
-            <i class="fa fa-edit"></i>
-          </h3>
-          <h3 class="m-auto cursor-pointer text-white mt-2">
-            <i class="fa fa-remove"></i>
-          </h3>
-        </div>
-        <div class="grid grid-rows-1 grid-cols-1">
-          <div class=" bg-green-500 my-3 p-2 rounded-lg text-white">
-            <h2 class="cursor-pointer">create task</h2>
-          </div>
-        </div>
-        <div class="grid grid-rows-1 grid-cols-1">
-          <div class=" bg-green-500 my-3 p-2 rounded-lg text-white">
-            <h2 class="cursor-pointer">create task</h2>
-          </div>
-        </div>
-      </div>
-      <div class=" bg-indigo-700 rounded-xl p-4 m-2 min-w-48 min-h-48">
-        <div class="flex border-b">
-          <h1 class="text-white text-xl m-auto">test4</h1>
-          <h3 class="m-auto cursor-pointer text-white mt-2">
-            <i class="fa fa-edit"></i>
-          </h3>
-          <h3 class="m-auto cursor-pointer text-white mt-2">
-            <i class="fa fa-remove"></i>
-          </h3>
-        </div>
-        <div class="grid grid-rows-1 grid-cols-1">
-          <div class=" bg-green-500 my-3 p-2 rounded-lg text-white">
-            <h2 class="cursor-pointer">create task</h2>
-          </div>
-        </div>
-        <div class="grid grid-rows-1 grid-cols-1">
-          <div class=" bg-green-500 my-3 p-2 rounded-lg text-white">
-            <h2 class="cursor-pointer">create task</h2>
-          </div>
-        </div>
-      </div>
-      <div class=" bg-indigo-700 rounded-xl p-4 m-2 min-w-48 min-h-48">
-        <div class="flex border-b">
-          <h1 class="text-white text-xl m-auto">test4</h1>
-          <h3 class="m-auto cursor-pointer text-white mt-2">
-            <i class="fa fa-edit"></i>
-          </h3>
-          <h3 class="m-auto cursor-pointer text-white mt-2">
-            <i class="fa fa-remove"></i>
-          </h3>
-        </div>
-        <div class="grid grid-rows-1 grid-cols-1">
-          <div class=" bg-green-500 my-3 p-2 rounded-lg text-white">
-            <h2 class="cursor-pointer">create task</h2>
-          </div>
-        </div>
-        <div class="grid grid-rows-1 grid-cols-1">
-          <div class=" bg-green-500 my-3 p-2 rounded-lg text-white">
-            <h2 class="cursor-pointer">create task</h2>
-          </div>
-        </div>
-      </div>
-      <div class=" bg-indigo-700 rounded-xl p-4 m-2 min-w-48 min-h-48">
-        <div class="flex border-b">
-          <h1 class="text-white text-xl m-auto">test4</h1>
-          <h3 class="m-auto cursor-pointer text-white mt-2">
-            <i class="fa fa-edit"></i>
-          </h3>
-          <h3 class="m-auto cursor-pointer text-white mt-2">
-            <i class="fa fa-remove"></i>
-          </h3>
-        </div>
-        <div class="grid grid-rows-1 grid-cols-1">
-          <div class=" bg-green-500 my-3 p-2 rounded-lg text-white">
-            <h2 class="cursor-pointer">create task</h2>
-          </div>
-        </div>
-        <div class="grid grid-rows-1 grid-cols-1">
-          <div class=" bg-green-500 my-3 p-2 rounded-lg text-white">
-            <h2 class="cursor-pointer">create task</h2>
-          </div>
+        <div class="text-gray-300 bg-gray-500 mt-2 rounded-md p-1 hover:text-black ">
+          <h1>create Task</h1>
         </div>
       </div>
       <div
@@ -224,6 +35,19 @@
     </div>
   </div>
 </template>
+
+<script lang="ts">
+import { defineComponent } from 'vue'
+import { BoardList, Lists } from '../Model/lists'
+export default defineComponent({
+  name: 'lists',
+  props: ['lists', 'tasks'],
+  data: () => ({
+    Lists: {}
+  })
+})
+</script>
+
 <style lang="scss">
 .addlist-y {
   width: 1px;

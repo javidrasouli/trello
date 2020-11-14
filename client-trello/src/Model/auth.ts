@@ -120,6 +120,16 @@ export async function Editperson (user: {}, Edit: {}) {
   }
 }
 
+export async function EditProfile (New: {}) {
+  const editUser = await put('/user', New)
+  if (editUser.success === false) {
+    _success.value = false
+    _err.value = editUser.error
+  } else {
+    _user.value = New
+  }
+}
+
 export async function deletedPerson (user: {}) {
   const deleteduser = await deleted('/user', user)
   if (deleteduser.success === false) {

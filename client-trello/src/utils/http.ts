@@ -15,11 +15,15 @@ export function request (method: 'Get' | 'Post' | 'PUT' | 'DELETE', url: string,
         if (xhr.status === 401) {
           try {
             const result = await request('Post', '/refresh-token', { refreshToken: localStorage.getItem('refreshtoken') })
-            const accessToken = JSON.stringify(result.accessToken)
-            const refreshtoken = JSON.stringify(result.refreshtoken)
-            localStorage.setItem('accessToken', accessToken)
-            localStorage.setItem('refreshtoken', refreshtoken)
-            return request(method, url, data)
+            if (result.success === false) {
+              router.push('/Login')
+            } else {
+              const accessToken = JSON.stringify(result.accessToken)
+              const refreshtoken = JSON.stringify(result.refreshtoken)
+              localStorage.setItem('accessToken', accessToken)
+              localStorage.setItem('refreshtoken', refreshtoken)
+              return request(method, url, data)
+            }
           } catch {
             router.push('/Login')
           }
