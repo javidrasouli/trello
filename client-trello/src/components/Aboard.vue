@@ -15,7 +15,7 @@
         <h3 @click="showpersonsBoard()" class="m-auto cursor-pointer mt-2 text-xl">
           <i class="fa fa-group"></i>
         </h3>
-        <h3 class="m-auto cursor-pointer mt-2 text-xl">
+        <h3 @click="deletedAboatd()" class="m-auto cursor-pointer mt-2 text-xl">
           <i class="fa fa-remove"></i>
         </h3>
       </div>
@@ -29,10 +29,15 @@
     mode="out-in"
   >
       <list v-if="showLists" :lists = 'lists' :tasks = 'tasks' />
-      <edit-board v-else-if="showEditBoard" :board = 'board' />
+      <edit-board v-else-if="showEditBoard" :board = 'board' @new-board = 'newBoard' />
       <message v-else-if="showMessage"/>
       <team v-else-if="showTeam"/>
        </transition>
+       <transition name="fadeIn">
+    <div v-if="deletedboard" @click.self="deletedboard = !deletedboard" class="modal-mask grid grid-rows-1 items-center">
+      <delete-board v-if="deletedboard" :board = 'board' @del-board = 'closeBoard' @close = 'close'/>
+    </div>
+    </transition>
     </div>
   </div>
 </template>
@@ -43,7 +48,9 @@ import ListsBoard from './Lists.vue'
 import EditBoard from './EditBoard.vue'
 import Messages from './Messages.vue'
 import group from './boardTeam.vue'
+import deleted from './Modal/BoardModal.vue'
 import { Lists } from '../Model/lists'
+import Deleted from './Modal/Deleted.vue'
 export default defineComponent({
   name: 'board',
   props: ['edit'],
@@ -51,13 +58,15 @@ export default defineComponent({
     list: ListsBoard,
     editBoard: EditBoard,
     message: Messages,
-    Team: group
+    Team: group,
+    deleteBoard: deleted
   },
   data: () => ({
     showLists: true,
     showEditBoard: false,
     showMessage: false,
     showTeam: false,
+    deletedboard: false,
     board: {},
     lists: {},
     tasks: {}
@@ -98,7 +107,14 @@ export default defineComponent({
       this.showEditBoard = false
       this.showMessage = false
       this.showTeam = true
-    }
+    },
+    newBoard (newBoard: {}) {
+      this.board = newBoard
+    },
+    closeBoard (close: boolean) {
+      this.$emit('close-aboard', close)
+    },
+    
   }
 })
 </script>

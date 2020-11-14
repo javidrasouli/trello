@@ -40,14 +40,11 @@ export async function insertBoard (board: {}) {
   }
 }
 
-export async function updateBoard (oldBoard: {}, DataToUpdate: {}) {
+export async function updateBoard (DataToUpdate: {}) {
   _errorBoard.value = ''
   await put('/board', DataToUpdate).then(res => {
     if (res.success === false) {
       _errorBoard.value = res.error
-    } else {
-      const old = _boards.value.indexOf(oldBoard)
-      _boards.value[old] = DataToUpdate
     }
   })
 }

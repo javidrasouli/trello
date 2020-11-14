@@ -15,7 +15,7 @@
   >
         <board-page v-if="boardShow" @board = 'board' @edit-board = 'EditBoard'/>
         <task v-else-if="taskShow"/>
-        <board v-else-if="listShow" :edit = 'edit' />
+        <board v-else-if="listShow" :edit = 'edit' @close-aboard = 'changePage' />
       <person v-else-if="showPerson"/>
       <member v-else-if="showMembers"/>
       </transition>
@@ -164,6 +164,7 @@ export default defineComponent({
           this.taskShow = false
           this.showMembers = false
           this.boardShow = true
+          this.edit = false
         })
       })
     },
@@ -192,6 +193,20 @@ export default defineComponent({
         this.showMembers = false
         this.listShow = true
       })
+    },
+    changePage (change: boolean) {
+      if (change === true) {
+        getuser().then(() => {
+          getBoards().then(() => {
+            this.listShow = false
+            this.showPerson = false
+            this.taskShow = false
+            this.showMembers = false
+            this.boardShow = true
+            this.edit = false
+          })
+        })
+      }
     }
   }
 })

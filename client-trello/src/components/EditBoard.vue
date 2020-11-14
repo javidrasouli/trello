@@ -1,6 +1,6 @@
 <template>
   <div class="grid grid-rows-1 grid-cols-1">
-    <form class="w-full md:w-1/3 m-auto">
+    <form @submit.prevent="EditBoard()" class="w-full md:w-1/3 m-auto">
       <input
         type="text"
         placeholder="Name"
@@ -27,16 +27,31 @@
 
 <script lang="ts">
 import { defineComponent } from 'vue'
+import { errorBoard, updateBoard } from '../Model/boards'
 export default defineComponent({
   name: 'editBoard',
   props: ['board'],
   data: () => ({
     editName: '',
-    editDescription: ''
+    editDescription: '',
+    error: ''
   }),
   created () {
     this.editName = this.$props.board.name
     this.editDescription = this.$props.board.description
+  },
+  methods: {
+    EditBoard () {
+      const board = this.$props.board
+      const newBoard = { _id: board._id, name: this.editName, description: this.editDescription, userID: board.userID }
+      updateBoard(newBoard).then(() => {
+        if (errorBoard.value.length > 1) {
+          this.error = errorBoard.value
+        } else {
+          this.$emit('new-board', newBoard)
+        }
+      })
+    }
   }
 })
 </script>
