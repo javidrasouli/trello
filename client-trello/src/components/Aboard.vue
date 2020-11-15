@@ -15,7 +15,7 @@
         <h3 @click="showpersonsBoard()" class="m-auto cursor-pointer mt-2 text-xl">
           <i class="fa fa-group"></i>
         </h3>
-        <h3 @click="deletedAboatd()" class="m-auto cursor-pointer mt-2 text-xl">
+        <h3 @click="deletedboard = true" class="m-auto cursor-pointer mt-2 text-xl">
           <i class="fa fa-remove"></i>
         </h3>
       </div>
@@ -28,14 +28,14 @@
     name="showtask-profile"
     mode="out-in"
   >
-      <list v-if="showLists" :lists = 'lists' :tasks = 'tasks' />
+      <list v-if="showLists" :lists = 'lists' :tasks = 'tasks' :board = 'board' />
       <edit-board v-else-if="showEditBoard" :board = 'board' @new-board = 'newBoard' />
       <message v-else-if="showMessage"/>
       <team v-else-if="showTeam"/>
        </transition>
        <transition name="fadeIn">
     <div v-if="deletedboard" @click.self="deletedboard = !deletedboard" class="modal-mask grid grid-rows-1 items-center">
-      <delete-board v-if="deletedboard" :board = 'board' @del-board = 'closeBoard' @close = 'close'/>
+      <delete-board v-if="deletedboard" :deletedboard = 'deletedboard' :board = 'board' @del-board = 'closeBoard' @close = 'close'/>
     </div>
     </transition>
     </div>
@@ -113,8 +113,7 @@ export default defineComponent({
     },
     closeBoard (close: boolean) {
       this.$emit('close-aboard', close)
-    },
-    
+    }
   }
 })
 </script>
