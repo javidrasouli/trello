@@ -1,20 +1,13 @@
 'use strict'
-const { ObjectId } = require("mongodb")
 const { insert, Get, update, remove, GetOne } = require('../models/Board')
-const { insertlist, removeAll, GetList } = require('../models/List')
-const { updateUser } = require("../models/User")
-const { GetTasks, removeAllTask } = require("../models/Task")
 const createBoard = async (req, res) => {
-      const Data = { name: req.body.name, description: req.body.description, userID: req.body.userID }
-      const updateMember = updateUser({ role: 'owner' }, { _id: ObjectId(req.body.userID) })
-      const ress = await insert(Data)
+      const board = { name: req.body.name, description: req.body.description }
+      const token = JSON.parse(req.headers.accesstoken)
+      const ress = await insert(board, token)
       if (ress.success == false) {
-            res.status(ress.status).json({ success: ress.success, error: ress.error })
+        res.status(ress.status).json({ success: ress.success, error: ress.error })
       } else {
-            await insertlist({ boardID: ress.insert.insertedId, name: 'ToDo' })
-            await insertlist({ boardID: ress.insert.insertedId, name: 'Doing' })
-            await insertlist({ boardID: ress.insert.insertedId, name: 'Done' })
-            res.json(ress)
+        res.json(ress)
       }
 }
 
@@ -22,25 +15,19 @@ const GetBoard = async (req, res) => {
       const id = { _id: ObjectId(req.params.id) }
       const ress = await GetOne(id)
       if (ress.success == false) {
-            res.status(ress.status).json({ success: ress.success, error: ress.error })
+        res.status(ress.status).json({ success: ress.success, error: ress.error })
       } else {
-            const board_id = { boardID: ObjectId(req.params.id) }
-            const lists = await GetList(board_id)
-            const tasks = await GetTasks(board_id)
-            res.json({ Board: ress, lists: lists, task: tasks })
+        res.json(ress)
       }
 }
 
 const GetBoards = async (req, res) => {
-      let ress;
-      if (req.body.role == 'admin') {
-            ress = await Get()
-      } else {
-            ress = await Get({ userID: req.body._id })
-      }
+      const token = JSON.parse(req.headers.accesstoken)
+      const ress = await Get(token)
       if (ress.success == false) {
             res.status(ress.status).json({ success: ress.success, error: ress.error })
       } else {
+            console.log(ress)
             res.json(ress)
       }
 }

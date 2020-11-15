@@ -5,10 +5,10 @@
         <div class="border-b flex">
           <h1 v-text="list.name" class="text-white text-xl m-auto"></h1>
           <h3 class="m-auto cursor-pointer text-white mt-2">
-            <i @click="edit = true" class="fa fa-edit"></i>
+            <i @click="editList(list)" class="fa fa-edit"></i>
           </h3>
           <h3 class="m-auto cursor-pointer text-white mt-2">
-            <i class="fa fa-remove"></i>
+            <i @click="remove(list)" class="fa fa-remove"></i>
           </h3>
         </div>
         <div v-for="task in tasks" :key="task._id">
@@ -19,7 +19,7 @@
         </div>
         </div>
         <div class="text-gray-300 bg-gray-500 mt-2 rounded-md p-1 hover:text-black ">
-          <h1 class="cursor-pointer">create Task</h1>
+          <h1 @click="AddTask(list)" class="cursor-pointer">create Task</h1>
         </div>
       </div>
       <transition
@@ -48,8 +48,9 @@
       </div>
       </transition>
     </div>
-    <div v-if="edit" @click.self="edit = !edit" class="modal-mask grid grid-rows-1 items-center">
-         <modal v-if="edit" @close = 'close'/>
+    <div v-if="modal" @click.self="modal = !modal" class="modal-mask grid grid-rows-1 items-center">
+         <list-modal v-if="edit" :list = 'list' :deletedList = 'deletedList' @close = 'close'/>
+         <task-modal v-if="addTasks" :list = 'list' :boardList = 'boardList' @close = 'close'/>
        </div>
   </div>
 </template>
@@ -58,17 +59,24 @@
 import { defineComponent } from 'vue'
 import { errorList, insertList } from '../Model/lists'
 import listModal from './Modal/ListModal.vue'
+import taskModal from './Modal/TaskModal.vue'
 export default defineComponent({
   name: 'lists',
   props: ['lists', 'tasks', 'board'],
   components: {
-    Modal: listModal
+    listModal: listModal,
+    taskModal: taskModal
   },
   data: () => ({
     AddList: false,
+    modal: false,
     nameList: '',
     error: '',
-    edit: false
+    edit: false,
+    list: {},
+    boardList: {},
+    addTasks: false,
+    deletedList: false
   }),
   methods: {
     Add () {
@@ -81,6 +89,28 @@ export default defineComponent({
           this.AddList = false
         }
       })
+    },
+    editList (OneList: {}) {
+      this.list = OneList
+      this.deletedList = false
+      this.modal = true
+      this.edit = true
+    },
+    remove (OneList: {}) {
+      this.list = OneList
+      this.deletedList = true
+      this.modal = true
+      this.edit = true
+    },
+    close (close: boolean) {
+      this.edit = close
+      this.modal = close
+    },
+    AddTask (list: {}) {
+      this.list = list
+      this.boardList = this.$props.board
+      this.modal = true
+      this.addTasks = true
     }
   }
 })

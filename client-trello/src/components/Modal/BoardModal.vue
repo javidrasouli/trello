@@ -24,7 +24,7 @@ import { defineComponent } from 'vue'
 import { deletedboard, errorBoard, insertBoard } from '../../Model/boards'
 export default defineComponent({
   name: 'createBoard',
-  props: ['user', 'board', 'deletedboard'],
+  props: ['board', 'deletedboard'],
   data: () => ({
     boardName: '',
     boardDescription: '',
@@ -43,7 +43,7 @@ export default defineComponent({
   methods: {
     create () {
       const user = this.$props.user
-      const newBoard = { name: this.boardName, description: this.boardDescription, userID: user._id }
+      const newBoard = { name: this.boardName, description: this.boardDescription }
       insertBoard(newBoard).then(() => {
         if (errorBoard.value.length > 1) {
           this.error = errorBoard.value
