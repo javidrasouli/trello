@@ -1,45 +1,36 @@
 'use strict'
-const { ObjectId } = require("mongodb")
-const { insertlist, update, remove, GetList } = require('../models/List')
-const { removeAllTask } = require('../models/Task')
-const createList = async (req, res) => {
-      const Data = { name: req.body.name, boardID: ObjectId(req.body.boardID) }
-      const ress = await insertlist(Data)
-      if (ress.success == false) {
-            res.status(ress.status).json({ success: ress.success, error: ress.error })
-      } else {
-            res.json(ress)
-      }
-}
-const findLists = async (req, res) => {
-      const id = { _id: ObjectId(req.params.id) }
-      const ress = await GetList(id)
-      if (ress.success == false) {
-            res.status(ress.status).json({ success: ress.success, error: ress.error })
-      } else {
-            res.json(ress)
-      }
-}
+const { insertlist, updateList, removeList, removeList } = require('../models/List')
 
+const createList = async (req, res) => {
+      const nameList = req.body.name
+      const boardID = req.body.boardID
+      const token = JSON.parse(req.headers.accesstoken)
+      const ress = await insertlist(nameList, boardID, token)
+      if (ress.success == false) {
+            res.status(ress.status).json({ success: ress.success, error: ress.error })
+      } else {
+            res.json(ress)
+      }
+}
 const updateList = async (req, res) => {
-      const id = { _id: ObjectId(req.body._id) }
-      const dataToupdate = { name: req.body.name }
-      const ress = await update(dataToupdate, id)
+      const id = req.body._id
+      const token = JSON.parse(req.headers.accesstoken)
+      const dataToupdate = req.body.name
+      const ress = await updateList(dataToupdate, id, token)
       if (ress.success == false) {
             res.status(ress.status).json({ success: ress.success, error: ress.error })
       } else {
             res.json(ress)
       }
 }
-const removeList = async (req, res) => {
-      const id = { _id: ObjectId(req.body._id) }
-      const ress = await remove(id)
+const remove = async (req, res) => {
+      const id = req.body._id
+      const token = JSON.parse(req.headers.accesstoken)
+      const ress = await removeList(id, token)
       if (ress.success == false) {
-            res.status(ress.status).json({ success: ress.success, error: ress.error })
+        res.status(ress.status).json({ success: ress.success, error: ress.error })
       } else {
-            const listID = { boardID: req.body._id }
-            await removeAllTask(listID)
-            res.json(ress)
+        res.json(ress)
       }
 }
-module.exports = { createList, findLists, updateList, removeList } 
+module.exports = { createList, findAll, updateList, remove } 
