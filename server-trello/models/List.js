@@ -57,15 +57,10 @@ async function removeList(id, token) {
         if (res.success == false) {
           return res
         }
-        removeAllTask({ listID: ObjectId(id) })
+        await RemoveAll('Task', { listID: ObjectId(id) })
         return { success: true }
       }
       return { success: false, status: 403, error: "you can't remove" }
 }
-      
 
-async function removeAllList(ID) {
-      const res = await RemoveAll('lists', ID)
-      return res
-}
-module.exports = { insertlist, GetList, updateList, removeList, removeAllList }
+module.exports = { insertlist, GetList, updateList, removeList }

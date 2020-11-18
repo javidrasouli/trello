@@ -1,5 +1,5 @@
 "use strict"
-const { InsertOne, UpdateOne, RemoveOne, FindOne, FindAll } = require('../DB/crud')
+const { InsertOne, UpdateOne, RemoveOne, FindOne, FindAll,RemoveAll } = require('../DB/crud')
 const jwt = require('jsonwebtoken');
 const { ObjectId } = require("mongodb")
 
@@ -24,7 +24,7 @@ function checkInput(Data) {
 }
 async function insertUser(Data) {
       checkInput(Data)
-      const oldUser = await findUser({ username: Data.username })
+      const oldUser = await FindOne('users',{ username: Data.username })
       if (oldUser.status == 403) {
             const res = await InsertOne('users', Data)
             return res
@@ -56,7 +56,20 @@ async function removeUser(id, token) {
       if (person.role == 'admin' || person._id == ID){
          const user_id = {_id: ObjectId(id)}
          const res = await RemoveOne('users', user_id)
-         return res
+         if (res.success == false) {
+            return res
+         }
+        const userID = { userID: ObjectId(id) }
+        const boards = await FindAll('boards', userID)
+        async () => { 
+        for(const board in boards) {
+              await RemoveAll('lists', {boardID: board._id})
+              await RemoveAll('Task', { boardID: board._id })
+              await RemoveAll('boardTeam', { boardID: board._id })
+        }
+      }
+        await RemoveAll('boards', userID)
+        return res
       } else {
          return {success: false, status: 403, error: "you can't use of this method"}
       }

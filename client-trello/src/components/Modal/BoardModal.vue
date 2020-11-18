@@ -42,7 +42,6 @@ export default defineComponent({
   },
   methods: {
     create () {
-      const user = this.$props.user
       const newBoard = { name: this.boardName, description: this.boardDescription }
       insertBoard(newBoard).then(() => {
         if (errorBoard.value.length > 1) {

@@ -1,5 +1,5 @@
 'use strict'
-const { insertTask, update, remove, changeStatus } = require('../models/Task')
+const { insertTask, update, remove, changeStatus, GetTasks } = require('../models/Task')
 const createTask = async (req, res) => {
       const Task = { name: req.body.name, description: req.body.description }
       const boardID = req.body.boardID
@@ -45,4 +45,14 @@ const removeTask = async (req, res) => {
             res.json(ress)
       }
 }
-module.exports = { createTask, updateTask, removeTask, DoneTask } 
+const getALL = async (req, res) => {
+      const token = JSON.parse(req.headers.accesstoken)
+      const ress = await GetTasks(token)
+      if (ress.success == false) {
+            res.status(ress.status).json({ success: ress.success, error: ress.error })
+      } else {
+            res.json(ress)
+      }
+}
+
+module.exports = { createTask, updateTask, removeTask, DoneTask, getALL } 

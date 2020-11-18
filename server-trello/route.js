@@ -21,9 +21,11 @@ router.put("/board",isAuth , board.updateBoard)
 router.delete("/board",isAuth , board.removeBoard)
 //list
 router.post("/list",isAuth , list.createList)
-router.put("/list",isAuth , list.updateList)
+router.put("/list",isAuth , list.update)
 router.delete("/list",isAuth , list.remove)
 // //Task
+router.get("/task", isAuth, Task.getALL)
+router.put('/doneTask', isAuth, Task.DoneTask)
 router.put("/task",isAuth , Task.updateTask)
 router.delete("/task",isAuth , Task.removeTask)
 router.post("/task",isAuth , Task.createTask)

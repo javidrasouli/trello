@@ -4,11 +4,11 @@ const { findperson } = require("./User")
 const { ObjectId } = require("mongodb")
 
 function check(Task){
-  if (!Data.name) {
+  if (!Task.name) {
     const res= { success: false, error: "missing name",status:400 }
     return res
   }
-  if (Data.name.length < 3) {
+  if (Task.name.length < 3) {
     const res = { success: false, error: "invalid name",status:400 }
     return res
   }
@@ -17,15 +17,16 @@ async function insertTask(Task, boardID, listID, token) {
       check(Task)
       const user = await findperson(token)
       const board = await FindOne('boards', { _id: ObjectId(boardID) })
-      const newTask = { name: Task.name, description: Task.description, stauts: 0, boardID: ObjectId(boardID), listID: ObjectId(listID) }
+      const newTask = { name: Task.name, description: Task.description, stauts: 0, boardID: ObjectId(boardID), listID: ObjectId(listID), user:'' }
       if (user.role == 'admin' || user._id == board.userID) {
         const res = await InsertOne('Task', newTask)
         return res
       }
       return { success: false, status: 403, error: "you can't insert" }
 }
-async function GetTasks(ID = {}) {
-      const res = await FindAll('Task', ID)
+async function GetTasks(token) {
+      const user = await findperson(token)
+      const res = await FindAll('Task', {user: user.username})
       return res
 }
 async function update(DataToUpdate, ID, token) {
@@ -60,4 +61,4 @@ async function changeStatus (id, status) {
       return res
 }
 
-module.exports = { insertTask, GetTask, update, remove, removeAllTask, GetTasks, changeStatus }
+module.exports = { insertTask, update, remove, removeAllTask, GetTasks, changeStatus }

@@ -1,10 +1,8 @@
 "use strict"
-const {InsertOne,UpdateOne,RemoveOne,FindAll,FindOne}=require('../DB/crud')
+const {InsertOne,UpdateOne,RemoveOne,FindAll,FindOne, RemoveAll}=require('../DB/crud')
 const { ObjectId } = require("mongodb")
 const { findperson } = require("./User")
-const { insertlist, removeAllList, GetList } = require('./List')
-const { GetTasks, removeAllTask } = require("./Task")
-const { findTeam, createTeam, removeTeam } = require("./boardTeam")
+
 function checkInput(Data){
       if (!Data.name) {
            const res= { success: false, error: "missing name",status:400 }
@@ -24,14 +22,14 @@ async function insert(board, token){
       if (res.success == false) {
         return res
       }
-      const boardTeam = {userID: user._id, boardID: res.insert.insertedId, roleInBoard: 'owner', task: '' }
+      const boardTeam = {userID: user._id, boardID: res.insert.insertedId, task: '' }
       const ress = await InsertOne('boardTeam', boardTeam)
       if (ress.success == false) {
         return ress
       }
-      await insertlist({ boardID: res.insert.insertedId, name: 'ToDo' })
-      await insertlist({ boardID: res.insert.insertedId, name: 'Doing' })
-      await insertlist({ boardID: res.insert.insertedId, name: 'Done' })
+      await InsertOne('lists', { boardID: res.insert.insertedId, name: 'ToDo' })
+      await InsertOne('lists', { boardID: res.insert.insertedId, name: 'Doing' })
+      await InsertOne('lists', { boardID: res.insert.insertedId, name: 'Done' })
       return { success: true }
 }
 async function GetOne(ID){
@@ -41,8 +39,8 @@ async function GetOne(ID){
         return res
       }
       const board_id = { boardID: ObjectId(ID) }
-      const lists = await GetList(board_id)
-      const tasks = await GetTasks(board_id)
+      const lists = await FindAll('lists', board_id)
+      const tasks = await FindAll('Task', board_id)
       return { Board: res, lists: lists, task: tasks }
 }
 
@@ -51,12 +49,10 @@ async function Get(token){
       const userID = { userID: user._id }
       if (user.role == 'admin') {
         const res=await FindAll('boards', {})
-        const boardTeam = await FindAll('boardTeam', userID)
-        return { board: res, boardTeam: boardTeam }
+        return res
       }
-      const boardTeam = await findTeam(userID)
       const boards = await FindAll('boards', userID)
-      return { board: boards, boardTeam: boardTeam }
+      return boards
 }
 async function update(DataToUpdate, ID, token) {
       checkInput(DataToUpdate)
@@ -76,8 +72,9 @@ async function remove(board_ID, token) {
       if (user.role == 'admin' || user._id == owner.userID) {
         const res= await RemoveOne('boards',Data)
         const board_id = { boardID: ObjectId(board_ID) }
-        await removeAllList(board_id)
-        await removeAllTask(board_id)
+        await RemoveAll('lists', board_id)
+        await RemoveAll('Task', board_id)
+        await RemoveAll('boardTeam', board_id)
         return res
       }
       return { success: false, status: 403, error: "you can't remove" }

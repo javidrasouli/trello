@@ -1,5 +1,5 @@
 'use strict'
-const { insertlist, updateList, removeList, removeList } = require('../models/List')
+const { insertlist, updateList, removeList } = require('../models/List')
 
 const createList = async (req, res) => {
       const nameList = req.body.name
@@ -12,7 +12,7 @@ const createList = async (req, res) => {
             res.json(ress)
       }
 }
-const updateList = async (req, res) => {
+const update = async (req, res) => {
       const id = req.body._id
       const token = JSON.parse(req.headers.accesstoken)
       const dataToupdate = req.body.name
@@ -33,4 +33,4 @@ const remove = async (req, res) => {
         res.json(ress)
       }
 }
-module.exports = { createList, findAll, updateList, remove } 
+module.exports = { createList, update, remove } 

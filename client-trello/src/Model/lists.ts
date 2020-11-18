@@ -6,6 +6,7 @@ const _errList = ref()
 const _memberTask = ref()
 const _membersTasks = ref()
 const _tasksUser = ref()
+const _taskDone = ref()
 const _error = ref(false)
 
 export async function BoardList (boardID: any) {
@@ -133,17 +134,19 @@ export async function deletedTask (DataToRemove: {}) {
   })
 }
 
-export async function TasksUsers (userID: any) {
-  _errList.value = ''
-  _error.value = false
-  await post('/tasks', { userID: userID }).then(res => {
-    if (res.success === false) {
-      _errList.value = res
-      _error.value = true
-    } else {
-      _tasksUser.value = res
-    }
+export async function getTasks () {
+  await get('/task').then(res => {
+    _tasksUser.value = res
   })
+}
+
+export async function TaskDone () {
+  const res = await get('/task')
+  for (const task of res) {
+    if (task.status === 1) {
+      _taskDone.value.push(task)
+    }
+  }
 }
 
 export const Lists = readonly(_board)

@@ -2,8 +2,8 @@
   <div class="conteiner">
 <section  class="index-page-tasks">
         <div class="partion-tasks">
-          <div class=" bg-blue-400 m-3 p-2 opacity-75 rounded-lg flex text-gray-300">
-             <h2 @click="show = true" class="m-auto cursor-pointer">create task</h2>
+          <div v-for="task in Tasks" :key="task._id" class=" bg-blue-400 m-3 p-2 opacity-75 rounded-lg flex text-gray-300">
+             <h2 @click="show = true" class="m-auto cursor-pointer" v-text="task.name"></h2>
           </div>
         </div>
     </section>
@@ -16,6 +16,7 @@
 </template>
 <script lang="ts">
 import { defineComponent } from 'vue'
+import { getTasks, taskUser } from '../Model/lists'
 import showTask from './Modal/showTask.vue'
 export default defineComponent({
   name: 'Tasks',
@@ -23,8 +24,14 @@ export default defineComponent({
     show: showTask
   },
   data: () => ({
-    show: false
-  })
+    show: false,
+    Tasks: {}
+  }),
+  created () {
+    getTasks().then(() => {
+      this.Tasks = taskUser.value
+    })
+  }
 })
 </script>
 <style lang="scss">
