@@ -61,13 +61,11 @@ async function removeUser(id, token) {
          }
         const userID = { userID: ObjectId(id) }
         const boards = await FindAll('boards', userID)
-        async () => { 
-        for(const board in boards) {
+        for await (const board of boards) {
               await RemoveAll('lists', {boardID: board._id})
               await RemoveAll('Task', { boardID: board._id })
               await RemoveAll('boardTeam', { boardID: board._id })
         }
-      }
         await RemoveAll('boards', userID)
         return res
       } else {

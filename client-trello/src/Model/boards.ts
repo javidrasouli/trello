@@ -25,6 +25,11 @@ export async function getBoards () {
   })
 }
 
+export async function getAllBoards () {
+  const boards = await get('/AllBoards')
+  _boards.value = boards
+}
+
 export async function insertBoard (board: {}) {
   _errorBoard.value = ''
   valid(board)
@@ -33,7 +38,7 @@ export async function insertBoard (board: {}) {
     if (createBoard.success === false) {
       _errorBoard.value = createBoard.error
     } else {
-      const boards = await post('/boards', user.value)
+      const boards = await get('/board')
       const LastBoard = boards.pop()
       _boards.value.push(LastBoard)
     }

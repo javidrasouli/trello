@@ -8,12 +8,12 @@
         <li class="cursor-pointer hover:text-green-300">Message</li>
       </ul>
   <div class="partionPage">
-    <div class="main-page shadow-lg overflow-auto p-1 md:p-5">
+    <div class="main-page shadow-lg overflow-y-auto p-1 md:p-5">
       <transition
     name="showtask-profile"
     mode="out-in"
   >
-        <board-page v-if="boardShow" @board = 'board' @edit-board = 'EditBoard'/>
+        <board-page v-if="boardShow" @board = 'board' @edit-board = 'EditBoard' :addBoard = 'addBoard' />
         <task v-else-if="taskShow" :Todo = 'Todo' :Done = 'Done' />
         <board v-else-if="listShow" :edit = 'edit' @close-aboard = 'changePage' />
       <person v-else-if="showPerson"/>
@@ -114,7 +114,7 @@ import Board from './Aboard.vue'
 import personPage from './personPage.vue'
 import members from './members.vue'
 import { getuser } from '../Model/auth'
-import { getBoards } from '../Model/boards'
+import { getAllBoards, getBoards } from '../Model/boards'
 import { BoardList } from '../Model/lists'
 export default defineComponent({
   name: 'mainProfile',
@@ -136,7 +136,8 @@ export default defineComponent({
     edit: false,
     deletedAccount: false,
     Todo: true,
-    Done: false
+    Done: false,
+    addBoard: false
   }),
   methods: {
     editShow () {
@@ -165,18 +166,23 @@ export default defineComponent({
       this.taskShow = true
     },
     showYourBoards () {
-      this.listShow = false
-      this.showPerson = false
-      this.taskShow = false
-      this.showMembers = false
-      this.boardShow = true
-    },
-    showAllBoards () {
       getBoards().then(() => {
         this.listShow = false
         this.showPerson = false
         this.taskShow = false
         this.showMembers = false
+        this.addBoard = true
+        this.boardShow = true
+        this.edit = false
+      })
+    },
+    showAllBoards () {
+      getAllBoards().then(() => {
+        this.listShow = false
+        this.showPerson = false
+        this.taskShow = false
+        this.showMembers = false
+        this.addBoard = false
         this.boardShow = true
         this.edit = false
       })

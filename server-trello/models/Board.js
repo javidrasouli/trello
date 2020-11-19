@@ -2,6 +2,7 @@
 const {InsertOne,UpdateOne,RemoveOne,FindAll,FindOne, RemoveAll}=require('../DB/crud')
 const { ObjectId } = require("mongodb")
 const { findperson } = require("./User")
+const boardTeams = require('../handler/boardTeams')
 
 function checkInput(Data){
       if (!Data.name) {
@@ -54,6 +55,17 @@ async function Get(token){
       const boards = await FindAll('boards', userID)
       return boards
 }
+async function AllBoardsPerson(token) {
+  const user = await findperson(token)
+  const boardTeam = await FindAll('boardTeam', {userID: user._id})
+  const boards = []
+  for await (const board of boardTeam) {
+    const Board = await FindOne('boards', {_id: board.boardID})
+    boards.push(Board)
+  }
+  return boards
+}
+
 async function update(DataToUpdate, ID, token) {
       checkInput(DataToUpdate)
       const boardID = { _id: ObjectId(ID) }
@@ -79,4 +91,4 @@ async function remove(board_ID, token) {
       }
       return { success: false, status: 403, error: "you can't remove" }
 }
-module.exports = { insert,Get,update,remove,GetOne}
+module.exports = { insert,Get,update,remove,GetOne, AllBoardsPerson}

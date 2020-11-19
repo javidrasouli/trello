@@ -15,6 +15,7 @@ router.post("/refresh-token", refreshToken)
 router.get("/user",isAuth , user.findmember)
 //boards
 router.get("/board",isAuth , board.GetBoards)
+router.get("/AllBoards", isAuth, board.getAllBoardsPerson)
 router.get("/board/:id",isAuth , board.GetBoard)
 router.post("/board",isAuth , board.createBoard)
 router.put("/board",isAuth , board.updateBoard)

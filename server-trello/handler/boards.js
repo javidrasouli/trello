@@ -1,5 +1,6 @@
 'use strict'
-const { insert, Get, update, remove, GetOne } = require('../models/Board')
+const { json } = require('express')
+const { insert, Get, update, remove, GetOne, AllBoardsPerson } = require('../models/Board')
 const createBoard = async (req, res) => {
       const board = { name: req.body.name, description: req.body.description }
       const token = JSON.parse(req.headers.accesstoken)
@@ -27,10 +28,20 @@ const GetBoards = async (req, res) => {
       if (ress.success == false) {
             res.status(ress.status).json({ success: ress.success, error: ress.error })
       } else {
-            console.log(ress)
             res.json(ress)
       }
 }
+
+const getAllBoardsPerson = async (req,res) => {
+      const token = JSON.parse(req.headers.accesstoken)
+      const ress = await AllBoardsPerson(token)
+      if (ress.success == false) {
+            res.status(ress.status).json({ success: ress.success, error: ress.error })
+            return
+      }
+      res.json(ress)
+}
+
 const updateBoard = async (req, res) => {
       const id = req.body._id
       const token = JSON.parse(req.headers.accesstoken)
@@ -52,5 +63,5 @@ const removeBoard = async (req, res) => {
         res.json(ress)
       }
 }
-module.exports = { createBoard, GetBoards, updateBoard, removeBoard, GetBoard }
+module.exports = { createBoard, GetBoards, updateBoard, removeBoard, GetBoard, getAllBoardsPerson }
 
