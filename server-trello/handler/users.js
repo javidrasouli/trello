@@ -48,7 +48,7 @@ const findmember = async (req, res) => {
 const editUser = async (req, res) => {
     const token = JSON.parse(req.headers.accesstoken)
     const id = req.body._id
-    const update = { username: req.body.username, email: req.body.email }
+    const update = { username: req.body.username, email: req.body.email, pass: req.body.pass }
     const ress = updateUser(update, id, token)
     if (ress.success == false) {
         res.status(ress.status).json({ success: ress.success, error: ress.error })

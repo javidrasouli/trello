@@ -1,4 +1,4 @@
-import { post, deleted, put } from '../utils/http'
+import { post, deleted, put, get } from '../utils/http'
 import { readonly, ref } from 'vue'
 import { user } from './auth'
 
@@ -16,7 +16,7 @@ function valid (Board: any) {
 
 export async function getBoards () {
   _errorBoard.value = ''
-  await post('/boards', user.value).then(res => {
+  await get('/board').then(res => {
     if (res.success === false) {
       _errorBoard.value = res.error
     } else {

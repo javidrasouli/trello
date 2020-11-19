@@ -49,8 +49,9 @@
     <div v-if="showPerson" @click.self="showPerson = !showPerson" class="modal-mask grid grid-rows-1 items-center">
       <person-data v-if="showPerson" :user = 'user' @close = 'close'/>
     </div>
-    <div v-else-if="error" @click.self="error = !error" class="modal-mask grid grid-rows-1 items-center">
+    <div v-else-if="modal" @click.self="modal = !modal" class="modal-mask grid grid-rows-1 items-center">
       <p v-text="error" v-show="error" class="p-2 mb-4 rounded-md sm:w-4/5 md:w-8/12 lg:w-1/2 text-center justify-self-center bg-red-700 text-gray-100"></p>
+      <p v-text="success" v-show="success" class="p-2 mb-4 rounded-md sm:w-4/5 md:w-8/12 lg:w-1/2 text-center justify-self-center bg-green-700 text-gray-100"></p>
     </div>
     </transition>
   </div>
@@ -72,7 +73,9 @@ export default defineComponent({
     passAdd: '',
     emailAdd: '',
     user: {},
-    error: ''
+    error: '',
+    success: '',
+    modal: false
   }),
   created () {
     getUsersSite().then(() => {
@@ -84,8 +87,11 @@ export default defineComponent({
       const user = { username: this.usernameAdd, email: this.emailAdd, pass: this.passAdd }
       AddPerson(user).then(() => {
         if (err.value.length > 1) {
+          this.modal = true
           this.error = err.value
         } else {
+          this.modal = true
+          this.success = 'user added to site'
           this.usernameAdd = ''
           this.emailAdd = ''
           this.passAdd = ''

@@ -20,6 +20,7 @@ import { getTasks, taskUser } from '../Model/lists'
 import showTask from './Modal/showTask.vue'
 export default defineComponent({
   name: 'Tasks',
+  props: ['Todo', 'Done'],
   components: {
     show: showTask
   },
@@ -29,7 +30,28 @@ export default defineComponent({
   }),
   created () {
     getTasks().then(() => {
-      this.Tasks = taskUser.value
+      const Todo = this.$props.Todo
+      const Done = this.$props.Done
+      if (Todo === true) {
+        const tasks = taskUser.value
+        const TodoTask = []
+        for (const task of tasks) {
+          if (task.status === 0) {
+            TodoTask.push(task)
+          }
+        }
+        this.Tasks = TodoTask
+      }
+      if (Done === true) {
+        const DoneTask = []
+        const tasks = taskUser.value
+        for (const task of tasks) {
+          if (task.status === 1) {
+            DoneTask.push(task)
+          }
+        }
+        this.Tasks = DoneTask
+      }
     })
   }
 })

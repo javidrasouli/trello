@@ -14,7 +14,7 @@
     mode="out-in"
   >
         <board-page v-if="boardShow" @board = 'board' @edit-board = 'EditBoard'/>
-        <task v-else-if="taskShow"/>
+        <task v-else-if="taskShow" :Todo = 'Todo' :Done = 'Done' />
         <board v-else-if="listShow" :edit = 'edit' @close-aboard = 'changePage' />
       <person v-else-if="showPerson"/>
       <member v-else-if="showMembers"/>
@@ -44,6 +44,7 @@
           Edit
         </h4>
         <h4
+          @click="deletedAccount = true"
           class="mx-3 text-gray-100 text-md cursor-pointer hover:text-red-700"
         >
           Delete Accont
@@ -97,10 +98,16 @@
       <div class="B6 B7 z-50"></div>
     </div>
   </div>
+  <transition name="fadeIn">
+    <div v-if="deletedAccount" @click.self="deletedAccount = !deletedAccount" class="modal-mask grid grid-rows-1 items-center">
+      <deleted-acc v-if="deletedAccount" @close = 'close'/>
+    </div>
+    </transition>
 </div>
 </template>
 <script lang="ts">
 import { defineComponent } from 'vue'
+import deleted from './Modal/Deleted.vue'
 import Task from './Tasks.vue'
 import Boards from './Boards.vue'
 import Board from './Aboard.vue'
@@ -113,6 +120,7 @@ export default defineComponent({
   name: 'mainProfile',
   props: ['user'],
   components: {
+    deletedAcc: deleted,
     task: Task,
     boardPage: Boards,
     board: Board,
@@ -125,7 +133,10 @@ export default defineComponent({
     listShow: false,
     showPerson: false,
     showMembers: false,
-    edit: false
+    edit: false,
+    deletedAccount: false,
+    Todo: true,
+    Done: false
   }),
   methods: {
     editShow () {
@@ -140,6 +151,8 @@ export default defineComponent({
       this.listShow = false
       this.showPerson = false
       this.showMembers = false
+      this.Todo = true
+      this.Done = false
       this.taskShow = true
     },
     showTaksDone () {
@@ -147,6 +160,8 @@ export default defineComponent({
       this.listShow = false
       this.showPerson = false
       this.showMembers = false
+      this.Todo = false
+      this.Done = true
       this.taskShow = true
     },
     showYourBoards () {
@@ -157,15 +172,13 @@ export default defineComponent({
       this.boardShow = true
     },
     showAllBoards () {
-      getuser().then(() => {
-        getBoards().then(() => {
-          this.listShow = false
-          this.showPerson = false
-          this.taskShow = false
-          this.showMembers = false
-          this.boardShow = true
-          this.edit = false
-        })
+      getBoards().then(() => {
+        this.listShow = false
+        this.showPerson = false
+        this.taskShow = false
+        this.showMembers = false
+        this.boardShow = true
+        this.edit = false
       })
     },
     showMembersSite () {
@@ -207,6 +220,9 @@ export default defineComponent({
           })
         })
       }
+    },
+    close (close: boolean) {
+      this.deletedAccount = close
     }
   }
 })

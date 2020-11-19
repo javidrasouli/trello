@@ -31,7 +31,7 @@
       </div>
       <transition name="fadeIn">
     <div v-if="createBoard" @click.self="createBoard = !createBoard" class="modal-mask grid grid-rows-1 items-center">
-      <create v-if="createBoard" :user = 'user' @close = 'close'/>
+      <create v-if="createBoard" @close = 'close'/>
     </div>
     </transition>
   </div>
@@ -49,11 +49,9 @@ export default defineComponent({
   },
   data: () => ({
     boards: {},
-    createBoard: false,
-    user: {}
+    createBoard: false
   }),
   created () {
-    this.user = user.value
     this.boards = Boards.value
   },
   methods: {
