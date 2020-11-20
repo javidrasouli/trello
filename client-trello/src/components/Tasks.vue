@@ -1,15 +1,17 @@
 <template>
   <div class="conteiner">
-<section  class="index-page-tasks">
-        <div class="partion-tasks">
-          <div v-for="task in Tasks" :key="task._id" class=" bg-blue-400 m-3 p-2 opacity-75 rounded-lg flex text-gray-300">
-             <h2 @click="show = true" class="m-auto cursor-pointer" v-text="task.name"></h2>
-          </div>
-        </div>
-    </section>
+<section class="index-page-tasks">
+  <div class="partion-tasks">
+     <span v-for="task in change" :key="task._id">
+        <div class=" bg-blue-400 m-3 p-2 opacity-75 rounded-lg flex text-gray-300">
+        <h2 @click="showmodal(task)" class="m-auto cursor-pointer" v-text="task.name"></h2>
+     </div>
+     </span>
+</div>
+</section>
     <transition name="fadeIn">
     <div v-if="show" @click.self="show = !show" class="modal-mask grid grid-rows-1 items-center">
-      <show v-if="show"/>
+      <show v-if="show" :task = "task" @close = 'close' />
     </div>
     </transition>
   </div>
@@ -26,33 +28,34 @@ export default defineComponent({
   },
   data: () => ({
     show: false,
-    Tasks: {}
+    Tasks: {},
+    task: {}
   }),
   created () {
-    getTasks().then(() => {
-      const Todo = this.$props.Todo
-      const Done = this.$props.Done
-      if (Todo === true) {
-        const tasks = taskUser.value
-        const TodoTask = []
-        for (const task of tasks) {
-          if (task.status === 0) {
-            TodoTask.push(task)
-          }
-        }
-        this.Tasks = TodoTask
-      }
-      if (Done === true) {
-        const DoneTask = []
-        const tasks = taskUser.value
-        for (const task of tasks) {
-          if (task.status === 1) {
-            DoneTask.push(task)
-          }
-        }
-        this.Tasks = DoneTask
-      }
+    getTasks(true).then(() => {
+      this.Tasks = taskUser.value
     })
+  },
+  computed: {
+    change (): any {
+      let tasks = {}
+      if (this.$props.Todo === true) {
+        tasks = taskUser.value
+      }
+      if (this.$props.Done === true) {
+        tasks = taskUser.value
+      }
+      return tasks
+    }
+  },
+  methods: {
+    showmodal (Task: {}) {
+      this.task = Task
+      this.show = true
+    },
+    close (close: boolean) {
+      this.show = close
+    }
   }
 })
 </script>

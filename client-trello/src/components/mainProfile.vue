@@ -4,7 +4,7 @@
         <li @click="editShow()" class="cursor-pointer hover:text-green-300">Profile</li>
         <li v-if="user.role === 'admin'" @click="showMembersSite()" class="cursor-pointer hover:text-green-300">Members</li>
         <li @click="showTaksTodo()" class="cursor-pointer hover:text-green-300">Tasks</li>
-        <li @click="showAllBoards()" class="cursor-pointer hover:text-green-300">Boards</li>
+        <li @click="showAllBoards(true)" class="cursor-pointer hover:text-green-300">Boards</li>
         <li class="cursor-pointer hover:text-green-300">Message</li>
       </ul>
   <div class="partionPage">
@@ -58,13 +58,13 @@
         @click="showTaksTodo()"
           class="mx-3 text-md text-gray-100 cursor-pointer hover:text-green-400"
         >
-          To do: 5
+          To do
         </h4>
         <h4
         @click="showTaksDone()"
           class="mx-3 text-md text-gray-100 cursor-pointer hover:text-green-400"
         >
-          Done: 3
+          Done
         </h4>
       </div>
       <div
@@ -75,13 +75,13 @@
         @click="showYourBoards()"
           class="mx-3 text-md text-gray-100 cursor-pointer hover:text-green-400"
         >
-          Your boards : 3
+          Your boards
         </h4>
         <h4
-        @click="showAllBoards()"
+        @click="showAllBoards(false)"
           class="mx-3 text-md text-gray-100 cursor-pointer hover:text-green-400"
         >
-          All boards: 10
+          All boards
         </h4>
       </div>
       <div
@@ -115,7 +115,7 @@ import personPage from './personPage.vue'
 import members from './members.vue'
 import { getuser } from '../Model/auth'
 import { getAllBoards, getBoards } from '../Model/boards'
-import { BoardList } from '../Model/lists'
+import { BoardList, getTasks } from '../Model/lists'
 export default defineComponent({
   name: 'mainProfile',
   props: ['user'],
@@ -148,22 +148,26 @@ export default defineComponent({
       this.showPerson = true
     },
     showTaksTodo () {
-      this.boardShow = false
-      this.listShow = false
-      this.showPerson = false
-      this.showMembers = false
-      this.Todo = true
-      this.Done = false
-      this.taskShow = true
+      getTasks(true).then(() => {
+        this.boardShow = false
+        this.listShow = false
+        this.showPerson = false
+        this.showMembers = false
+        this.Todo = true
+        this.Done = false
+        this.taskShow = true
+      })
     },
     showTaksDone () {
-      this.boardShow = false
-      this.listShow = false
-      this.showPerson = false
-      this.showMembers = false
-      this.Todo = false
-      this.Done = true
-      this.taskShow = true
+      getTasks(false).then(() => {
+        this.boardShow = false
+        this.listShow = false
+        this.showPerson = false
+        this.showMembers = false
+        this.Todo = false
+        this.Done = true
+        this.taskShow = true
+      })
     },
     showYourBoards () {
       getBoards().then(() => {
@@ -176,13 +180,13 @@ export default defineComponent({
         this.edit = false
       })
     },
-    showAllBoards () {
+    showAllBoards (showAdd: boolean) {
       getAllBoards().then(() => {
         this.listShow = false
         this.showPerson = false
         this.taskShow = false
         this.showMembers = false
-        this.addBoard = false
+        this.addBoard = showAdd
         this.boardShow = true
         this.edit = false
       })

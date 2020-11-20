@@ -3,8 +3,10 @@ const { createTeam, findTeam, updateTeam, removeTeam } = require("../models/boar
 
 const addUserTOteam = async (req, res) => {
     const team = req.body
+    console.log(team)
     const token = JSON.parse(req.headers.accesstoken)
-    const ress = createTeam(team, token)
+    const ress = await createTeam(team, token)
+    console.log(ress)
     if (ress.success == false) {
         res.status(ress.status).json({ success: ress.success, error: ress.error })
     } else {
@@ -13,7 +15,8 @@ const addUserTOteam = async (req, res) => {
 }
 const getBoardTeam = async (req, res) => {
     const boardID = req.params.boardID
-    const ress = findTeam(boardID)
+    console.log(boardID)
+    const ress = await findTeam(boardID)
     if (ress.success == false) {
         res.status(ress.status).json({ success: ress.success, error: ress.error })
     } else {

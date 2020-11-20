@@ -1,6 +1,5 @@
 import { post, deleted, put, get } from '../utils/http'
 import { readonly, ref } from 'vue'
-import { user } from './auth'
 
 const _boards = ref()
 const _errorBoard = ref()

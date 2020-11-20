@@ -13,15 +13,35 @@ function check (team) {
 }
 const createTeam = async (team,token) => {
       check(team)
+      let taskName;
+      let taskID;
+      const person = await FindOne('users', {username: team.person})
+      if (person.status == 403) {
+        return { success: false, status: 403, error: "user not found" }
+      }
+      if (team.taskID != '') {
+        const task = await FindOne('Task', {_id: ObjectId(team.taskID)})
+        if (task.person != '....') {
+          return { success: false, status: 400, error: "Task has person" }
+        }
+        taskName = task.name
+        taskID = task._id
+      } else {
+        taskName = '....'
+        taskID = ''
+      }
       const user = await findperson(token)
       const board = await FindOne('boards', { _id: ObjectId(team.boardID) })
-      const person = await FindOne('users', {username: team.person})
-      if (!person) {
-        return { success: false, status: 400, error: "user not found" }
-      }
       if (user.role == 'admin' || user._id == board.userID) {
-        const boardTeam = {person:person, boardID: ObjectId(boardID), task: task }
+            let boardTeam;
+        if (taskID != '') {
+          await UpdateOne('Task',{_id: ObjectId(taskID)}, {person: team.person})
+          boardTeam = {person:team.person, boardID: ObjectId(team.boardID), task: taskName, taskID: ObjectId(taskID) }
+        } else {
+          boardTeam = {person:team.person, boardID: ObjectId(team.boardID), task: '....', taskID: '' }
+        }
         const inserted = await InsertOne('boardTeam', boardTeam)
+
         return inserted
       }
       return { success: false, status: 403, error: "you can't create" }

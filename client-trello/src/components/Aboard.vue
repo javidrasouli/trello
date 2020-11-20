@@ -31,7 +31,7 @@
       <list v-if="showLists" :lists = 'lists' :tasks = 'tasks' :board = 'board' />
       <edit-board v-else-if="showEditBoard" :board = 'board' @new-board = 'newBoard' />
       <message v-else-if="showMessage"/>
-      <team v-else-if="showTeam"/>
+      <team v-else-if="showTeam" :board ='board' :tasks = 'tasks' />
        </transition>
        <transition name="fadeIn">
     <div v-if="deletedboard" @click.self="deletedboard = !deletedboard" class="modal-mask grid grid-rows-1 items-center">

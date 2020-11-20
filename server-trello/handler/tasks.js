@@ -1,7 +1,7 @@
 'use strict'
 const { insertTask, update, remove, changeStatus, GetTasks } = require('../models/Task')
 const createTask = async (req, res) => {
-      const Task = { name: req.body.name, description: req.body.description }
+      const Task = { name: req.body.name, description: req.body.description, person: req.body.person }
       const boardID = req.body.boardID
       const listID = req.body.listID
       const token = JSON.parse(req.headers.accesstoken)
@@ -15,8 +15,9 @@ const createTask = async (req, res) => {
 const updateTask = async (req, res) => {
       const id = req.body._id
       const token = JSON.parse(req.headers.accesstoken)
-      const dataToupdate = { name: req.body.name, description: req.body.description }
+      const dataToupdate = { name: req.body.name, description: req.body.description, person: req.body.person }
       const ress = await update(dataToupdate, id, token)
+      console.log(ress)
       if (ress.success == false) {
             res.status(ress.status).json({ success: ress.success, error: ress.error })
       } else {

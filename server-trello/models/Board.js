@@ -23,7 +23,7 @@ async function insert(board, token){
       if (res.success == false) {
         return res
       }
-      const boardTeam = {userID: user._id, boardID: res.insert.insertedId, task: '' }
+      const boardTeam = {person: user.username, boardID: res.insert.insertedId, task: '....', taskID: '' }
       const ress = await InsertOne('boardTeam', boardTeam)
       if (ress.success == false) {
         return ress
@@ -82,7 +82,7 @@ async function remove(board_ID, token) {
       const user = await findperson(token)
       const owner = FindOne('boards', boardID)
       if (user.role == 'admin' || user._id == owner.userID) {
-        const res= await RemoveOne('boards',Data)
+        const res= await RemoveOne('boards', { _id: ObjectId(board_ID)})
         const board_id = { boardID: ObjectId(board_ID) }
         await RemoveAll('lists', board_id)
         await RemoveAll('Task', board_id)

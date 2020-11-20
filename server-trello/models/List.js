@@ -1,7 +1,6 @@
 "use strict"
 const { InsertOne, UpdateOne, RemoveOne, FindAll, RemoveAll, FindOne } = require('../DB/crud')
 const { ObjectId } = require("mongodb")
-const { GetTask, GetTasks, removeAllTask } = require('./Task')
 const { findperson } = require('./User')
 
 function check (name) {

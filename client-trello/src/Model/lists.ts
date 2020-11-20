@@ -3,46 +3,47 @@ import { readonly, ref } from 'vue'
 
 const _board = ref()
 const _errList = ref()
-const _memberTask = ref()
-const _membersTasks = ref()
+const _Team = ref()
 const _tasksUser = ref()
-const _taskDone = ref()
-const _error = ref(false)
+
+function check (Task: any) {
+  if (!Task.name) {
+    _errList.value = 'missing name'
+  }
+  if (Task.name.length < 3) {
+    _errList.value = 'invalid name'
+  }
+}
 
 export async function BoardList (boardID: any) {
   _errList.value = ''
-  _error.value = false
   await get(`/board/${boardID}`).then(res => {
     if (res.success === false) {
       _errList.value = res.error
-      _error.value = true
     } else {
       _board.value = res
-      debugger
     }
   })
 }
 
-export async function insertList (List: {}) {
+export async function insertList (List: any) {
   _errList.value = ''
-  _error.value = false
-  await post('/list', List).then(res => {
-    if (res.success === false) {
-      _errList.value = res.error
-      _error.value = true
-    } else {
-      _board.value.lists.push(List)
-    }
-  })
+  const res = await post('/list', List)
+  if (res.success === false) {
+    _errList.value = res.error
+    return
+  }
+  const board = await get(`/board/${List.boardID}`)
+  debugger
+  const lastList = board.lists.pop()
+  _board.value.lists.push(lastList)
 }
 
 export async function updateList (oldList: {}, DataToUpdate: {}) {
   _errList.value = ''
-  _error.value = false
   await put('/list', DataToUpdate).then(res => {
     if (res.success === false) {
       _errList.value = res.error
-      _error.value = true
     } else {
       const old = _board.value.lists.indexOf(oldList)
       _board.value.lists[old] = DataToUpdate
@@ -52,11 +53,9 @@ export async function updateList (oldList: {}, DataToUpdate: {}) {
 
 export async function deletedList (DataToRemove: {}) {
   _errList.value = ''
-  _error.value = false
   await deleted('/list', DataToRemove).then(res => {
     if (res.success === false) {
       _errList.value = res.error
-      _error.value = true
     } else {
       const old = _board.value.lists.indexOf(DataToRemove)
       _board.value.lists.splice(old, 1)
@@ -66,53 +65,29 @@ export async function deletedList (DataToRemove: {}) {
 
 export async function AddTask (Task: any) {
   _errList.value = ''
-  _error.value = false
-  const newtask = await post('/task', Task)
-  if (newtask.success === false) {
-    _errList.value.value = newtask.error
-    _error.value = true
-  } else {
-    await get(`/board/${Task.boardID}`).then(res => {
-      _board.value.task.push(res.task.pop())
-    })
+  check(Task)
+  if (_errList.value.length < 1) {
+    const newtask = await post('/task', Task)
+    if (newtask.success === false) {
+      _errList.value.value = newtask.error
+    } else {
+      await get(`/board/${Task.boardID}`).then(res => {
+        _board.value.task.push(res.task.pop())
+      })
+    }
   }
 }
 
-export async function getMemberTask (id: any) {
-  _errList.value = ''
-  _error.value = false
-  const member = await post('/findmember', id)
-  if (member.success === false) {
-    _errList.value = member.error
-    _error.value = true
-  } else {
-    _memberTask.value = member
-  }
-}
-
-export async function getmembersTask (Tasks: any) {
-  _errList.value = ''
-  _error.value = false
-  _membersTasks.value = []
-  for await (const task of Tasks) {
-    await post('/findmember', { id: task.userID }).then(res => {
-      if (res.success === false) {
-        _errList.value = res.error
-        _error.value = true
-      } else {
-        _membersTasks.value.push(res)
-      }
-    })
-  }
+export async function Team (board: any) {
+  const teamBoard = await get(`/team/${board._id}`)
+  _Team.value = teamBoard
 }
 
 export async function updateTask (oldTask: {}, DataToUpdate: {}) {
   _errList.value = ''
-  _error.value = false
   await put('/task', DataToUpdate).then(res => {
     if (res.success === false) {
       _errList.value = res.error
-      _error.value = true
     } else {
       const index = _board.value.task.indexOf(oldTask)
       _board.value.task[index] = DataToUpdate
@@ -122,11 +97,9 @@ export async function updateTask (oldTask: {}, DataToUpdate: {}) {
 
 export async function deletedTask (DataToRemove: {}) {
   _errList.value = ''
-  _error.value = false
   await deleted('/task', DataToRemove).then(res => {
     if (res.success === false) {
       _errList.value = res
-      _error.value = true
     } else {
       const old = _board.value.task.indexOf(DataToRemove)
       _board.value.task.splice(old, 1)
@@ -134,24 +107,51 @@ export async function deletedTask (DataToRemove: {}) {
   })
 }
 
-export async function getTasks () {
+export async function getTasks (Todo: boolean) {
   await get('/task').then(res => {
-    _tasksUser.value = res
+    const todoTask = res
+    if (Todo === true) {
+      _tasksUser.value = []
+      for (const task of todoTask) {
+        if (task.status === 0) {
+          _tasksUser.value.push(task)
+        }
+      }
+    } else {
+      _tasksUser.value = []
+      for (const task of todoTask) {
+        if (task.status === 1) {
+          _tasksUser.value.push(task)
+        }
+      }
+    }
   })
 }
 
-export async function TaskDone () {
-  const res = await get('/task')
-  for (const task of res) {
-    if (task.status === 1) {
-      _taskDone.value.push(task)
-    }
+export async function Done (oldTask: {}, task: {}) {
+  _errList.value = ''
+  const taskdone = await put('/doneTask', task)
+  if (taskdone.success === false) {
+    _errList.value = taskdone.error
+  } else {
+    const old = _tasksUser.value.indexOf(oldTask)
+    _tasksUser.value[old] = task
   }
 }
 
+export async function addTeam (team: any) {
+  _errList.value = ''
+  const add = await post('/team', team)
+  if (add.success === false) {
+    _errList.value = add.error
+    return
+  }
+  const teamBoard = await get(`/team/${team.boardID}`)
+  const newteam = teamBoard.pop()
+  _Team.value.push(newteam)
+}
+
 export const Lists = readonly(_board)
-export const memberTask = readonly(_memberTask)
-export const membersTasks = readonly(_membersTasks)
 export const taskUser = readonly(_tasksUser)
 export const errorList = readonly(_errList)
-export const erorr = readonly(_error)
+export const TeamBoard = readonly(_Team)

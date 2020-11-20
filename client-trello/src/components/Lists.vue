@@ -14,7 +14,7 @@
         <div v-for="task in tasks" :key="task._id">
         <div v-if="list._id === task.listID" class="grid grid-rows-1 grid-cols-1">
           <div class=" bg-green-500 my-3 p-2 rounded-lg text-white">
-            <h2 v-text="task.name" class="cursor-pointer"></h2>
+            <h2 @click="editTask(task)" v-text="task.name" class="cursor-pointer"></h2>
           </div>
         </div>
         </div>
@@ -28,7 +28,7 @@
   >
       <div v-if="!AddList"
       @click="AddList = true"
-        class=" bg-transparent rounded-xl w-48 h-48 m-2 border-dashed border-4 border-gray-600 bg-gray-400 opacity-25 grid grid-rows-1 grid-cols-1 relative cursor-pointer"
+        class=" bg-transparent rounded-xl max-w-46 h-40 m-2 border-dashed border-4 border-gray-600 bg-gray-400 opacity-25 grid grid-rows-1 grid-cols-1 relative cursor-pointer"
       >
         <span
           class="border-dashed border-2 border-gray-600 absolute addlist-y z-0"
@@ -50,7 +50,7 @@
     </div>
     <div v-if="modal" @click.self="modal = !modal" class="modal-mask grid grid-rows-1 items-center">
          <list-modal v-if="edit" :list = 'list' :deletedList = 'deletedList' @close = 'close'/>
-         <task-modal v-if="addTasks" :list = 'list' :boardList = 'boardList' @close = 'close'/>
+         <task-modal v-if="addTasks" :task ='task' :list = 'list' :boardList = 'boardList' :addTask ='addTask' :EditTask ='EditTask' @close = 'close'/>
        </div>
   </div>
 </template>
@@ -76,7 +76,10 @@ export default defineComponent({
     list: {},
     boardList: {},
     addTasks: false,
-    deletedList: false
+    deletedList: false,
+    EditTask: false,
+    addTask: true,
+    task: {}
   }),
   methods: {
     Add () {
@@ -107,7 +110,17 @@ export default defineComponent({
       this.modal = close
     },
     AddTask (list: {}) {
+      this.addTask = true
+      this.EditTask = false
       this.list = list
+      this.boardList = this.$props.board
+      this.modal = true
+      this.addTasks = true
+    },
+    editTask (task: {}) {
+      this.addTask = false
+      this.EditTask = true
+      this.task = task
       this.boardList = this.$props.board
       this.modal = true
       this.addTasks = true
