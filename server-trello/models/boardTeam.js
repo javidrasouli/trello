@@ -47,19 +47,20 @@ const createTeam = async (team,token) => {
       return { success: false, status: 403, error: "you can't create" }
 }
 const updateTeam = async (Team, token) => {
-      check(team)
+      check(Team)
       const user = await findperson(token)
       const board = await FindOne('boards', { _id: ObjectId(Team.boardID) })
+      const Task = await FindOne('Task', {_id: ObjectId(Team.taskID)})
+      if (Task.person != '....' && Task.person != Team.person && Task.status == 1) {
+        return { success: false, status: 400, error: 'Task has a person' }
+      }
       if (user.role == 'admin' || user._id == board.userID) {
-            const boardTeam = { person: Team.person, boardID: ObjectId(Team.boardID), taskID: ObjectId(Team.taskID) }
+            const boardTeam = {taskID: ObjectId(Team.taskID), task: Task.name }
             const updated = await UpdateOne('boardTeam', {_id: ObjectId(Team._id)}, boardTeam)
             if (updated.success == false) {
                   return updated
             }
-            const updateTask = await UpdateOne('Task',{boardID: ObjectId(Team.boardID)} ,{user: Team.person})
-            if (updateTask.success == false) {
-                  return updateTask
-            }
+            await UpdateOne('Task', { _id: Task._id }, { person: Team.person })
             return updated
       }
       return { success: false, status: 403, error: "you can't create" }
@@ -67,9 +68,15 @@ const updateTeam = async (Team, token) => {
 
 const removeTeam = async (team, token) => {
       const user = await findperson(token)
-      const board = await FindOne('boards', { _id: ObjectId(Team.boardID) })
+      const board = await FindOne('boards', { _id: ObjectId(team.boardID) })
       if (user.role == 'admin' || user._id == board.userID) {
             const TeamID = { _id: ObjectId(team._id) }
+            const tasks = await FindAll('Task', {person: team.person})
+            for await (const task of tasks) {
+              if (task.status == 0) {
+                await UpdateOne('Task', {_id: task._id}, {person: '....'})
+              }
+            }
             const remove = await RemoveOne('boardTeam', TeamID)
             return remove
       }

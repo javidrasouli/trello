@@ -34,4 +34,6 @@ router.put("/DoneTask",isAuth , Task.DoneTask)
 //BoardTeam
 router.get("/team/:boardID", isAuth, boardTeam.getBoardTeam)
 router.post("/team", isAuth, boardTeam.addUserTOteam)
+router.put('/team', isAuth, boardTeam.updateBoardTeam)
+router.delete('/team', isAuth, boardTeam.removeUserOfTeam)
 module.exports = router

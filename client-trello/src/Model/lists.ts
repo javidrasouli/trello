@@ -151,6 +151,27 @@ export async function addTeam (team: any) {
   _Team.value.push(newteam)
 }
 
+export async function updateTeam (oldTeam: any, newTeam: {}) {
+  _errList.value = ''
+  const update = await put('/team', newTeam)
+  if (update.success === false) {
+    _errList.value = update.error
+    return
+  }
+  const oldteam = _Team.value.indexOf(oldTeam)
+  _Team.value[oldteam] = newTeam
+}
+
+export async function removeTeam (team: {}) {
+  const deletedTeam = await deleted('/team', team)
+  if (deletedTeam.success === false) {
+    _errList.value = deletedTeam.error
+    return
+  }
+  const old = _Team.value.indexOf(team)
+  _Team.value.splice(old, 1)
+}
+
 export const Lists = readonly(_board)
 export const taskUser = readonly(_tasksUser)
 export const errorList = readonly(_errList)

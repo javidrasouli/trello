@@ -25,7 +25,7 @@
 </style>
 <script lang="ts">
 import { defineComponent } from 'vue'
-import { getuser, user, err, deletedPerson } from '../../Model/auth'
+import { getuser, user, err, deletedPerson, success } from '../../Model/auth'
 export default defineComponent({
   name: 'deleteAccount',
   data: () => ({
@@ -41,7 +41,7 @@ export default defineComponent({
       const person = user.value
       if (person.pass === this.passwordUser) {
         deletedPerson(user.value).then(() => {
-          if (err.value.length > 1) {
+          if (success.value === false) {
             this.error = err.value
           } else {
             localStorage.removeItem('accessToken')

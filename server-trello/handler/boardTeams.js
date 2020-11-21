@@ -26,7 +26,8 @@ const getBoardTeam = async (req, res) => {
 const updateBoardTeam = async (req, res) => {
     const team = req.body
     const token = JSON.parse(req.headers.accesstoken)
-    const ress = updateTeam(team, token)
+    const ress = await updateTeam(team, token)
+    console.log(ress)
     if (ress.success == false) {
         res.status(ress.status).json({ success: ress.success, error: ress.error })
     } else {

@@ -53,7 +53,7 @@ async function updateUser(DataToUpdate, ID, token) {
 
 async function removeUser(id, token) {
       const person = await findperson(token)
-      if (person.role == 'admin' || person._id == ID){
+      if (person.role == 'admin' || person._id == id){
          const user_id = {_id: ObjectId(id)}
          const res = await RemoveOne('users', user_id)
          if (res.success == false) {

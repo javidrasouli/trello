@@ -57,7 +57,11 @@ async function Get(token){
 }
 async function AllBoardsPerson(token) {
   const user = await findperson(token)
-  const boardTeam = await FindAll('boardTeam', {userID: user._id})
+  if (user.role = 'admin') {
+    const boards = FindAll('boards', {})
+    return boards
+  }
+  const boardTeam = await FindAll('boardTeam', {person: user.username})
   const boards = []
   for await (const board of boardTeam) {
     const Board = await FindOne('boards', {_id: board.boardID})

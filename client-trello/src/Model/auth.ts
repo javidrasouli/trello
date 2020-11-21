@@ -102,6 +102,7 @@ export async function AddPerson (user: {}) {
       _success.value = false
       _err.value = register.error
     } else {
+      _success.value = true
       const users = await get('/users')
       const lastUser = users.pop()
       _users.value.push(lastUser)
@@ -130,14 +131,18 @@ export async function EditProfile (New: {}) {
   }
 }
 
-export async function deletedPerson (user: {}) {
+export async function deletedPerson (user: any) {
   const deleteduser = await deleted('/user', user)
   if (deleteduser.success === false) {
     _success.value = false
     _err.value = deleteduser.error
   } else {
-    const countPerson = _users.value.indexOf(user)
-    _users.value.splice(countPerson, 1)
+    _success.value = true
+    if (user.role === 'admin') {
+      getUsersSite()
+      const countPerson = _users.value.indexOf(user)
+      _users.value.splice(countPerson, 1)
+    }
   }
 }
 
