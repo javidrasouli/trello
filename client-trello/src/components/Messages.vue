@@ -1,20 +1,15 @@
 <template>
   <div class="w-full lg:w-3/4 mx-auto">
-    <div class="grid grid-rows-1 mt-10">
-      <h1 class="m-auto hidden bg-red-600 p-5 rounded-xl text-gray-300">
-        sorry! you haven't any message
-      </h1>
-    </div>
     <div class="page-chat">
       <div class="main-chat">
         <div>
-      <div class=" w-10 h-10 bg-red-600 mb-0 rounded-full"></div>
+      <h1 class="text-xl ml-1" >javid</h1>
       <div
         class="ml-10 w-40 h-10 mt-0 bg-orange-300 rounded-r-lg rounded-b-lg"
       ></div>
     </div>
     <div class="d-l">
-      <div class=" w-10 h-10 bg-red-600 mb-0 rounded-full"></div>
+      <h1 class="text-xl mr-1" >mali</h1>
       <div
         class="mr-10 w-40 h-10 mt-0 bg-orange-300 rounded-l-lg rounded-b-lg"
       ></div>
@@ -36,6 +31,21 @@
     </div>
   </div>
 </template>
+
+<script lang="ts">
+import { defineComponent } from 'vue'
+export default defineComponent({
+  name: 'message',
+  props: ['board'],
+  data: () => ({
+    message: ''
+  }),
+  created () {
+    const board = this.$props.board
+    const message = { message: this.message, boardID: board._id }
+  }
+})
+</script>
 
 <style lang="scss">
 .d-l {

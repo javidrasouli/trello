@@ -18,6 +18,7 @@
         <board v-else-if="listShow" :edit = 'edit' @close-aboard = 'changePage' />
       <person v-else-if="showPerson"/>
       <member v-else-if="showMembers"/>
+      <email v-else-if="showEmails" :listEmails = 'listEmails' />
       </transition>
     </div>
     <div class="nav-page shadow-xl">
@@ -87,12 +88,24 @@
       <div
         class="board B5 z-40 transition duration-500 ease-in-out transform hover:-translate-y-1 hover:scale-110 hover:shadow-2xl"
       >
+      <span v-if="Email" class="animate-ping absolute inline-flex h-12 w-3/4 rounded-full bg-purple-400 opacity-75"></span>
         <h3 class="text-white m-5">Messages</h3>
-        <h4
+        <div>
+          <h4
+          @click="openEmail()"
+          v-if="Email"
           class="mx-3 text-md text-gray-100 cursor-pointer hover:text-green-400"
         >
-          You have 0 new Messages
+          You have a new Messages
         </h4>
+        <h4
+          @click="openEmail()"
+          v-else
+          class="mx-3 text-md text-gray-100 cursor-pointer hover:text-green-400"
+        >
+          your message
+        </h4>
+        </div>
       </div>
       <div class="B6 z-50"></div>
       <div class="B6 B7 z-50"></div>
@@ -113,9 +126,11 @@ import Boards from './Boards.vue'
 import Board from './Aboard.vue'
 import personPage from './personPage.vue'
 import members from './members.vue'
+import emailPage from './Email.vue'
 import { getuser } from '../Model/auth'
 import { getAllBoards, getBoards } from '../Model/boards'
 import { BoardList, getTasks } from '../Model/lists'
+import { getAllEmail, listMessage } from '../Model/email'
 export default defineComponent({
   name: 'mainProfile',
   props: ['user'],
@@ -125,7 +140,8 @@ export default defineComponent({
     boardPage: Boards,
     board: Board,
     person: personPage,
-    member: members
+    member: members,
+    email: emailPage
   },
   data: () => ({
     taskShow: true,
@@ -137,14 +153,33 @@ export default defineComponent({
     deletedAccount: false,
     Todo: true,
     Done: false,
-    addBoard: false
+    addBoard: false,
+    Email: false,
+    showEmails: false,
+    listEmails: {}
   }),
+  created () {
+    getAllEmail().then(() => {
+      const pms = listMessage.value.PM
+      const sees = listMessage.value.see
+      for (const pm of pms) {
+        for (const see of sees) {
+          if (pm.boardID === see.boardID) {
+            if (pm.count > see.count) {
+              this.Email = true
+            }
+          }
+        }
+      }
+    })
+  },
   methods: {
     editShow () {
       this.taskShow = false
       this.boardShow = false
       this.listShow = false
       this.showMembers = false
+      this.showEmails = false
       this.showPerson = true
     },
     showTaksTodo () {
@@ -153,6 +188,7 @@ export default defineComponent({
         this.listShow = false
         this.showPerson = false
         this.showMembers = false
+        this.showEmails = false
         this.Todo = true
         this.Done = false
         this.taskShow = true
@@ -164,6 +200,7 @@ export default defineComponent({
         this.listShow = false
         this.showPerson = false
         this.showMembers = false
+        this.showEmails = false
         this.Todo = false
         this.Done = true
         this.taskShow = true
@@ -175,6 +212,7 @@ export default defineComponent({
         this.showPerson = false
         this.taskShow = false
         this.showMembers = false
+        this.showEmails = false
         this.addBoard = true
         this.boardShow = true
         this.edit = false
@@ -186,6 +224,7 @@ export default defineComponent({
         this.showPerson = false
         this.taskShow = false
         this.showMembers = false
+        this.showEmails = false
         this.addBoard = showAdd
         this.boardShow = true
         this.edit = false
@@ -196,6 +235,7 @@ export default defineComponent({
       this.showPerson = false
       this.taskShow = false
       this.boardShow = false
+      this.showEmails = false
       this.showMembers = true
     },
     board (board: any) {
@@ -204,6 +244,7 @@ export default defineComponent({
         this.taskShow = false
         this.boardShow = false
         this.showMembers = false
+        this.showEmails = false
         this.listShow = board.open
       })
     },
@@ -214,6 +255,7 @@ export default defineComponent({
         this.taskShow = false
         this.boardShow = false
         this.showMembers = false
+        this.showEmails = false
         this.listShow = true
       })
     },
@@ -225,6 +267,7 @@ export default defineComponent({
             this.showPerson = false
             this.taskShow = false
             this.showMembers = false
+            this.showEmails = false
             this.boardShow = true
             this.edit = false
           })
@@ -233,6 +276,16 @@ export default defineComponent({
     },
     close (close: boolean) {
       this.deletedAccount = close
+    },
+    openEmail () {
+      this.listShow = false
+      this.showPerson = false
+      this.taskShow = false
+      this.showMembers = false
+      this.boardShow = false
+      this.edit = false
+      this.listEmails = listMessage.value.PM
+      this.showEmails = true
     }
   }
 })

@@ -41,7 +41,8 @@ const createTeam = async (team,token) => {
           boardTeam = {person:team.person, boardID: ObjectId(team.boardID), task: '....', taskID: '' }
         }
         const inserted = await InsertOne('boardTeam', boardTeam)
-
+        await InsertOne('message', { message: `you add to ${board.name}`, boardID: board._id, person: team.person })
+        await InsertOne('see', { boardID: board._id, person: team.person, count: 0})
         return inserted
       }
       return { success: false, status: 403, error: "you can't create" }

@@ -31,6 +31,8 @@ async function insert(board, token){
       await InsertOne('lists', { boardID: res.insert.insertedId, name: 'ToDo' })
       await InsertOne('lists', { boardID: res.insert.insertedId, name: 'Doing' })
       await InsertOne('lists', { boardID: res.insert.insertedId, name: 'Done' })
+      await InsertOne('message', {message: `you create ${board.name}`, boardID: res.insert.insertedId, person: 'Farawin' })
+      await InsertOne('see', { boardID: res.insert.insertedId, person: user.username, count: 0})
       return { success: true }
 }
 async function GetOne(ID){

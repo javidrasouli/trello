@@ -22,14 +22,15 @@ const receivedAllpm = async (token) => {
   for await (const team of teamsUser) {
     const board = await FindOne('boards', {_id: team.boardID})
     const messageBoard = await FindAll('message', { boardID: team.boardID })
-    userMessage.push({ board: board.name, count: messageBoard.length })
+    userMessage.push({id:messageBoard._id, board: board.name, boardID: board._id, count: messageBoard.length })
   }
   const see = await FindAll('see', {person: user.username})
-  return userMessage
+  return { PM: userMessage, see: see }
 }
 
 const receivedBoardPm = async (boardID, token) => {
-  const pm = await FindAll('meassage', {boardID: ObjectId(boardID)})
+  const pm = await FindAll('message', {boardID: ObjectId(boardID)})
+  console.log('pm', pm)
   const user = await findperson(token)
   const see = await FindAll('see', {person: user.username})
   for (const boardPm of see) {
@@ -39,3 +40,5 @@ const receivedBoardPm = async (boardID, token) => {
   }
   return pm
 }
+
+module.exports = { send, receivedAllpm, receivedBoardPm }

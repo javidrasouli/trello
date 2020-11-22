@@ -4,6 +4,7 @@ const board = require("./handler/boards")
 const list = require("./handler/lists")
 const boardTeam = require("./handler/boardTeams")
 const Task = require("./handler/tasks")
+const email = require('./handler/emails')
 const { isAuth, refreshToken } = require("./authMiddleware")
 //members
 router.post("/login", user.login)
@@ -36,4 +37,8 @@ router.get("/team/:boardID", isAuth, boardTeam.getBoardTeam)
 router.post("/team", isAuth, boardTeam.addUserTOteam)
 router.put('/team', isAuth, boardTeam.updateBoardTeam)
 router.delete('/team', isAuth, boardTeam.removeUserOfTeam)
+//email
+router.post("/email", isAuth, email.sendMessage)
+router.get("/email", isAuth, email.newMessage)
+router.get("/email/:boardID", isAuth, email.boardMassege)
 module.exports = router
