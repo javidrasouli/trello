@@ -61,6 +61,7 @@ export default defineComponent({
           this.error = errorBoard.value
         } else {
           this.$emit('del-board', true)
+          this.$emit('close', false)
         }
       })
     }

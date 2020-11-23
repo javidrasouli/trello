@@ -20,7 +20,6 @@ export async function getAllEmail () {
 
 export async function send (message: any) {
   const sendEmail = await post('/email', message)
-  debugger
   if (sendEmail.success === false) {
     _errorEmail.value = sendEmail.error
     return

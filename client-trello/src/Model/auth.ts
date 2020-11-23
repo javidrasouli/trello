@@ -6,6 +6,7 @@ const _success = ref(false)
 const _err = ref('')
 const _users = ref()
 const _member = ref('')
+const _InfoUser = ref()
 
 function checkinputRegister (user: any) {
   if (user.username === '') {
@@ -145,9 +146,19 @@ export async function deletedPerson (user: any) {
     }
   }
 }
+export async function userInfo () {
+  const Info = await get('/Information')
+  if (Info.success === false) {
+    _success.value = false
+    _err.value = Info.error
+    return
+  }
+  _InfoUser.value = Info
+}
 
 export const user = readonly(_user)
 export const err = readonly(_err)
 export const members = readonly(_users)
 export const success = readonly(_success)
 export const taskmember = readonly(_member)
+export const Info = readonly(_InfoUser)

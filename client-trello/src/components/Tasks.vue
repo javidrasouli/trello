@@ -18,11 +18,11 @@
 </template>
 <script lang="ts">
 import { defineComponent } from 'vue'
-import { getTasks, taskUser } from '../Model/lists'
+import { AllTasks, getTasks, taskUser } from '../Model/lists'
 import showTask from './Modal/showTask.vue'
 export default defineComponent({
   name: 'Tasks',
-  props: ['Todo', 'Done'],
+  props: ['Todo', 'Done', 'miniNav'],
   components: {
     show: showTask
   },
@@ -32,9 +32,15 @@ export default defineComponent({
     task: {}
   }),
   created () {
-    getTasks(true).then(() => {
-      this.Tasks = taskUser.value
-    })
+    if (this.$props.miniNav) {
+      AllTasks().then(() => {
+        this.Tasks = taskUser.value
+      })
+    } else {
+      getTasks(true).then(() => {
+        this.Tasks = taskUser.value
+      })
+    }
   },
   computed: {
     change (): any {

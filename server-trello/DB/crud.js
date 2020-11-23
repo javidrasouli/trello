@@ -95,4 +95,20 @@ async function RemoveAll(collection, DataToRemove) {
   }
 }
 
-module.exports = { InsertOne, FindOne, UpdateOne, RemoveOne, FindAll, RemoveAll }
+async function UpdateAll(collection, ID, DataTOUpdate) {
+  try {
+    const db = await getInstance()
+    const coll = db.collection(collection)
+    await coll.updateMany(ID, { $set: DataTOUpdate })
+    console.log("1 document updated")
+    const res = { success: true }
+    return res
+
+  } catch (err) {
+    console.log(err)
+    const res = { success: false, status: 500, error: err }
+    return res
+  }
+}
+
+module.exports = { InsertOne, FindOne, UpdateOne, RemoveOne, FindAll, RemoveAll, UpdateAll }

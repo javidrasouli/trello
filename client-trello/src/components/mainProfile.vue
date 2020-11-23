@@ -3,9 +3,9 @@
 <ul class="navbar-profile none-nav py-0 bg-gray-800">
         <li @click="editShow()" class="cursor-pointer hover:text-green-300">Profile</li>
         <li v-if="user.role === 'admin'" @click="showMembersSite()" class="cursor-pointer hover:text-green-300">Members</li>
-        <li @click="showTaksTodo()" class="cursor-pointer hover:text-green-300">Tasks</li>
+        <li @click="showAllTasks()" class="cursor-pointer hover:text-green-300">Tasks</li>
         <li @click="showAllBoards(true)" class="cursor-pointer hover:text-green-300">Boards</li>
-        <li class="cursor-pointer hover:text-green-300">Message</li>
+        <li @click="openEmail()" class="cursor-pointer hover:text-green-300">Message</li>
       </ul>
   <div class="partionPage">
     <div class="main-page shadow-lg overflow-y-auto p-1 md:p-5">
@@ -14,7 +14,7 @@
     mode="out-in"
   >
         <board-page v-if="boardShow" @board = 'board' @edit-board = 'EditBoard' :addBoard = 'addBoard' />
-        <task v-else-if="taskShow" :Todo = 'Todo' :Done = 'Done' />
+        <task v-else-if="taskShow" :Todo = 'Todo' :Done = 'Done' :miniNav ='miniNav' />
         <board v-else-if="listShow" :edit = 'edit' @close-aboard = 'changePage' />
       <person v-else-if="showPerson"/>
       <member v-else-if="showMembers"/>
@@ -156,7 +156,8 @@ export default defineComponent({
     addBoard: false,
     Email: false,
     showEmails: false,
-    listEmails: {}
+    listEmails: {},
+    miniNav: false
   }),
   created () {
     getAllEmail().then(() => {
@@ -205,6 +206,15 @@ export default defineComponent({
         this.Done = true
         this.taskShow = true
       })
+    },
+    showAllTasks () {
+      this.miniNav = true
+      this.boardShow = false
+      this.listShow = false
+      this.showPerson = false
+      this.showMembers = false
+      this.showEmails = false
+      this.taskShow = true
     },
     showYourBoards () {
       getBoards().then(() => {

@@ -14,7 +14,7 @@
           <i @click="EditBoard(board)" class="fa fa-edit"></i>
         </h3>
         <h3 v-if="addBoard" class="m-auto cursor-pointer text-white mt-2">
-          <i @click="singleBoard()" class="fa fa-remove"></i>
+          <i @click="deletedBoards(board)" class="fa fa-remove"></i>
         </h3>
       </div>
     </div>
@@ -35,6 +35,11 @@
       <create v-if="createBoard" @close = 'close'/>
     </div>
     </transition>
+    <transition name="fadeIn">
+    <div v-if="deletedboard" @click.self="deletedboard = !deletedboard" class="modal-mask grid grid-rows-1 items-center">
+      <create v-if="deletedboard" :deletedboard = 'deletedboard' :board = 'board' @close = 'close'/>
+    </div>
+    </transition>
   </div>
 </template>
 
@@ -51,7 +56,9 @@ export default defineComponent({
   },
   data: () => ({
     boards: {},
-    createBoard: false
+    createBoard: false,
+    deletedboard: false,
+    board: {}
   }),
   created () {
     this.boards = Boards.value
@@ -66,6 +73,11 @@ export default defineComponent({
     },
     close (close: boolean) {
       this.createBoard = close
+      this.deletedboard = close
+    },
+    deletedBoards (board: {}) {
+      this.board = board
+      this.deletedboard = true
     }
   }
 })

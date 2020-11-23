@@ -12,7 +12,9 @@
             <div class="hidden lg:block bg-orange-300 rounded-lg p-4">
                 <h1 class="text-xl" v-text="usernamePerson"></h1>
                 <h2 class="text-blue-400"><span class="text-green-500">email:</span><span v-text="emailPerson"></span></h2>
-                <h2 class="text-purple-700"><span class="text-red-600">pasword:</span><span v-text="passwordPerson"></span></h2>
+                <h2 class="text-purple-700"><span class="text-red-600">your Boards:</span> <span v-text="Info.board"></span></h2>
+                <h2 class="text-purple-700"><span class="text-red-600">your Tasks:</span> <span v-text="Info.task"></span></h2>
+                <h2 class="text-purple-700"><span class="text-red-600">your Teams:</span> <span v-text="Info.team"></span></h2>
             </div>
         </div>
         <transition name="fadeIn">
@@ -29,7 +31,7 @@
 
 <script lang="ts">
 import { defineComponent } from 'vue'
-import { getuser, user, err, EditProfile } from '../Model/auth'
+import { getuser, user, err, EditProfile, userInfo, Info } from '../Model/auth'
 import deleted from './Modal/Deleted.vue'
 export default defineComponent({
   name: 'person',
@@ -44,13 +46,18 @@ export default defineComponent({
     NewPassword: '',
     error: '',
     success: '',
-    modal: false
+    modal: false,
+    Info: {}
   }),
-  async created () {
-    await getuser()
-    const person = user.value
-    this.usernamePerson = person.username
-    this.emailPerson = person.email
+  created () {
+    getuser().then(() => {
+      const person = user.value
+      this.usernamePerson = person.username
+      this.emailPerson = person.email
+      userInfo().then(() => {
+        this.Info = Info.value
+      })
+    })
   },
   methods: {
     close (close: boolean) {

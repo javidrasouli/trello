@@ -1,6 +1,6 @@
 <template>
-  <div>
-    <div class="h-full bg-gray-400 rounded-xl p-4">
+  <div class="min-h-full">
+    <div class="bg-gray-400 rounded-xl p-4 header-board">
       <div class="flex items-center mb-2">
         <h1 class="text-xl" v-text="board.name"></h1>
         <h3 @click="showListsBoard()" class="m-auto cursor-pointer mt-2 text-xl">
@@ -23,14 +23,14 @@
         <h2 v-text="board.description"></h2>
       </div>
     </div>
-    <div class="mt-3">
+    <div class="mt-3 min-board">
        <transition
     name="showtask-profile"
     mode="out-in"
   >
       <list v-if="showLists" :lists = 'lists' :tasks = 'tasks' :board = 'board' />
       <edit-board v-else-if="showEditBoard" :board = 'board' @new-board = 'newBoard' />
-      <message v-else-if="showMessage"/>
+      <message v-else-if="showMessage" :board ='board' />
       <team v-else-if="showTeam" :board ='board' :tasks = 'tasks' />
        </transition>
        <transition name="fadeIn">
@@ -113,7 +113,19 @@ export default defineComponent({
     },
     closeBoard (close: boolean) {
       this.$emit('close-aboard', close)
+    },
+    close (close: boolean) {
+      this.deletedboard = close
     }
   }
 })
 </script>
+
+<style lang="scss">
+.header-board{
+  min-height: 10%;
+}
+.min-board{
+  min-height: 90%;
+}
+</style>

@@ -13,7 +13,7 @@
         </li>
         <li></li>
         <li class="text-2xl">
-          <i class="fa fa-sign-out hover:text-red-500 cursor-pointer"></i>
+          <i @click="logOut()" class="fa fa-sign-out hover:text-red-500 cursor-pointer"></i>
         </li>
       </ul>
     </nav>
@@ -26,6 +26,7 @@
 import { defineComponent } from 'vue'
 import mainProfile from '../components/mainProfile.vue'
 import { getuser, user } from '../Model/auth'
+import router from '../router'
 export default defineComponent({
   name: 'Profile',
   components: {
@@ -37,6 +38,13 @@ export default defineComponent({
   async created () {
     await getuser()
     this.user = user.value
+  },
+  methods: {
+    logOut () {
+      localStorage.removeItem('accessToken')
+      localStorage.removeItem('refreshtoken')
+      this.$router.push('/Login')
+    }
   }
 })
 </script>

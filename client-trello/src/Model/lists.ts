@@ -128,6 +128,11 @@ export async function getTasks (Todo: boolean) {
   })
 }
 
+export async function AllTasks () {
+  const All = await get('/task')
+  _tasksUser.value = All
+}
+
 export async function Done (oldTask: {}, task: {}) {
   _errList.value = ''
   const taskdone = await put('/doneTask', task)

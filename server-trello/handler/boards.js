@@ -6,9 +6,9 @@ const createBoard = async (req, res) => {
       const token = JSON.parse(req.headers.accesstoken)
       const ress = await insert(board, token)
       if (ress.success == false) {
-        res.status(ress.status).json({ success: ress.success, error: ress.error })
+            res.status(ress.status).json({ success: ress.success, error: ress.error })
       } else {
-        res.json(ress)
+            res.json(ress)
       }
 }
 
@@ -16,9 +16,9 @@ const GetBoard = async (req, res) => {
       const id = req.params.id
       const ress = await GetOne(id)
       if (ress.success == false) {
-        res.status(ress.status).json({ success: ress.success, error: ress.error })
+            res.status(ress.status).json({ success: ress.success, error: ress.error })
       } else {
-        res.json(ress)
+            res.json(ress)
       }
 }
 
@@ -32,7 +32,7 @@ const GetBoards = async (req, res) => {
       }
 }
 
-const getAllBoardsPerson = async (req,res) => {
+const getAllBoardsPerson = async (req, res) => {
       const token = JSON.parse(req.headers.accesstoken)
       const ress = await AllBoardsPerson(token)
       if (ress.success == false) {
@@ -58,9 +58,9 @@ const removeBoard = async (req, res) => {
       const token = JSON.parse(req.headers.accesstoken)
       const ress = await remove(Data, token)
       if (ress.success == false) {
-        res.status(ress.status).json({ success: ress.success, error: ress.error })
+            res.status(ress.status).json({ success: ress.success, error: ress.error })
       } else {
-        res.json(ress)
+            res.json(ress)
       }
 }
 module.exports = { createBoard, GetBoards, updateBoard, removeBoard, GetBoard, getAllBoardsPerson }

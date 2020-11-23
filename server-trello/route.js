@@ -14,6 +14,7 @@ router.delete("/user",isAuth , user.deletedUser)
 router.post("/register", user.register)
 router.post("/refresh-token", refreshToken)
 router.get("/user",isAuth , user.findmember)
+router.get('/Information', isAuth, user.userInformation)
 //boards
 router.get("/board",isAuth , board.GetBoards)
 router.get("/AllBoards", isAuth, board.getAllBoardsPerson)

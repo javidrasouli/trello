@@ -1,22 +1,20 @@
 <template>
-  <div class="w-full lg:w-3/4 mx-auto">
-    <div class="page-chat">
-      <div class="main-chat">
+  <div class="w-full lg:w-3/4 mx-auto min-h-full">
+    <div class="page-chat min-h-full">
+      <div class="min-h-full grid grid-rows-1">
         <div>
-      <h1 class="text-xl ml-1" >javid</h1>
+        <div v-for="pm in messages" :key="pm._id">
+      <h1 v-text="pm.person" class="text-xl ml-1"></h1>
       <div
-        class="ml-10 w-40 h-10 mt-0 bg-orange-300 rounded-r-lg rounded-b-lg"
+      v-text="pm.message"
+        class="ml-10 p-2 mt-0 bg-orange-300 rounded-r-lg rounded-b-lg"
       ></div>
     </div>
-    <div class="d-l">
-      <h1 class="text-xl mr-1" >mali</h1>
-      <div
-        class="mr-10 w-40 h-10 mt-0 bg-orange-300 rounded-l-lg rounded-b-lg"
-      ></div>
-    </div>
-    <div>
-      <form class="flex items-end">
+        </div>
+    <div class="self-end">
+      <form @submit.prevent="sendMessage()" class="flex items-end">
         <input
+          v-model="message"
           type="text"
           class="write h-10 bg-gray-500 rounded-xl mt-5 p-3 outline-none"
         />
@@ -34,15 +32,28 @@
 
 <script lang="ts">
 import { defineComponent } from 'vue'
+import { getEmail, messageBoard, send } from '../Model/email'
 export default defineComponent({
   name: 'message',
   props: ['board'],
   data: () => ({
-    message: ''
+    message: '',
+    messages: {}
   }),
   created () {
     const board = this.$props.board
-    const message = { message: this.message, boardID: board._id }
+    getEmail(board._id).then(() => {
+      this.messages = messageBoard.value
+      debugger
+    })
+  },
+  methods: {
+    sendMessage () {
+      const pm = { message: this.message, boardID: this.$props.board._id }
+      send(pm).then(() => {
+        this.message = ''
+      })
+    }
   }
 })
 </script>

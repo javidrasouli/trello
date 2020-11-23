@@ -1,5 +1,5 @@
 'use strict'
-const { insertUser, findUser, findAll, findperson, updateUser, removeUser } = require('../models/user')
+const { insertUser, findUser, findAll, findperson, updateUser, removeUser, Information } = require('../models/user')
 const { generateToken } = require('../authMiddleware')
 
 const login = async (req, res) => {
@@ -68,4 +68,14 @@ const deletedUser = async (req, res) => {
     }
 }
 
-module.exports = { login, register, findAlluser, findmember, editUser, deletedUser }
+const userInformation = async (req, res) => {
+    const token = JSON.parse(req.headers.accesstoken)
+    const ress = await Information(token)
+    if (ress.success == false) {
+        res.status(ress.status).json({ success: ress.success, error: ress.error })
+    } else {
+        res.json(ress)
+    }
+}
+
+module.exports = { login, register, findAlluser, findmember, editUser, deletedUser, userInformation }

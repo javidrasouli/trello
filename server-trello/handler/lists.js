@@ -15,7 +15,7 @@ const createList = async (req, res) => {
 const update = async (req, res) => {
       const id = req.body._id
       const token = JSON.parse(req.headers.accesstoken)
-      const dataToupdate = {name: req.body.name}
+      const dataToupdate = { name: req.body.name }
       const ress = await updateList(dataToupdate, id, token)
       if (ress.success == false) {
             res.status(ress.status).json({ success: ress.success, error: ress.error })
@@ -28,9 +28,9 @@ const remove = async (req, res) => {
       const token = JSON.parse(req.headers.accesstoken)
       const ress = await removeList(id, token)
       if (ress.success == false) {
-        res.status(ress.status).json({ success: ress.success, error: ress.error })
+            res.status(ress.status).json({ success: ress.success, error: ress.error })
       } else {
-        res.json(ress)
+            res.json(ress)
       }
 }
 module.exports = { createList, update, remove } 

@@ -25,7 +25,7 @@ const updateTask = async (req, res) => {
       }
 }
 
-const DoneTask = async (req,res) => {
+const DoneTask = async (req, res) => {
       const id = req.body._id
       const status = req.body.status
       const ress = await changeStatus(id, status)
