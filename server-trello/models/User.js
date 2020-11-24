@@ -71,9 +71,10 @@ async function removeUser(id, token) {
                   await RemoveAll('lists', { boardID: board._id })
                   await RemoveAll('Task', { boardID: board._id })
                   await RemoveAll('boardTeam', { boardID: board._id })
-                  await RemoveAll('see', { person: person.username })
-                  await UpdateAll('message',{person: person.username}, { person: 'Farawin' })
             }
+            await UpdateAll('message',{person: person.username}, { person: 'Farawin' })
+            await RemoveAll('see', { person: person.username })
+            await UpdateAll('Task',{person: person.username}, { person: 'Farawin' })
             await RemoveAll('boards', userID)
             return res
       } else {
