@@ -56,7 +56,7 @@ export default defineComponent({
     emailEdit: '',
     passEdit: '',
     error: '',
-    modal: true
+    modal: false
   }),
   created () {
     const user = this.$props.user
