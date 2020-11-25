@@ -294,6 +294,7 @@ export default defineComponent({
       this.showMembers = false
       this.boardShow = false
       this.edit = false
+      this.Email = false
       this.listEmails = listMessage.value.PM
       this.showEmails = true
     }

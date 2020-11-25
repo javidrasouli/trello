@@ -69,7 +69,7 @@ export async function AddTask (Task: any) {
   if (_errList.value.length < 1) {
     const newtask = await post('/task', Task)
     if (newtask.success === false) {
-      _errList.value.value = newtask.error
+      _errList.value = newtask.error
     } else {
       await get(`/board/${Task.boardID}`).then(res => {
         _board.value.task.push(res.task.pop())

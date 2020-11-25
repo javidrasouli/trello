@@ -64,7 +64,7 @@ export default defineComponent({
     taskTeam: {},
     taskForTeam: '',
     error: '',
-    modal: true
+    modal: false
   }),
   created () {
     const tasks = this.$props.tasksBoard
