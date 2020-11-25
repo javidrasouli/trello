@@ -52,6 +52,9 @@
          <list-modal v-if="edit" :list = 'list' :deletedList = 'deletedList' @close = 'close'/>
          <task-modal v-if="addTasks" :task ='task' :list = 'list' :boardList = 'boardList' :addTask ='addTask' :EditTask ='EditTask' @close = 'close'/>
        </div>
+       <div v-if="modalError" @click.self="modalError = !modalError" class="modal-mask grid grid-rows-1 items-center">
+      <p v-text="error" v-show="error" class="p-2 mb-4 rounded-md sm:w-4/5 md:w-8/12 lg:w-1/2 text-center justify-self-center bg-red-700 text-gray-100"></p>
+    </div>
   </div>
 </template>
 
@@ -79,13 +82,15 @@ export default defineComponent({
     deletedList: false,
     EditTask: false,
     addTask: true,
-    task: {}
+    task: {},
+    modalError: false
   }),
   methods: {
     Add () {
       const newList = { name: this.nameList, boardID: this.$props.board._id }
       insertList(newList).then(() => {
         if (errorList.value.length > 1) {
+          this.modalError = true
           this.error = errorList.value
         } else {
           this.nameList = ''

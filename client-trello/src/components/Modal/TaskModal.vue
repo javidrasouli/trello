@@ -47,6 +47,9 @@
     </div>
     </div>
     </transition>
+    <div v-if="modal" @click.self="modal = !modal" class="modal-mask grid grid-rows-1 items-center">
+      <p v-text="error" v-show="error" class="p-2 mb-4 rounded-md sm:w-4/5 md:w-8/12 lg:w-1/2 text-center justify-self-center bg-red-700 text-gray-100"></p>
+    </div>
     </div>
 </template>
 
@@ -63,7 +66,8 @@ export default defineComponent({
     error: '',
     Teams: {},
     delTask: false,
-    editOpen: false
+    editOpen: false,
+    modal: false
   }),
   created () {
     this.editOpen = this.$props.EditTask
@@ -83,6 +87,7 @@ export default defineComponent({
       const Task = { name: this.nameTask, description: this.descriptionTask, boardID: board._id, listID: list._id, person: this.person }
       AddTask(Task).then(() => {
         if (errorList.value.length > 1) {
+          this.modal = true
           this.error = errorList.value
         } else {
           this.$emit('close', false)
@@ -97,6 +102,7 @@ export default defineComponent({
       const newTask = { _id: oldTask._id, name: this.nameTask, description: this.descriptionTask, boardID: oldTask.boardID, listID: oldTask.listID, person: this.person }
       updateTask(oldTask, newTask).then(() => {
         if (errorList.value.length > 1) {
+          this.modal = true
           this.error = errorList.value
         } else {
           this.$emit('close', false)
@@ -106,6 +112,7 @@ export default defineComponent({
     deleted () {
       deletedTask(this.$props.task).then(() => {
         if (errorList.value.length > 1) {
+          this.modal = true
           this.error = errorList.value
         } else {
           this.$emit('close', false)

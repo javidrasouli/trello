@@ -36,6 +36,9 @@
   <p v-text="error" v-show="error" class="p-2 mb-4 rounded-md sm:w-4/5 md:w-8/12 lg:w-1/2 text-center justify-self-center bg-red-700 text-gray-100"></p>
 </div>
 </transition>
+<div v-if="modal" @click.self="modal = !modal" class="modal-mask grid grid-rows-1 items-center">
+   <p v-text="error" v-show="error" class="p-2 mb-4 rounded-md sm:w-4/5 md:w-8/12 lg:w-1/2 text-center justify-self-center bg-red-700 text-gray-100"></p>
+</div>
 </div>
 </template>
 
@@ -52,7 +55,8 @@ export default defineComponent({
     usernameEdit: '',
     emailEdit: '',
     passEdit: '',
-    error: ''
+    error: '',
+    modal: true
   }),
   created () {
     const user = this.$props.user
@@ -66,6 +70,7 @@ export default defineComponent({
       const Edit = { _id: user._id, username: this.usernameEdit, email: this.emailEdit, pass: this.passEdit }
       Editperson(user, Edit).then(() => {
         if (err.value.length > 1) {
+          this.modal = true
           this.error = err.value
         } else {
           this.$emit('close', false)
@@ -76,6 +81,7 @@ export default defineComponent({
       const user = this.$props.user
       deletedPerson(user).then(() => {
         if (err.value.length > 1) {
+          this.modal = true
           this.error = err.value
         } else {
           this.$emit('close', false)

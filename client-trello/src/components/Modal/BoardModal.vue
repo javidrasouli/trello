@@ -16,6 +16,9 @@
   <button @click="close()" type="button" class="m-auto bg-green-700 p-2 rounded-lg text-gray-200 outline-none focus:outline-none transition duration-500 ease-in-out transform hover:-translate-y-1 hover:scale-110">cancel</button>
 </div>
 </div>
+<div v-if="modal" @click.self="modal = !modal" class="modal-mask grid grid-rows-1 items-center">
+      <p v-text="error" v-show="error" class="p-2 mb-4 rounded-md sm:w-4/5 md:w-8/12 lg:w-1/2 text-center justify-self-center bg-red-700 text-gray-100"></p>
+</div>
 </div>
 </template>
 
@@ -30,7 +33,8 @@ export default defineComponent({
     boardDescription: '',
     error: '',
     createBoard: true,
-    deleted: false
+    deleted: false,
+    modal: false
   }),
   created () {
     this.createBoard = true
@@ -45,6 +49,7 @@ export default defineComponent({
       const newBoard = { name: this.boardName, description: this.boardDescription }
       insertBoard(newBoard).then(() => {
         if (errorBoard.value.length > 1) {
+          this.modal = true
           this.error = errorBoard.value
         } else {
           this.$emit('close', false)
@@ -58,6 +63,7 @@ export default defineComponent({
       const board = this.$props.board
       deletedboard(board).then(() => {
         if (errorBoard.value.length > 1) {
+          this.modal = true
           this.error = errorBoard.value
         } else {
           this.$emit('del-board', true)

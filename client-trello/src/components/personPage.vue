@@ -66,11 +66,17 @@ export default defineComponent({
     EditProfile () {
       const profile = user.value
       if (profile.pass === this.oldPassword) {
-        const New = { _id: profile._id, username: this.usernamePerson, email: this.emailPerson, pass: this.NewPassword, role: profile.role }
+        let New
+        if (this.NewPassword.length > 1) {
+          New = { _id: profile._id, username: this.usernamePerson, email: this.emailPerson, pass: this.NewPassword, role: profile.role }
+        } else {
+          New = { _id: profile._id, username: this.usernamePerson, email: this.emailPerson, pass: this.oldPassword, role: profile.role }
+        }
         EditProfile(New).then(() => {
           if (err.value.length > 1) {
             this.modal = true
             this.error = err.value
+            debugger
           } else {
             this.modal = true
             this.success = 'your profile updated'
@@ -79,6 +85,7 @@ export default defineComponent({
           }
         })
       } else {
+        this.modal = true
         this.error = 'your password is wrong'
       }
     }
