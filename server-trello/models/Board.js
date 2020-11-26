@@ -77,7 +77,7 @@ async function update(DataToUpdate, ID, token) {
   const boardID = { _id: ObjectId(ID) }
   const user = await findperson(token)
   const owner = FindOne('boards', boardID)
-  if (user.role == 'admin' || user._id == owner.userID) {
+  if (user.role == 'admin' || user._id.toString() == owner.userID.toString()) {
     const res = await UpdateOne('boards', boardID, DataToUpdate)
     return res
   }
@@ -87,7 +87,7 @@ async function remove(board_ID, token) {
   const boardID = { _id: ObjectId(board_ID) }
   const user = await findperson(token)
   const owner = FindOne('boards', boardID)
-  if (user.role == 'admin' || user._id == owner.userID) {
+  if (user.role == 'admin' || user._id.toString() == owner.userID.toString()) {
     const res = await RemoveOne('boards', { _id: ObjectId(board_ID) })
     const board_id = { boardID: ObjectId(board_ID) }
     await RemoveAll('lists', board_id)

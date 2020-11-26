@@ -2,7 +2,6 @@
 const app = require("express")()
 app.use(require('express-mongo-sanitize')())
 app.use(require('helmet')())
-app.use(require("xss-clean")())
 app.use(require("hpp")())
 const rateLimit = require("express-rate-limit")
 const limiter = rateLimit({
@@ -13,4 +12,5 @@ app.use(limiter)
 app.use(require("body-parser").json())
 app.use(require("./route"))
 console.log("app listen on 8090")
+app.use(require("xss-clean")())
 app.listen(8090)
