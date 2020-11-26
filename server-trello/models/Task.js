@@ -18,7 +18,7 @@ async function insertTask(Task, boardID, listID, token) {
   const user = await findperson(token)
   const board = await FindOne('boards', { _id: ObjectId(boardID) })
   const newTask = { name: Task.name, description: Task.description, status: 0, boardID: ObjectId(boardID), listID: ObjectId(listID), person: Task.person }
-  if (user.role == 'admin' || user._id == board.userID) {
+  if (user.role == 'admin' || user._id.toString() == board.userID.toString()) {
     if (newTask.person != '....') {
       const Teams = await FindAll('boardTeam', { boardID: newTask.boardID })
       for (const team of Teams) {
@@ -45,7 +45,7 @@ async function update(DataToUpdate, ID, token) {
   if (DataToUpdate.person != '....') {
     const Teams = await FindAll('boardTeam', { boardID: Task.boardID })
     for (const teamTask of Teams) {
-      if (teamTask.person == DataToUpdate.person) {
+      if (teamTask.person.toString() == DataToUpdate.person.toString()) {
         if (teamTask.task != '....' && Task._id != teamTask.taskID) {
           return { success: false, status: 400, error: "user has a task" }
         }
@@ -55,7 +55,7 @@ async function update(DataToUpdate, ID, token) {
   }
   const board = await FindOne('boards', { _id: Task.boardID })
   const user = await findperson(token)
-  if (user.role == 'admin' || user._id == board.userID) {
+  if (user.role == 'admin' || user._id.toString() == board.userID.toString()) {
     const res = await UpdateOne('Task', { _id: ObjectId(ID) }, DataToUpdate)
     return res
   }
@@ -65,7 +65,7 @@ async function remove(id, token) {
   const Task = await FindOne('Task', { _id: ObjectId(id) })
   const board = await FindOne('boards', { _id: Task.boardID })
   const user = await findperson(token)
-  if (user.role == 'admin' || user._id == board.userID) {
+  if (user.role == 'admin' || user._id.toString() == board.userID.toString()) {
     await UpdateOne('boardTeam', { taskID: ObjectId(id) }, { task: '....', taskID: '' })
     const res = await RemoveOne('Task', { _id: ObjectId(id) })
     return res

@@ -32,7 +32,7 @@ const createTeam = async (team, token) => {
       }
       const user = await findperson(token)
       const board = await FindOne('boards', { _id: ObjectId(team.boardID) })
-      if (user.role == 'admin' || user._id == board.userID) {
+      if (user.role == 'admin' || user._id.toString() == board.userID.toString()) {
             let boardTeam;
             if (taskID != '') {
                   await UpdateOne('Task', { _id: ObjectId(taskID) }, { person: team.person })
@@ -55,7 +55,7 @@ const updateTeam = async (Team, token) => {
       if (Task.person != '....' && Task.person != Team.person && Task.status == 1) {
             return { success: false, status: 400, error: 'Task has a person' }
       }
-      if (user.role == 'admin' || user._id == board.userID) {
+      if (user.role == 'admin' || user._id.toString() == board.userID.toString()) {
             const boardTeam = { taskID: ObjectId(Team.taskID), task: Task.name }
             const updated = await UpdateOne('boardTeam', { _id: ObjectId(Team._id) }, boardTeam)
             if (updated.success == false) {
@@ -70,7 +70,7 @@ const updateTeam = async (Team, token) => {
 const removeTeam = async (team, token) => {
       const user = await findperson(token)
       const board = await FindOne('boards', { _id: ObjectId(team.boardID) })
-      if (user.role == 'admin' || user._id == board.userID) {
+      if (user.role == 'admin' || user._id.toString() == board.userID.toString()) {
             const TeamID = { _id: ObjectId(team._id) }
             const tasks = await FindAll('Task', { person: team.person })
             for await (const task of tasks) {

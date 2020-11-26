@@ -19,7 +19,7 @@ async function insertlist(nameList, boardID, token) {
       const board = await FindOne('boards', { _id: ObjectId(boardID) })
       const user = await findperson(token)
       const List = { name: nameList, boardID: ObjectId(boardID) }
-      if (user.role == 'admin' || user._id == board.userID) {
+      if (user.role == 'admin' || user._id.toString() == board.userID.toString()) {
             const res = await InsertOne('lists', List)
             return res
       }
@@ -40,7 +40,7 @@ async function updateList(DataToUpdate, ID, token) {
       const user = await findperson(token)
       const list = await FindOne('lists', List_id)
       const board = await FindOne('boards', { _id: list.boardID })
-      if (user.role == 'admin' || user._id == board.userID) {
+      if (user.role == 'admin' || user._id.toString() == board.userID.toString()) {
             const res = await UpdateOne('lists', List_id, DataToUpdate)
             return res
       }
@@ -51,7 +51,7 @@ async function removeList(id, token) {
       const user = await findperson(token)
       const list = await FindOne('lists', List_id)
       const board = await FindOne('boards', { _id: list.boardID })
-      if (user.role == 'admin' || user._id == board.userID) {
+      if (user.role == 'admin' || user._id.toString() == board.userID.toString()) {
             const res = await RemoveOne('lists', List_id)
             if (res.success == false) {
                   return res

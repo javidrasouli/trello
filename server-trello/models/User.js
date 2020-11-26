@@ -46,7 +46,7 @@ async function updateUser(DataToUpdate, ID, token) {
             const user_id = { _id: ObjectId(ID) }
             const res = await UpdateOne('users', user_id, DataToUpdate)
             const boards = await FindAll('boards', {userID: ObjectId(ID) })
-            if (person.username != DataToUpdate.username && boards.length > 0) {
+            if (person.username.toString() != DataToUpdate.username.toString() && boards.length > 0) {
                   await UpdateAll('Task',{ person: person.username }, {person: DataToUpdate.username})
                   await UpdateAll('see',{ person: person.username }, {person: DataToUpdate.username})
                   await UpdateAll('message',{ person: person.username }, {person: DataToUpdate.username})

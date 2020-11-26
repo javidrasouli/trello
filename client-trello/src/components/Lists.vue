@@ -13,7 +13,7 @@
         </div>
         <div v-for="task in tasks" :key="task._id">
         <div v-if="list._id === task.listID" class="grid grid-rows-1 grid-cols-1">
-          <div class=" bg-green-500 my-3 p-2 rounded-lg text-white">
+          <div class=" bg-green-500 my-3 p-2 rounded-lg text-white" >
             <h2 @click="editTask(task)" v-text="task.name" class="cursor-pointer"></h2>
           </div>
         </div>
